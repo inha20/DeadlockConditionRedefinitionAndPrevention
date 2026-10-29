@@ -1,9 +1,9 @@
-# 교착상태 조건 연구 — 6개 연구 진행 계획서 (v0.2)
+# 교착상태 조건 연구 — 6개 연구 진행 계획서 (v0.3)
 
 - 작성일: 2026-10-29 (KST)
 - 초안 작성: Claude(AI 조수) · 사람의 검토 전
 - 관련 문서: `docs/01-survey-plan-and-research-questions.md`(이하 문서 01). 문헌 ID(F1, M6, S1, E1 등)와 확인 수준(A–D, X)은 문서 01의 표기를 그대로 쓴다. 이 문서에서 새로 인용하는 문헌은 P1~P15다(§11).
-- 상태: 계획 초안. 일정·인력은 가정이며 §1.3과 §10에서 확정해야 한다. 가정에서 나온 숫자는 근거가 있는 값이 아니라 계획용 추정이다. v0.2(2026-10-29)는 G1 결과(문서 03)와 실행 환경 확인 결과를 반영했다(§12).
+- 상태: 계획 초안. 일정·인력은 가정이며 §1.3과 §10에서 확정해야 한다. 가정에서 나온 숫자는 근거가 있는 값이 아니라 계획용 추정이다. v0.2(2026-10-29)는 G1 결과(문서 03)와 실행 환경 확인 결과를 반영했고, v0.3(2026-10-30)은 Phase 3 결과(문서 04 §9의 정정 7·8과 관련 서지)를 반영했다(§12).
 
 ---
 
@@ -146,21 +146,23 @@
 - 판정 범주: 유지 / 조건부 유지 / 불유지 / 비교 불가(모델 가정이 달라 동일 조건이 성립하지 않음) / 재구현 불가(설명 부족). 불유지와 비교 불가도 결과로 보고한다.
 - 선행 조건: G2, SI-2의 O1, SI-4. 주장 인벤토리(WP6.1)는 Phase 3의 A3 축 작업으로 앞당겨 한다.
 
-초기 후보(인벤토리의 씨앗이며 완전한 목록이 아님):
+초기 후보(인벤토리의 씨앗이며 완전한 목록이 아님. 번호 1~9는 `refs/rq6-inventory.md`의 R6-01~R6-09와 같은 순서다):
 
 | 번호 | 문헌 | 저자 주장(요약) | 수준 | 범주 |
 |---|---|---|---|---|
-| 1 | Belik 1987, BIT (M6) | 뱅커 변형. 최악의 경우에도 2배 빠르다고 주장 | B | 소프트웨어 알고리즘 |
+| 1 | Belik 1987, BIT (M6) | 뱅커 변형. 초록은 변형이 "특정한 있을 법한 조건" 아래 상각 최악 O(mn)이라고 쓰고(원래는 Θ(mn²)) 최대 두 배 빠르다는 취지의 문장도 담는다. 이 문장의 방향(최악에서도 최소 두 배인지, 최대 두 배인지)은 모호하다 | B | 소프트웨어 알고리즘 |
 | 2 | Lang 1999, IEEE TSE (M8) | 영역별 근사 최대 청구를 써서 자원 활용도를 개선할 가능성을 주장 | B | 소프트웨어 알고리즘 |
-| 3 | Lee·Mooney 2006, IEEE TPDS (S11) | 하드웨어 병렬 뱅커. 최악 O(n), 최선 O(1)을 주장 | B | 하드웨어(소프트웨어 재현은 구조 수준에 한정) |
-| 4 | Dixit 외(매체·연도 X, P13) | 약 9% 성능 개선(S13의 서술) | D | 소프트웨어 알고리즘 |
-| 5 | ISCAIE 2020 논문(저자 중 B. C. Das 확인, P13. 다른 목록은 CNSA 2020으로 표기하므로 발표처 확인 필요) | 시간·공간 복잡도 개선 주장 | B | 소프트웨어 알고리즘 |
-| 6 | JEEMECS 2023, 저자 X (P13) | 새 프로세스 도착 시 동적으로 대응하는 최적화 | B | 소프트웨어 알고리즘 |
-| 7 | Zohora 외, PLOS ONE 2024 (S13) | 평균·최악 O(nd)로 원래 O(n²d)보다 개선을 주장 | B | 소프트웨어 알고리즘 |
+| 3 | Lee·Mooney. TPDS 2006 (S11), ASP-DAC판으로 보이는 저자 사이트 PDF (S19), 학위논문 2004 (S20) | 하드웨어 병렬 뱅커. 최악 O(n), 최선 O(1)을 주장 | B, A−(S19) | 하드웨어(소프트웨어 재현은 구조 수준에 한정) |
+| 4 | Dixit·Khuteta 2017, IJRITCC 5(8) (M39, P13) | 자원 개수를 실행 중 바꿀 수 있는 "동적 뱅커". 평균 실행 시간 약 9% 개선을 주장(논문 페이지에서 확인. 점근 복잡도는 없음) | B | 소프트웨어 알고리즘 |
+| 5 | M42 "An Improved Safety Detection Algorithm Towards Deadlock Avoidance", 2020 (P13. 저자·발표처가 목록마다 다르다: 저자 Bimal Chandra Das·ISCAIE 2020 대 Begum·Faruque·Das·CNSA 2020) | 시간·공간 복잡도 개선 주장 | B | 소프트웨어 알고리즘 |
+| 6 | Wicaksono 외, JEEMECS 6(1), 2023 (M41, P13) | 새 프로세스 도착 시 동적으로 대응하는 최적화. 복잡도와 정량 지표는 없다(인벤토리 R6-06) | A− | 소프트웨어 알고리즘 |
+| 7 | Zohora 외, PLOS ONE 2024 (S13) | 평균·최악 O(nd)로 원래 O(n²d)보다 개선을 주장. 평가는 비교 횟수 | B, A− | 소프트웨어 알고리즘 |
 | 8 | Bak 1984, RAIRO ITA (M23) | 자원 종류 수와 종류별 단위 수에 비례하는 시간의 안전성 검사를 주장(§5, 저자 주장). 다중 종류에서는 종류별 지역 안전이 충분하지 않아 별도 결합 정리를 쓰고, 특정 제약 아래 안전 상태 일부를 거부한다고 저자의 선행연구를 인용해 보고(§4) | A− | 소프트웨어 알고리즘(고전, 보수적 판정 가능성) |
 | 9 | Shin·Choi 2012, 한국시뮬레이션학회논문지 (M25) | 2단계 선행 탐색 뱅커로 안전 상태 판별률과 처리량을 개선(대응 표본 t 검정) | B | 순차 자원 할당(제조 시스템) 맥락. OS 뱅커 모델과 다른 모델일 가능성이 높아 '비교 불가' 후보 |
 
-기준 알고리즘의 복잡도 표기가 자료마다 다르다. Belik는 Θ(mn²), Zohora 외는 O(n²d), 한 학술 사이트의 글은 O(n³d)로 적는다(M6, S13, P14). [C] 그러므로 WP6.2에서 기준(입력 크기 변수, 연산 단위, 사례 범주)을 먼저 정의하고 모든 주장을 같은 기준으로 환산한다.
+후보 10번 이후(Li 2013 등), 분리·보류·제외 항목, 검색 기록은 `refs/rq6-inventory.md`에 있다(Phase 3의 WP6.1 1차 검색이며 체계적 검색이라고는 말할 수 없다). 그 인벤토리에서 본문으로 재구현 가능성을 확인한 것은 R6-06, R6-07 두 건이다(문서 04 §11.2).
+
+기준 알고리즘의 복잡도 표기가 자료마다 다르다. Belik는 Θ(mn²)(M6), Zohora 외는 원래 알고리즘을 O(n²d)(S13)로 적는다. Li(M27)의 초록은 원래 알고리즘의 시간을 O(n³d)로 쓰고, 문헌에서 Θ(n²d)로 인용되는 값은 안전성 검사 부분만을 가리키는 오인용이라고 설명한다(B, 초록만). 한 학술 사이트의 글도 O(n³d)로 적는다(P14, C). O(n³d)가 무엇을 센 값인지(요청 하나의 처리인지 전체 시퀀스인지)는 본문이 필요하며, 이 불일치를 오류로 단정하지 않는다. 그러므로 WP6.2에서 기준(입력 크기 변수, 연산 단위, 사례 범주)을 먼저 정의하고 모든 주장을 같은 기준으로 환산한다. 변수·단위의 제안은 문서 04 §2.
 
 | WP | 내용 | 산출물 | 완료 기준 | 주(가정) |
 |---|---|---|---|---|
@@ -173,7 +175,7 @@
 
 - 위험과 대응: 의사코드가 모호하다 → 해석별 구현과 저자 문의. 하드웨어 주장은 소프트웨어로 재현할 수 없다 → 범주를 분리. 저자가 응답하지 않는다 → 기록만 남기고 Replicated로 분류.
 - 태도: 불일치를 곧바로 오류로 단정하지 않는다. 모델 가정 차이를 먼저 확인한다.
-- 중단 규칙: 재구현 가능한 주장이 사전에 정한 최소 건수(WP6.1 종료 시 사전 분석 계획에 기록)에 못 미치면 인벤토리 범위를 넓히거나, 재현 없이 문헌 비교로 축소한다. 모든 주장이 비교 불가로 판정되면 문헌 간 모델 가정 불일치 지도를 결과로 삼고 종료한다.
+- 중단 규칙: 재구현 가능한 주장이 사전에 정한 최소 건수(WP6.1 종료 시 사전 분석 계획에 기록)에 못 미치면 인벤토리 범위를 넓히거나, 재현 없이 문헌 비교로 축소한다. Phase 3 인벤토리에서 의사코드를 본문으로 확인한 소프트웨어 주장은 2건(R6-06, R6-07)이어서, 최소 건수(제안 4건, 인벤토리 §8)를 사람이 정해야 한다(§10 Q8). 모든 주장이 비교 불가로 판정되면 문헌 간 모델 가정 불일치 지도를 결과로 삼고 종료한다.
 
 ### 5.2 RQ3. 정책별 허용도–비용 프런티어 측정 (계층 1)
 
@@ -440,6 +442,7 @@ flowchart LR
 | Q5 | 형식 검증 도구 경험·선호(Alloy, TLA+, Lean, Isabelle, Rocq) | RQ1의 WP1.4~1.5 |
 | Q6 | 구현 언어 선호(Rust, C++, Python 등) | SI-2, SI-4 |
 | Q7 | 저장소 공개 시점과 중간 산출물 공개 범위 | §7 공개·윤리 |
+| Q8 | RQ6 재현 대상의 최소 건수(제안 4건. 소프트웨어 전용, 교재식 뱅커 모델, 의사코드를 본문에서 확인한 것. `refs/rq6-inventory.md` §8) | §5.1 중단 규칙, WP6.1 종료, 사전 분석 계획 |
 
 ---
 
@@ -461,8 +464,8 @@ flowchart LR
 | P10 | perf lock 커밋(contention 하위 명령 추가, lock_acquire의 CONFIG_LOCKDEP 의존 주석) | C | https://code.amethyst.name/public-mirrors/linux/commit/528b9cab3b813a3b |
 | P11 | Linux Documentation/locking/lockstat.rst(CONFIG_LOCK_STAT, /proc/lock_stat; 미러) | C | https://tomoyo.sourceforge.net/cgi-bin/lxr/source/Documentation/locking/lockstat.rst?a=mips |
 | P12 | rssys/kernel-concurrency-bug-study (E2의 공개 데이터셋 저장소) | B | https://github.com/rssys/kernel-concurrency-bug-study |
-| P13 | 뱅커 개선 주장 후보: B. C. Das 포함 저자, "An Improved Safety Detection Algorithm Towards Deadlock Avoidance", ISCAIE 2020(Scopus 색인 페이지 기준, 다른 목록은 CNSA 2020) · "Banker's Algorithm Optimization to Dynamically Avoid Deadlock in Operating System", JEEMECS 6(1), 2023(저자 X) · Dixit 외, "A Dynamic and Improved Implementation of Banker's Algorithm"(매체·연도 X) | B, B, D | https://research.daffodilvarsity.edu.bd/scopus-article/1230 · https://jurnal.unmer.ac.id/index.php/jeemecs/article/download/8986/pdf · https://www.academia.edu/36875137/A_Dynamic_and_Improved_Implementation_of_Banker_s_Algorithm |
-| P14 | 뱅커 알고리즘 복잡도를 O(n³d)로 적은 글(기준 표기 불일치의 예) | C | https://www.academia.edu/25969216/Bankers_Algorithm |
+| P13 | 뱅커 개선 주장 후보(서지는 문서 01 §7.2): M42 "An Improved Safety Detection Algorithm Towards Deadlock Avoidance", 2020(한 목록은 저자 Bimal Chandra Das·ISCAIE 2020, 다른 목록은 Begum·Faruque·Das·CNSA 2020) · M41 Wicaksono 외, "Banker's Algorithm Optimization to Dynamically Avoid Deadlock in Operating System", JEEMECS 6(1), 2023 · M39 Dixit·Khuteta, "A Dynamic and Improved Implementation of Banker's Algorithm", IJRITCC 5(8): 45–49, 2017 | B, A−, B | https://research.daffodilvarsity.edu.bd/scopus-article/1230 · https://jurnal.unmer.ac.id/index.php/jeemecs/article/download/8986/pdf · https://www.academia.edu/36875137/A_Dynamic_and_Improved_Implementation_of_Banker_s_Algorithm |
+| P14 | 뱅커 알고리즘 복잡도를 O(n³d)로 적은 글(기준 표기 불일치의 예). Li(M27, 문서 01 §7.2)의 초록도 원래 알고리즘을 O(n³d)로 적는다(B) | C | https://www.academia.edu/25969216/Bankers_Algorithm |
 | P15 | 학회 아티팩트 평가 안내(컨테이너 권장, DOI 아카이빙 권고의 예): ICSE 2027, MODELS 2024 | B | https://conf.researchr.org/track/icse-2027/icse-2027-artifact-evaluation · https://conf.researchr.org/track/models-2024/models-2024-artifact-evaluation |
 
 ---
@@ -473,3 +476,4 @@ flowchart LR
 |---|---|---|
 | v0.1 | 2026-10-29 | 최초 작성 |
 | v0.2 | 2026-10-29 | G1 결과와 실행 환경 확인 반영: 작업공간 도구·제약 갱신(§1.3), RQ6 후보 8·9 추가(§5.1), E2 자료 확인과 열 정의 주의(§5.4), RQ5 코드북 변수 추가(WP5.2) |
+| v0.3 | 2026-10-30 | Phase 3 결과(문서 04 §9의 정정 7·8) 반영: §5.1 후보 4·6을 Dixit·Khuteta 2017(M39), Wicaksono 외 2023(M41)으로 확정하고 후보 1(M6의 조건부 상각 O(mn), 문서 04 §9 정정 3과 같은 정정)·3(S19, S20)·5(저자·발표처 불일치, M42)·7(평가 방식)을 갱신, 인벤토리 포인터와 기준 표기 문장(Li M27의 O(n³d), Θ(n²d) 오인용 설명)을 추가, 중단 규칙에 Phase 3 현황 추가, §10에 Q8(RQ6 최소 건수) 추가, §11 P13(수준 B, A−, B)·P14 갱신 |
