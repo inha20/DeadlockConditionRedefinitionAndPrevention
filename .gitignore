@@ -1,0 +1,18 @@
+# 제3자 원본 데이터(재배포하지 않음)
+_external/
+analysis/rq5/_external/
+
+# 빌드·캐시
+__pycache__/
+*.pyc
+.venv/
+target/
+build/
+*.o
+*.class
+
+# OS·편집기
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
