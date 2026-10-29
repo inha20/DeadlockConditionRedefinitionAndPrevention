@@ -1,11 +1,11 @@
 # 교착상태 조건의 재정의와 효율적인 예방 알고리즘
 
-## 선행연구 조사 계획 및 연구 질문 후보 (v0.2)
+## 선행연구 조사 계획 및 연구 질문 후보 (v0.3)
 
 - 작성일: 2026-10-29 (KST)
 - 초안 작성: Claude(AI 조수) · 사람의 검토 전
-- 상태: 1차 서지 확인 완료 · 원문 대조 1차 완료(유료 원문 일부는 접근 불가, 문서 03) · 연구 질문 미확정
-- 변경: v0.2(2026-10-29) — 문서 03(G1 원문 대조)의 정정·갱신을 반영했다. 변경 내역은 §9.
+- 상태: 1차 서지 확인 완료 · 원문 대조 1차 완료(유료 원문 일부는 접근 불가, 문서 03) · Phase 3 정리 반영(문서 04, G3 조건부 통과 초안) · 연구 질문 미확정
+- 변경: v0.3(2026-10-30) — 문서 04 §9의 정정 목록 중 문서 01에 해당하는 6건을 반영했다(§1.2 AND·OR·AND-OR 행, §1.3 뱅커 개선·그래프 기반 회피 행, §3 판정표, §7 참고문헌). v0.2(2026-10-29) — 문서 03(G1 원문 대조)의 정정·갱신을 반영했다. 변경 내역은 §9.
 - 원칙: 이 문서는 어떤 아이디어의 참신성도 주장하지 않는다. "새롭다"는 판정은 §5의 게이트(동일/부분/없음 + 근거 링크)를 통과한 뒤에만 한다. 확인하지 못한 것은 추측으로 채우지 않고 X로 남긴다.
 
 ---
@@ -56,11 +56,14 @@ C 항목은 홀트(F2) 원문과 대조하기 전에는 근거로 쓰지 않는�
 | 다중 단위 자원 + 단일 단위 요청 | 매듭(knot) ⟺ 교착 | T6 | C |
 | 일반 자원 그래프(재사용·소모성 자원) | 순환은 필요조건. expedient이면 매듭은 충분조건(필요조건은 아님). 현재 상태의 교착 여부는 그래프 축소가 완료되는지로 결정 | T6 | C |
 | 최대 청구(claim) 그래프의 축소 가능성 | 교착 없음(안전)의 충분조건이며 필요조건은 아님 | T6 | C |
-| AND 요청 모델 | 대기 그래프의 순환이 필요충분 | T6 | C |
-| OR / AND-OR / P-out-of-Q 모델 | 순환은 필요(충분 아님), 매듭은 충분(필요 아님) | M17, T6 | A−, C |
+| AND 요청 모델 | 교착이려면 대기 그래프에 순환이 필요하고, 탐지 알고리즘은 순환이 있을 때 교착을 선언한다(Knapp §2.2). Knapp은 이를 단일 단위 자원으로 한정한다고 쓰지 않았다. 이 저장소의 모델(SM)에서는 모든 자원 용량이 1일 때 순환 ⇔ 교착이다(T2). 다중 단위 자원에서는 순환이 교착을 뜻하지 않는 반례가 있다(B4). v0.2의 '순환이 필요충분'은 강의 노트의 서술이었으며(T6, C) 단일 단위 자원에 한정해 읽어야 한다 | M14 §2.2, 명세 T2·B4, T6 | A−, V, C |
+| OR 요청 모델 | 순환은 충분하지 않다(순환 구성원 중 나가는 간선이 없는 프로세스가 진행할 수 있는 예). 교착은 매듭(knot)에 대응하고(Knapp은 Holt에 귀속) 매듭의 구성원은 교착 집합이다. 매듭 밖의 프로세스도 도달 가능한 프로세스가 모두 교착이면 교착이다. 매듭의 존재가 필요하다는 서술은 M17 §1 | M14 §2.3, M17 §1 | A− |
+| AND-OR / P-out-of-Q 모델 | 순환은 필요하나 충분하지 않고, 매듭은 충분하나 필요하지 않다(M17 §1). Knapp §2.4는 AND-OR에 표준 그래프 구조가 없고 OR 검사를 반복하면 되지만 비효율이라고 쓰며, §2.5의 k-of-n은 정의가 부실해 순환·매듭 특성화를 주지 않는다고 쓴다. Knapp은 'P-out-of-Q'라는 용어를 쓰지 않는다 | M17 §1, M14 §2.4~2.5 | A− |
 | 재사용 자원 m종을 공유하는 n개 프로세스 시스템의 교착 자유성(가능한 요청은 즉시 허용하는 정책 기준) | 다항 시간 O(n³m) 테스트 존재(1977년판 초록). M21은 이 테스트가 Habermann 모델을 이분 그래프로 바꾸는 방식이라고 설명 | M1, M2, M21 | B |
 | 뱅커 모델의 안전 상태 | 순서 탐색으로 정확히 판정하며 증명이 있음 | F8 | A |
 | 단일 단위 순차 자원 할당(Petri net) | 교착을 빈(unmarked) siphon으로 구조적으로 설명 | M11, M12 | B |
+
+v0.3 주: AND, OR, AND-OR 세 행은 문서 04 §9의 정정 1·2에 따라 고쳤다(v0.2에서는 OR와 AND-OR를 한 행에 두었다). Knapp 서술(M14)은 열람 도구의 요약을 거친 A−이므로 본문과 다시 대조하기 전에는 논증의 전제로 쓰지 않는다. 'SM'은 이 저장소의 스냅샷 모델(`docs/spec/model-spec.md`)이고 V는 소규모 범위의 전수 검증이며 증명이 아니다. 모델별 현재 상태 판별의 더 자세한 지도는 문서 04 §4(a)에 있다.
 
 ### 1.3 알고리즘의 비용과 요구 정보
 
@@ -69,9 +72,9 @@ C 항목은 홀트(F2) 원문과 대조하기 전에는 근거로 쓰지 않는�
 | 자원 순서화(예방: 순환 대기 제거) | F6, T3 | 런타임 비용 서술 없음 | 전역 순서 설계 부담, 캡슐화와 충돌, 자원 종류가 많을 때 전순서 만들기 어려움(교육 자료) | A, C |
 | 일괄 요청(예방: 점유-대기 제거) | F6, T3 | 위와 같음 | 필요 자원을 미리 알아야 함, 동시성 저하 | A, C |
 | 반납 후 재시도(예방: 비선점 제거) | F6, T3 | 위와 같음 | 반납 가능한 자원에 한정, trylock 기반 재시도 프로토콜 | A, C |
-| 뱅커 알고리즘(회피) | F7, F8, F3 | n개 프로세스·m개 자원 종류에서 Θ(mn²)(M6) | 최대 요구량 사전 선언 필요. 멀티스레드 프로그램 맥락에서는 필요한 정보가 흔히 없고 런타임 계산도 비싸다는 지적(S5) | B, A− |
-| 뱅커 개선 주장 | M6, M8, S11, S13 | M6: 최악의 경우 2배 빠름 주장, S11: 하드웨어 병렬화로 최악 O(n)·최선 O(1) 주장, S13: O(nd) 주장 | 논문마다 모델 가정이 다르다 → 동일 조건 재현 전에는 비교하지 않는다 | B |
-| 그래프 기반 회피 | M7 | path matrix로 간선 삽입 시 순환을 효율적으로 탐지 | 상세 비용 X | B |
+| 뱅커 알고리즘(회피) | F7, F8, F3 | n개 프로세스·m개 자원 종류에서 Θ(mn²)(M6). 표기가 문헌마다 다르다: Li(M27)의 초록은 원래 알고리즘의 시간을 O(n³d)로 쓰고, 문헌에서 Θ(n²d)로 인용되는 값은 안전성 검사 부분만을 가리키는 오인용이라고 설명한다. 이 불일치를 오류로 단정하지 않는다(O(n³d)가 무엇을 센 값인지는 본문이 필요하다. 문서 04 §2.3) | 최대 요구량 사전 선언 필요. 멀티스레드 프로그램 맥락에서는 필요한 정보가 흔히 없고 런타임 계산도 비싸다는 지적(S5) | B, A− |
+| 뱅커 개선 주장 | M6, M8, S11(S19, S20), S13, M27, M39, M40 | M6: 변형 알고리즘이 "특정한 있을 법한 조건" 아래 상각 최악 O(mn)이라고 초록이 쓴다(조건의 내용은 초록에 없다. 초록의 "최대 두 배 빠름" 문장은 열람 도구 요약 둘이 방향을 다르게 옮겨 확정하지 못했다). S11: 하드웨어 병렬화로 최악 O(n)·최선 O(1) 주장(ASP-DAC판으로 보이는 S19는 본문 A−, 학위논문 S20은 초록 B). S13: O(nd) 대 O(n²d) 주장이며 평가는 비교 횟수로 한다. M27: O(n²d²+ndM) 대 O(n³d)이고 공간은 더 나쁘다. M39·M40: 점근 복잡도 없이 실험 수치만 제시한다 | 모두 저자 주장이다. 논문마다 모델 가정과 비용 단위가 다르다 → 동일 조건 재현 전에는 비교하지 않는다. 후보 인벤토리는 `refs/rq6-inventory.md`, 비용 단위 정규화는 문서 04 §2 | B, A− |
+| 그래프 기반 회피 | M7 | 방향 비순환 그래프를 경로 행렬(path matrix)로 표현해 간선 삽입 시 순환을 효율적으로 탐지한다. 초록은 순환 탐지가 싸서 나머지 연산을 상각하면 연산당 선형 또는 상수 시간이며, 메시지 수도 빠른 환경에서 연산당 상수로 상각된다고 쓴다 | 초록만 확인했고 본문은 읽지 못했다. 초록은 뱅커 알고리즘을 언급하지 않는다 | B |
 | 일반 순차 자원 할당 계의 회피 | M3, M4, M5, M9, M10 | 안전성 판정은 넓은 클래스에서 NP-완전, 쉬운/어려운 경계 연구 | 모델 가정(순차 단계, 다중 자원 획득, 유연 라우팅)이 핵심 | B, D |
 | 허용도 높은 정책 설계(Petri net/DES) | M12, M13 | 구조 복잡도·행동 허용도·계산 복잡도 세 축으로 비교(서베이) | 제조 시스템(FMS) 맥락. OS로의 이전은 별도 검증 | B |
 | 타임스탬프 예방(wait-die/wound-wait) | S14(기원은 후속 문헌의 인용으로만 확인, D), S15, S2, S3, S17 | 경쟁 수준에 따라 롤백 수·경과 시간의 우열이 역전(패치 측정) | 롤백 가능한 트랜잭션 모델 | B, A− |
@@ -181,20 +184,23 @@ C 항목은 홀트(F2) 원문과 대조하기 전에는 근거로 쓰지 않는�
 
 ---
 
-## 3. 해결된 문제와 열린 문제 (잠정)
+## 3. 해결된 문제와 열린 문제 (잠정. v0.3에서 문서 04 §8의 판정으로 갱신)
 
 | 주제 | 현재 상태(근거) | 판정 | 비고 |
 |---|---|---|---|
-| 단일 인스턴스의 상태 판별 | 순환 ⟺ 교착 (T4, T6) | 해결(교육 수준) | F2 원문 대조 필요 |
-| 다중 인스턴스의 현재 상태 판별 | 코프만 외가 다중 인스턴스 탐지 알고리즘을 제시했다고 교과서 서지 노트가 적음(T1), 그래프 축소(T6) | 해결(알고리즘 수준) | 비용 O(mn²)는 교재 슬라이드 수준(C) |
-| 뱅커 모델의 안전성 판정 | Θ(mn²)(M6), 정확성 증명(F8) | 해결 | 개선 주장은 재현 필요 |
-| 일반 순차 자원 할당 계의 안전성 | 넓은 클래스에서 NP-완전(M9, M10), 다항 준최적 정책 존재 | 어려움 확인 | 경계 사례 연구 계속 |
-| 일반화(AND/OR) 요청의 판별 | 모델별 필요·충분 관계(M17, T6), 분산 탐지 알고리즘 다수(M14~M16) | 부분 해결 | 비용 비교 X |
-| 정책 비교(허용도·비용) | Petri net 계열 비교 서베이(M13), DB 알고리즘 비교(S15) | OS 정책 비교는 이번 조사에서 확인 못함 | 부재 증명 아님 |
-| 모델 통합·기계 검증 | 이번 1회 검색에서 해당 모델의 기계 증명은 확인 못함(인접: V1) | 미확인 | 추가 검색 필요 |
+| 단일 인스턴스의 상태 판별 | AND 요청, 모든 자원 용량 1에서 순환 ⟺ 교착(SM T2, 소규모 전수 검증 V). Knapp §2.2(A−)는 AND 모델에서 교착이려면 순환이 필요하고 탐지가 순환이 있을 때 교착을 선언한다고 서술하며 단일 단위 한정은 명시하지 않는다. 교육 자료의 증명(T4, T6, C) | 해결(AND, 모든 자원 용량 1에 한정) | F2 원문 대조는 남음. V는 증명이 아님 |
+| 다중 인스턴스의 현재 상태 판별 | 코프만 외가 다중 인스턴스 탐지 알고리즘을 제시했다고 교과서 서지 노트가 적음(T1), 그래프 축소(T6). **대기 그래프 순환은 교착을 뜻하지 않는다**(반례 B4, V). 일반 문제는 로그 공간 환원에서 P-완전(M29 초록, B) | 해결(알고리즘 수준) | 비용 O(mn²)는 교재 슬라이드 수준(C) |
+| 뱅커 모델의 안전성 판정 | Θ(mn²)(M6), 정확성 증명(F8) | 해결 | 개선 주장은 미결: 비용 표기와 모델 가정이 문헌마다 다르다(문서 04 §2). 재현은 RQ6 |
+| 일반 순차 자원 할당 계의 안전성 | 넓은 클래스에서 NP-완전(M9, M10), 다항 준최적 정책 존재 | 어려움 확인 | 경계 사례 연구 계속. M9는 본문 A−, M5·M22 본문 미확인 |
+| 일반화(AND/OR) 요청의 판별 | OR는 매듭에 대응(Knapp §2.3), AND-OR는 표준 그래프 구조가 없음(Knapp §2.4). 모델별 필요·충분 관계(M17 §1), 분산 탐지 알고리즘 다수(M14~M16) | 부분 해결(v0.2 서술을 §1.2에서 정정) | 비용 비교 X |
+| 정책 비교(허용도·비용) | Petri net 계열 비교 서베이(M13), DB 알고리즘 비교(S15), DB 교착 처리 방식 비교 보고서 2건(M46, M47. 서지 페이지에 초록 없음) | OS 정책 비교는 이번 조사에서 확인 못함 | 부재 증명 아님 |
+| 모델 통합·기계 검증 | 해당 모델의 기계 증명은 확인 못함(인접: V1). 이 저장소의 소규모 전수 검증(V)은 있음 | 미확인 | 전수 검증은 증명이 아님. 추가 검색 필요 |
 | 인터럽트·간접 호출을 포함한 교착 모델 | lockdep이 사용 상태 규칙으로 운영(S1), 커널 실증(E2) | 형식 모델 선행 미확인 | RQ5 |
-| 증분 순환 탐지 기반 락 순서 검사 | Abseil 디버그 모드(S10, C), Belik(M7), Haeupler 외가 교착 탐지를 응용으로 언급(G2) | 부분 선점 | RQ4 중복 위험 높음 |
-| 실제 교착의 구조 통계 | 사용자 공간(E1), 커널(E2) | 존재 | 다중 인스턴스 자원이 관여하는 비율은 미확인 |
+| 증분 순환 탐지 기반 락 순서 검사 | Abseil 디버그 모드(S10, C), Belik(M7), Haeupler 외가 서론에서 교착 탐지를 응용으로 인용(G2 §1. 인용 항목은 미확인) | 부분 선점(근거 보강) | RQ4 중복 위험 높음 유지 |
+| 실제 교착의 구조 통계 | 사용자 공간(E1), 커널(E2). 자기 대기에 해당하는 사례의 비중이 표본마다 22.6%~78.9%(E1·E2는 '단일 스레드 교착', E3·E4는 '이중 락'으로 센 값이고 분모도 달라 서로 비교할 수 없음, 문서 04 §6) | 존재 | 다중 인스턴스 자원이 관여하는 비율은 미확인 |
+| 락 프로그램 정적 분석의 결정 가능성(신규) | 락 접근이 중첩 구조면 효율적으로 결정 가능, 중첩이 아니면 스레드가 둘뿐이어도 도달 가능성이 결정 불가능(M38 초록, B) | 경계 확인 | M38 저자 미확인. RQ2 중복 위험 요인(문서 04 §4 읽는 법 4) |
+
+v0.2의 판정에서 바뀐 곳과 사유는 문서 04 §8의 '변경 사유' 열에 있다. 이 판정은 AI 초안이며 사람의 검토 전이다.
 
 ---
 
@@ -207,7 +213,7 @@ C 항목은 홀트(F2) 원문과 대조하기 전에는 근거로 쓰지 않는�
 | RQ | 방향 | 한 줄 요약 | 이론 난도 | 실험·검증 가능성 | 중복 위험(잠정) | 첫 산출물 |
 |---|---|---|---|---|---|---|
 | RQ1 | A+B | 정책 수준/상태 수준 조건 분리와 모델별 관계의 통합·기계 검증 | 중 | 높음 | 중~높음 | 모델 매트릭스, 소규모 반례 생성기 |
-| RQ2 | B | 커널 현실 제한 가정 아래 정확한 판정·회피의 복잡도 경계 | 상 | 중 | 중 | 가정 목록, 복잡도 지도 |
+| RQ2 | B | 커널 현실 제한 가정 아래 정확한 판정·회피의 복잡도 경계 | 상 | 중 | 높음(v0.3에서 상향: M9, M38) | 가정 목록, 복잡도 지도 |
 | RQ3 | C | 정책별 허용도–비용 프런티어 측정 | 하~중 | 높음 | 중 | 시뮬레이터, 정책 구현, 정확 오라클 |
 | RQ4 | C | 증분 위상 순서 기반의 상시 락 순서 승인 | 하 | 중~높음 | 높음 | 기존 구현 비교표, 프로토타입 |
 | RQ5 | A | 인터럽트·간접 호출을 포함한 조건 모델 확장 | 중~상 | 중 | 중 | 커널 교착 49건 재분류표 |
@@ -271,6 +277,8 @@ C 항목은 홀트(F2) 원문과 대조하기 전에는 근거로 쓰지 않는�
 
 RQ6과 RQ3은 측정 중심이라 선행연구 결과와 무관하게 하네스를 재사용할 수 있어 먼저 착수하기 좋다. RQ1은 이론 기여 가능성이 있지만 중복 판정(§5)에 크게 좌우된다. RQ4는 중복 위험이 높아 새 주장보다는 비교·측정 항목으로 흡수하는 쪽이 안전해 보인다. RQ5와 RQ2는 커널 전문 지식과 데이터가 더 필요하며 Phase 3 결과를 보고 결정한다.
 
+v0.3 주: Phase 3 결과(문서 04 §11.2)는 다음과 같다. RQ2는 M9(구조 조건 아래 다항 클래스)와 M38(락 중첩 여부에 따른 결정 가능성)이 이미 인접 경계를 주어 중복 위험을 높음으로 올렸고, G4에서 '부분'을 예상한다(해석). RQ4는 높음을 유지한다. RQ6는 재현 대상의 최소 건수를 사람이 정해야 한다(후보는 `refs/rq6-inventory.md`). RQ5는 H5a의 동기(자기 대기 비중)가 지지되며, 자기 대기를 조건 모델의 일부로 둘지 락 타입의 계약으로 볼지를 함께 검토할 질문 후보로 둔다(문서 04 §5, §6). 이 후보는 위 RQ5 본문에는 아직 넣지 않았다. 이 판단은 모두 AI 초안이다.
+
 ---
 
 ## 5. 연구 질문 확정 전 게이트
@@ -319,6 +327,20 @@ RQ6과 RQ3은 측정 중심이라 선행연구 결과와 무관하게 하네스�
 | E2 데이터셋 | 49건 확인 완료 |
 | 커널 락 사용 통계 | 미착수(RQ5 코딩 단계) |
 
+### 6.2 Phase 3 이후 상태 (확인일 2026-10-29, 문서 04)
+
+| 항목 | 상태 |
+|---|---|
+| M6 | 초록을 두 경로로 재확인. 변형 알고리즘의 "특정한 있을 법한 조건"의 내용과 "최대 두 배 빠름" 문장의 방향은 본문이 필요 |
+| M14 | §2.2~2.5의 모델별 서술을 확인(열람 도구 요약 경유, A−). 본문과 재대조 필요 |
+| M22 | 저자·연도 후보: H.-C. Chang, CMU 박사논문 1975(M30). 동일성은 제목 유사성뿐(C). 하한의 수치는 읽지 못함 |
+| S11 | ASP-DAC판으로 보이는 저자 사이트 PDF(S19, 본문 A−)와 학위논문 초록(S20, B)을 확인. TPDS판 본문과의 관계는 미확인 |
+| S18 | Crossref 서지에 SOSP '71로 등록됨(B) |
+| G2 | 서론 §1이 교착 탐지를 응용으로 [Belik 1990]을 인용(A−). 그 참고문헌 항목은 열람한 텍스트에 없어 미확인(D) |
+| M38 | 저자 미확인(열람한 페이지에 저자 없음). 기억에서 나온 이름은 쓰지 않는다 |
+| 새 서지 | M27~M47, S19~S26, E3~E5를 §7에 추가. M31~M36은 Crossref 서지만 확인했고 내용은 읽지 못함 |
+| 읽지 못한 원문 | Belik 1987 본문(M6), Li 2013 본문(M27), Minoura 1982 명제(M5), Chang 1975 하한의 수치(M22, M30), Gold(M3)·Araki(M4) 원문, Dimmunix(S6)의 수치, Go 연구(E5) 본문, FreeBSD WITNESS 매뉴얼. 사람이 PDF를 주거나 다른 접근 경로가 필요하다(문서 04 §12) |
+
 ---
 
 ## 7. 참고문헌
@@ -352,15 +374,15 @@ RQ6과 RQ3은 측정 중심이라 선행연구 결과와 무관하게 하네스�
 | M3 | Gold, "Deadlock prediction: easy and difficult cases", SIAM J. Comput. 7(3): 320–336, 1978 | B, D | https://unpaywall.org/10.1145%2F362280.362290 (초록) · https://link.springer.com/article/10.1023/A:1012203214611 (참고문헌 목록) |
 | M4 | T. Araki, Y. Sugiyama, T. Kasami, J. Okui, "Complexity of the deadlock avoidance problem", 2nd IBM Symp. on Mathematical Foundations of Computer Science, Tokyo, pp. 229–252, 1977 | D | https://link.springer.com/article/10.1023/A:1012203214611 (참고문헌 목록) |
 | M5 | T. Minoura, "Deadlock avoidance revisited", JACM 29(4): 1023–1048, 1982 (키워드: NP-complete, PSPACE-complete) | B | https://projects.csail.mit.edu/jacm/References/minoura1982:1023.html |
-| M6 | F. Belik, "Deadlock avoidance with a modified banker's algorithm", BIT 27: 290–305, 1987. DOI 10.1007/BF01933724 | B | https://unpaywall.org/10.1007%2FBF01933724 |
-| M7 | F. Belik, "A distributed deadlock avoidance technique", Distributed Algorithms (WDAG 1987), LNCS 312, 1988. DOI 10.1007/BFb0019801 | B | https://www.doi.org/10.1007/BFB0019801 |
+| M6 | F. Belik, "Deadlock avoidance with a modified banker's algorithm", BIT 27: 290–305, 1987. DOI 10.1007/BF01933724. 초록: 원래 알고리즘은 Θ(mn²), 변형은 "특정한 있을 법한 조건" 아래 상각 최악 O(mn)이다. "최대 두 배 빠름" 문장의 방향은 열람 도구 요약 둘이 갈려 확정하지 못했다(문서 04 §9). 본문은 읽지 못함 | B | https://unpaywall.org/10.1007%2FBF01933724 · https://link.springer.com/article/10.1007/BF01933724 (초록) |
+| M7 | F. Belik, "A distributed deadlock avoidance technique", Distributed Algorithms (WDAG 1987), LNCS 312, 1988. DOI 10.1007/BFb0019801. 초록: 방향 비순환 그래프를 경로 행렬로 표현해 간선 삽입 시 순환을 효율적으로 탐지하고, 상각하면 연산당 선형 또는 상수 시간이라고 쓴다. 뱅커 알고리즘은 언급하지 않는다 | B | https://www.doi.org/10.1007/BFB0019801 |
 | M8 | S. D. Lang, "An extended banker's algorithm for deadlock avoidance", IEEE TSE 25(3): 428–432, 1999 | B | https://stars.library.ucf.edu/scopus1990/4271 |
 | M9 | M. Lawley, S. Reveliotis, "Deadlock avoidance for sequential resource allocation systems: hard and easy cases", Int. J. Flexible Manufacturing Systems 13: 385–404, 2001. DOI 10.1023/A:1012203214611 | B, A− | https://link.springer.com/article/10.1023/A:1012203214611 · https://www2.isye.gatech.edu/~spyros/publications/accept-SU-compl.pdf |
 | M10 | S. Reveliotis, A. Nazeem, "Optimal linear separation of the safe and unsafe subspaces of sequential resource allocation systems as a set-covering problem: algorithmic procedures and geometric insights"(SICON 게재본으로 보이는 저자 사이트 PDF; 정식 서지 확인 필요) | B | https://www2.isye.gatech.edu/~spyros/publications/SICON-paper.pdf |
 | M11 | J. Park, S. A. Reveliotis, "Deadlock avoidance in sequential resource allocation systems with multiple resource acquisitions and flexible routings"(저자 사이트 사본; 게재 서지 확인 필요) | B | https://www2.isye.gatech.edu/~spyros/publications/cor-TAC01.pdf |
 | M12 | J. Ezpeleta, J. M. Colom, J. Martínez, "A Petri net based deadlock prevention policy for flexible manufacturing systems", IEEE Trans. Robotics and Automation 11(2): 173–184, 1995 | B | https://www.informatik.uni-hamburg.de/TGI/pnbib/e/ezpeleta_j7.html |
 | M13 | Z. Li, M. Zhou, N. Wu, "A survey and comparison of Petri net-based deadlock prevention policies for flexible manufacturing systems", IEEE Trans. SMC-C 38(2): 173–188, 2008. DOI 10.1109/TSMCC.2007.913920 | B | https://digitalcommons.njit.edu/fac_pubs/12869 |
-| M14 | E. Knapp, "Deadlock detection in distributed databases", ACM Computing Surveys 19(4): 303–328, 1987. DOI 10.1145/45075.46163 | B, A− | https://ics.uci.edu/~cs223/papers/p303-knapp.pdf |
+| M14 | E. Knapp, "Deadlock detection in distributed databases", ACM Computing Surveys 19(4): 303–328, 1987. DOI 10.1145/45075.46163. §2.2~2.5의 모델별(AND, OR, AND-OR, k-of-n) 서술을 확인했다(열람 도구의 요약을 거침) | B, A− | https://ics.uci.edu/~cs223/papers/p303-knapp.pdf |
 | M15 | M. Singhal, "Deadlock detection in distributed systems", IEEE Computer 22(11), 1989 | B, A− | https://www.ics.uci.edu/~cs237/reading/files/Deadlock%20Detection%20in%20Distributed%20systems.pdf |
 | M16 | G. Bracha, S. Toueg, "Distributed deadlock detection", Distributed Computing 2(3): 127–138, 1987; PODC 1984: 285–301 | B | https://dblp.dagstuhl.de/pid/54/4334.html |
 | M17 | S. Srinivasan, R. Rajaram, "Message-optimal algorithm for detection and resolution of generalized deadlocks in distributed systems", Informatica 35: 489–498, 2011 | A− | https://www.dlib.si/stream/URN:NBN:SI:DOC-VZOW2GMK/5bc8388d-58ca-408d-aa94-604529e3d696/TEXT |
@@ -368,11 +390,32 @@ RQ6과 RQ3은 측정 중심이라 선행연구 결과와 무관하게 하네스�
 | M19 | H. Wu, W.-N. Chin, J. Jaffar, "An efficient distributed deadlock avoidance algorithm for the AND model", IEEE TSE 28(1): 18–29, 2002. DOI 10.1109/32.979987 | B | https://ftp.math.utah.edu/pub/tex/bib/idx/ieeetranssoftweng2000/28/1/18_29.html |
 | M20 | D. Hauschildt, R. Valk, "Safe states in Banker like resource allocation problems", Advances in Petri Nets 1985, LNCS 222, 1986. DOI 10.1007/BFb0016216 | B | https://link.springer.com/chapter/10.1007/BFb0016216 |
 | M21 | 김태영, 박동원, "Deadlock 회피책에 대한 개선방안 연구", 공학논문집 1(1): 49–57, 1997 | B | https://koreascience.kr/article/JAKO199741548012786.pub?lang=en |
-| M22 | "Analysis of Deadlock Avoidance Schemes and Resource Utilization for Non-Preemptible Resources", 기술 보고서 ADA021732 (저자·연도 X). 초록: 회피 알고리즘의 계산 오버헤드와 자원 이용률을 다루며, 계산 트리로 안전성 검사 비용의 하한을 유도하고 상한도 제시 | B | https://apps.dtic.mil/sti/html/tr/ADA021732/index.html |
+| M22 | "Analysis of Deadlock Avoidance Schemes and Resource Utilization for Non-Preemptible Resources", 기술 보고서 ADA021732 (페이지에 저자·날짜가 없다. 저자·연도 후보는 H.-C. Chang, CMU 박사논문 1975(M30)이며 동일성은 제목 유사성뿐이다, C). 초록: 회피 알고리즘의 계산 오버헤드와 자원 이용률을 다루며, 계산 트리로 안전성 검사 비용의 하한을 유도하고 상한도 제시. 하한의 수치는 읽지 못함 | B | https://apps.dtic.mil/sti/html/tr/ADA021732/index.html |
 | M23 | P. Bak, "A fast method of deadlock avoidance", RAIRO Informatique théorique 18(1): 71–80, 1984 | A− | https://www.numdam.org/item/ITA_1984__18_1_71_0/ · PDF: https://www.numdam.org/item/ITA_1984__18_1_71_0.pdf (OCR 손상으로 수식 일부 판독 불가) |
 | M24 | "Game interpretation of the deadlock avoidance problem", CACM, 1977-10(URL 경로 기준; 저자·쪽수 X). 회피를 운영체제와 프로세스 사이의 게임으로 정식화하고 이분 그래프로 안전 상태 집합을 구성 | B | https://cacmb4.acm.org/magazines/1977/10/11294-game-interpretation-of-the-deadlock-avoidance-problem |
 | M25 | Hee Chul Shin, Jin Young Choi, "Simulation-based Design and Performance Analysis of Two Phase Banker's Algorithm for Efficient Operation of Capacitated Automated Production Systems", Journal of the Korea Society for Simulation 21(4): 1–9, 2012. DOI 10.9709/JKSS.2012.21.4.001 | B | https://koreascience.or.kr/article/JAKO201205740752845.page |
 | M26 | 이원섭, "분산 데이터베이스 시스템에서의 교착상태 탐지기법", 한국컴퓨터정보학회논문지 6(2): 34–40, 2001 | B | https://koreascience.or.kr/article/JAKO200111921433528.page |
+| M27 | Y. Li, "A Modified Banker's Algorithm", LNEE 152, Springer, pp. 277–281, 2013(온라인 2012-08-28). DOI 10.1007/978-1-4614-3535-8_23. 초록: 새 알고리즘의 시간 O(n²d²+ndM)(M은 총 자원 단위 수) 대 원래 알고리즘 O(n³d), 공간 O(nd²)로 원래보다 나쁨. 평가는 점근 분석 | B | https://link.springer.com/chapter/10.1007/978-1-4614-3535-8_23 |
+| M28 | Y. Li, R. Cook, "A New Algorithm and Asymptotical Properties for the Deadlock Detection Problem for Computer Systems with Reusable Resource Types", Springer, 2007, pp. 509–512. DOI 10.1007/978-1-4020-6264-3_88. 초록: 재사용 자원 d종(d≪n)의 교착 탐지에서 그래프·트리 자료구조를 쓰지 않는 알고리즘을 제시하고, d와 요청이 상수로 한정되면 선형 시간이며 점근적으로 최적이라고 쓴다 | B | https://link.springer.com/chapter/10.1007/978-1-4020-6264-3_88 |
+| M29 | P. Spirakis, "The parallel complexity of deadlock detection", MFCS 1986, LNCS 233. 조회 주소의 DOI는 10.1007/BFb0016285(페이지의 DOI 칸은 비어 있고 저자는 한 명만 표시). 초록: 다중 단위 재사용 자원의 일반 문제는 로그 공간 환원에서 P-완전, 요청이 단일 단위이거나 자원이 단일 단위이면 NC | B | https://unpaywall.org/10.1007%2FBFb0016285 |
+| M30 | H.-C. Chang, CMU 박사논문 1975, "An Analysis of Deadlock Avoidance Schemes and the Resource Utilization For Non-pre-emptible Resources"(지도: A. N. Habermann). M22(DTIC ADA021732)와 같은 연구인지는 제목 유사성만으로 추정한다(C) | B | https://mathgenealogy.org/id.php?id=50241 |
+| M31 | Tricas, Colom, Ezpeleta, "Some improvements to the Banker's algorithm based on the process structure", Proc. 2000 IEEE Int. Conf. on Robotics and Automation (ICRA). DOI 10.1109/robot.2000.846460. Crossref가 발행 연도를 비워 두어 2000은 회의록 제목에서 읽었다. 내용 미열람 | B(서지) | Crossref 조회(제목·DOI) |
+| M32 | Zarnay, Garcia, "Enhancing banker's algorithm for avoiding deadlocks in systems with non-sequential processes", Proc. 2014 IEEE Emerging Technology and Factory Automation (ETFA). DOI 10.1109/etfa.2014.7005149. 내용 미열람 | B(서지) | Crossref 조회(제목·DOI) |
+| M33 | Ma, Yan, "An improved parallel banker's algorithm based on Petri net", Proc. 2011 Int. Conf. on Electronic & Mechanical Engineering and Information Technology (EMEIT). DOI 10.1109/emeit.2011.6023388. 내용 미열람 | B(서지) | Crossref 조회(제목·DOI) |
+| M34 | Song, Li, Song, "Modified Banker's algorithm with dynamically release resources", 2021 Int. Conf. on Communications, Information System and Computer Engineering (CISCE). DOI 10.1109/cisce52179.2021.9445935. 내용 미열람(IEEE Xplore 페이지는 빈 응답) | B(서지) | Crossref 조회(제목·DOI) |
+| M35 | Jiang, "Process Security Sequence Improvement Algorithm Based on Banker Algorithm", J. Phys.: Conf. Ser. 1237(2): 022111, 2019. DOI 10.1088/1742-6596/1237/2/022111. 내용 미열람(게재처 페이지는 robots_disallowed) | B(서지) | Crossref 조회(제목·DOI) |
+| M36 | D. A. Hensgen, D. L. Sims, D. Charley, "A fair Banker's Algorithm for read and write locks", Information Processing Letters 48(3): 131–137, 1993. DOI 10.1016/0020-0190(93)90255-8. Crossref에 초록 없음 | B(서지) | https://api.crossref.org/works/10.1016/0020-0190(93)90255-8 |
+| M37 | D. B. Lomet, "A practical deadlock avoidance algorithm for data base systems", ACM SIGMOD Int. Conf. on Management of Data, 1977 | B | https://research.ibm.com/publications/a-practical-deadlock-avoidance-algorithm-for-data-base-systems |
+| M38 | "Reasoning about threads communicating via locks", CAV 2005, LNCS 3576, pp. 505–518. 열람한 페이지에 저자가 표시되지 않았다. 검색 질의에 쓴 저자명은 AI의 기억에서 온 것이라 확인하지 못했고(X) 여기에 적지 않는다. 초록: 락 접근이 중첩 구조이면 효율적으로 결정 가능하고, 중첩이 아니면 스레드가 둘뿐이어도 도달 가능성이 결정 불가능 | B | https://collaborate.princeton.edu/en/publications/reasoning-about-threads-communicating-via-locks/ |
+| M39 | K. Dixit, A. Khuteta, "A Dynamic and Improved Implementation of Banker's Algorithm", IJRITCC 5(8): 45–49, 2017 | B | https://www.academia.edu/36875137/A_Dynamic_and_Improved_Implementation_of_Banker_s_Algorithm |
+| M40 | M. Gaur, D. Singh, "Implementation of Banker's Algorithm Using Dynamic Modified Approach", IJRITCC 5(11): 157–163, 2017 | B | https://www.academia.edu/36852573/Implementation_of_Banker_s_Algorithm_Using_Dynamic_Modified_Approach |
+| M41 | H. R. Wicaksono 외, "Banker's Algorithm Optimization to Dynamically Avoid Deadlock in Operating System", JEEMECS 6(1), 2023 | A− | https://jurnal.unmer.ac.id/index.php/jeemecs/article/download/8986/pdf |
+| M42 | "An Improved Safety Detection Algorithm Towards Deadlock Avoidance", 2020. 목록마다 서지가 다르다: 한 대학 연구자 페이지는 저자를 Bimal Chandra Das 한 명만 적고 2020 IEEE 10th Symposium on Computer Applications & Industrial Electronics (ISCAIE)로 표시하며 IEEE Xplore 9108818로 연결한다. 다른 목록은 저자를 Momotaz Begum, Omar Faruque, Md. Das로 적고 CNSA 2020으로 표시한다. 어느 쪽이 맞는지 확인하지 못했다 | B | https://research.daffodilvarsity.edu.bd/scopus-article/1230 · https://citation.thinkst.com/talk/75660 |
+| M43 | K. Vayadande 외, "Survey Paper on Banker's Algorithm to Remove Deadlock"(Vishwakarma Institute of Technology, Pune. 연도·게재처 미표시, 가장 새로운 참고문헌은 2021). 서베이이므로 2차 자료이고 RQ6 후보에서 제외 | C | https://www.riverpublishers.com/pdf/ebook/chapter/RP_P9788770229852C23.pdf |
+| M44 | 김종욱, 이종근, "패트리 넷에서의 교착 상태 확인 알고리즘 성능분석", 한국시뮬레이션학회 논문지 18(1): 9–16, 2009. 뱅커 알고리즘을 다루지 않음 | B | https://www.koreascience.kr/article/JAKO200924448123730.pdf |
+| M45 | 이원섭, 이상희, "분산 데이터베이스 시스템에서의 교착상태 탐지기법의 성능평가", 한국컴퓨터정보학회논문지 8(3): 26–33, 2003. 뱅커 알고리즘을 다루지 않음 | B | https://koreascience.or.kr/article/JAKO200311922045289.pub |
+| M46 | R. Agrawal, M. Carey, D. DeWitt, "Deadlock Detection is Cheap", UC Berkeley EECS 기술 보고서 UCB/ERL M83/5, 1983. 서지 페이지에 초록이 없고 PDF는 열람하지 않음 | B | https://www2.eecs.berkeley.edu/Pubs/TechRpts/1983/109.html |
+| M47 | R. Agrawal, M. J. Carey, L. W. McVoy, "The Performance of Alternative Strategies for Dealing with Deadlocks in Database Management Systems", Univ. of Wisconsin–Madison 기술 보고서 TR590, 1985. 저자 표기는 페이지 본문이 세 명이고 인용 메타데이터는 McVoy만 적는다. 초록 칸이 비었고 PDF는 이진 데이터로 받아 읽지 못함 | B | https://minds.wisc.edu/items/2b72db1d-d09f-47e9-a431-6020ff0202b4 |
 
 ### 7.3 시스템·실무 (S)
 
@@ -388,14 +431,22 @@ RQ6과 RQ3은 측정 중심이라 선행연구 결과와 무관하게 하네스�
 | S8 | R. Agarwal, S. Bensalem, E. Farchi, K. Havelund, Y. Nir-Buchbinder, S. D. Stoller, S. Ur, "Detection of deadlock potentials in multithreaded programs", IBM J. Res. Dev., 2010-09. DOI 10.1147/JRD.2010.2060276 | B | https://www3.cs.stonybrook.edu/~stoller/deadlocks-IBM.html |
 | S9 | H. C. Tunç, U. Mathur, A. Pavlogiannis, M. Viswanathan, "Sound Dynamic Deadlock Prediction in Linear Time", PLDI 2023 (PACMPL 7, Art. 177). DOI 10.1145/3591291 | A− | https://arxiv.org/pdf/2304.03692 |
 | S10 | D. J. Pearce, "Dynamic Cycle Detection for Lock Ordering"(블로그), 2020-12-19 | C | https://whileydave.com/2020/12/19/dynamic-cycle-detection-for-lock-ordering/ |
-| S11 | J. J. Lee, V. J. Mooney III, "A novel O(n) parallel banker's algorithm for System-on-a-Chip", IEEE TPDS 17(12): 1377–1389, 2006 | B | https://www.bibsonomy.org/bibtex/34935013956038fde4e0103afb163781?lang=de |
+| S11 | J. J. Lee, V. J. Mooney III, "A novel O(n) parallel banker's algorithm for System-on-a-Chip", IEEE TPDS 17(12): 1377–1389, 2006. 같은 제목의 저자 사이트 PDF(S19)와 Lee의 학위논문 초록(S20)을 따로 확인했다. 이들과 TPDS판이 같은 실험의 다른 판인지는 미확인 | B (S19: A−, S20: B) | https://www.bibsonomy.org/bibtex/34935013956038fde4e0103afb163781?lang=de |
 | S12 | X. Xiao, 박사학위 논문(Purdue), "Hardware-oriented parallel deadlock detection algorithms with reduced run-time complexity"; X. Xiao, J. J. Lee, IEEE TPDS 21(1): 4–19, 2010 | B, D | https://docs.lib.purdue.edu/dissertations/AAI10161392 |
-| S13 | M. F. Zohora, F. Farhin, M. S. Kaiser, "DBDAA: A real-time approach to Dynamic Banker's Deadlock Avoidance Algorithm with optimized time complexity", PLOS ONE, 2024-09-20. DOI 10.1371/journal.pone.0310807 (복잡도 주장은 검증 대상) | B | https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11414889/ |
+| S13 | M. F. Zohora, F. Farhin, M. S. Kaiser, "DBDAA: A real-time approach to Dynamic Banker's Deadlock Avoidance Algorithm with optimized time complexity", PLOS ONE, 2024-09-20. DOI 10.1371/journal.pone.0310807 (복잡도 주장은 검증 대상). PLOS 본문 페이지를 열람해 평가가 비교 횟수 기준임을 확인했다. 그 비교 횟수가 스칼라 비교인지 벡터 비교인지는 열람한 본문에서 불분명하다(문서 04 §2.2) | B, A− | https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11414889/ · https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0310807 |
 | S14 | D. J. Rosenkrantz, R. E. Stearns, P. M. Lewis, "System level concurrency control for distributed database systems", ACM TODS 3(2): 178–198, 1978. wait-die/wound-wait를 이 논문에 귀속하는 근거는 S16과 S17의 인용뿐이다(D). 아래 URL은 같은 제목의 2009년 Springer 재수록 장이며 쪽 설명에는 wait-die/wound-wait 언급이 없다 | B, D | https://www.doi.org/10.1007/978-1-4020-9688-4_4 |
 | S15 | M. J. Carey, M. Livny, "Distributed concurrency control performance: a study of algorithms, distribution, and replication", VLDB 1988 | B | https://vldb.org/dblp/db/conf/vldb/CareyL88.html |
 | S16 | "Releasing Locks As Early As You Can: Reducing Contention of Hotspots by Violating Two-Phase Locking (Extended Version)", arXiv:2103.09906 (wound-wait 사용 사례 서술; wait-die/wound-wait의 출처로 Rosenkrantz 외 1978과 Bernstein·Goodman 1981을 인용) | C | https://arxiv.org/pdf/2103.09906 |
 | S17 | J. C. Corbett 외, "Spanner: Google's Globally-Distributed Database", OSDI 2012. §4.2.1이 읽기-쓰기 트랜잭션의 읽기에 wound-wait를 쓴다고 서술하고 Rosenkrantz 외(1978)를 인용 | A− | https://www.cs.princeton.edu/courses/archive/fall15/cos518/papers/spanner.pdf (강의 사본) |
-| S18 | R. O. Fontao, "A Concurrent Algorithm for Avoiding Deadlocks in Multiprocess Multiple Resource Systems" (스탠퍼드 디지털 시스템 연구실 방문연구원. 연도·게재처는 열람한 사본에 없고 1971년 1월자 문헌까지 인용하며 Holt의 effective deadlock 개념을 쓴다. URL 경로로 보아 SOSP 수록으로 추정되나 미확인) | B | https://static.aminer.org/pdf/20170130/pdfs/sosp/zltf0mynekqcpcz6asxn3rfwjghuq28o.pdf |
+| S18 | R. O. Fontao, "A Concurrent Algorithm for Avoiding Deadlocks in Multiprocess Multiple Resource Systems" (스탠퍼드 디지털 시스템 연구실 방문연구원. 열람한 사본에는 연도·게재처가 없고 1971년 1월자 문헌까지 인용하며 Holt의 effective deadlock 개념을 쓴다. Crossref 서지에는 Proceedings of the third symposium on Operating systems principles, SOSP '71(1971)로 등록되어 있다. DOI 10.1145/800212.806502) | B | https://static.aminer.org/pdf/20170130/pdfs/sosp/zltf0mynekqcpcz6asxn3rfwjghuq28o.pdf |
+| S19 | J. J. Lee, V. J. Mooney III, "A Novel O(n) Parallel Banker's Algorithm for System-on-a-Chip"(저자 사이트 PDF. 파일명이 aspdac_2005이고 본문에는 게재처 표기가 없다). 하드웨어 장치의 비용과 평가 설정은 문서 04 §3의 하드웨어 뱅커 행. 소프트웨어 기준 구현은 기술되지 않음 | A− | https://users.ece.gatech.edu/mooney/codesign/publications/jaehwan/paper/aspdac_2005.pdf |
+| S20 | J. J. Lee, 조지아공대 학위논문(2004-11-23), "Hardware/Software Deadlock Avoidance for Multiprocessor Multiresource System-on-a-Chip". 초록만 확인 | B | https://repository.gatech.edu/entities/publication/91b62fea-6d75-44b3-a69b-124b6a18cb6d |
+| S21 | S. W. Abell, 퍼듀대 석사논문(2013), "Parallel acceleration of deadlock detection and avoidance algorithms on GPUs". 초록만 확인 | B | https://docs.lib.purdue.edu/dissertations/AAI1549534 |
+| S22 | Rust 표준 라이브러리 문서, `std::sync::Mutex`. 이미 쥔 뮤텍스를 다시 잠글 때의 동작은 규정하지 않는다(패닉하거나 교착할 수 있음) | A− | https://doc.rust-lang.org/std/sync/struct.Mutex.html |
+| S23 | The Open Group, POSIX `pthread_mutex_lock`. 뮤텍스 타입별 재잠금 계약: NORMAL은 교착, ERRORCHECK는 `EDEADLK` 오류 반환, RECURSIVE는 횟수 증가, DEFAULT는 미정의. 교착 탐지는 선택 사항 | A− | https://pubs.opengroup.org/onlinepubs/9699919799/functions/pthread_mutex_lock.html |
+| S24 | Oracle, Java SE 21 `java.lang.management.ThreadMXBean`. `findDeadlockedThreads`와 `findMonitorDeadlockedThreads`는 진단용이며 비쌀 수 있다고 문서가 경고 | A− | https://docs.oracle.com/en/java/javase/21/docs/api/java.management/java/lang/management/ThreadMXBean.html |
+| S25 | parking_lot 크레이트 문서, `deadlock` 모듈. 교착 탐지는 선택적·실험적 기능 | A− | https://docs.rs/parking_lot/latest/parking_lot/deadlock/index.html |
+| S26 | Linux kernel documentation, "Mutex design". 재귀 잠금을 불허하며 `CONFIG_DEBUG_MUTEXES`가 자기 재귀와 다중 태스크 순환을 탐지 | A− | https://docs.kernel.org/locking/mutex-design.html |
 
 ### 7.4 실증 (E)
 
@@ -403,13 +454,16 @@ RQ6과 RQ3은 측정 중심이라 선행연구 결과와 무관하게 하네스�
 |---|---|---|---|
 | E1 | S. Lu, S. Park, E. Seo, Y. Zhou, "Learning from mistakes: a comprehensive study on real world concurrency bug characteristics", ASPLOS XIII, pp. 329–339, 2008. DOI 10.1145/1353534.1346323 | A | https://www.cs.columbia.edu/~junfeng/08fa-e6998/sched/readings/concurrency-bugs.pdf |
 | E2 | S. Gong, C.-E. Lin, K. Wu, E. Lu, P. Fonseca, "A Comprehensive Study of Concurrency Bugs in the Linux Kernel", ICSE 2026. DOI 10.1145/3744916.3787790 (공개 데이터셋 주소는 논문 기재: https://github.com/rssys/kernel-concurrency-bug-study, 미접속) | A | https://cs.purdue.edu/homes/lin1963/publications/icse26_kernel_concurrency_bug_study.pdf |
+| E3 | "Fearless Concurrency? Understanding Concurrent Programming Safety in Real-World Rust Software", arXiv:1902.01906. 교착 10건 중 7건이 이중 락이다(§4.2, 표 4의 Mutex 열. 본문이 이를 이중 락이라 부른다). 표본은 Servo, TiKV, Rand 세 응용 | A− | https://arxiv.org/pdf/1902.01906 |
+| E4 | B. Qin 외, "Understanding and Detecting Real-World Safety Issues in Rust"(본문이 학회 논문의 확장판이라고 밝히지만 어느 논문인지는 확인하지 않았다. 열람한 텍스트에 게재처·연도가 없고 가장 새로운 자료는 2019년 6월). 블로킹 버그 59건 중 Mutex/RwLock 관련 38건이고 그중 이중 락 30건, 잠금 순서 충돌 7건(§5.1, 표 3) | A− | https://par.nsf.gov/servlets/purl/10509785 |
+| E5 | T. Tu 외, "Understanding Real-World Concurrency Bugs in Go", ASPLOS 2019. 블로그 요약으로만 확인: 응용 6개에서 동시성 버그 171건(블로킹 85건, 비블로킹 86건). Mutex 관련 건수는 요약에 없다 | C | https://blog.acolyer.org/2019/05/17/understanding-real-world-concurrency-bugs-in-go/ |
 
 ### 7.5 알고리즘 도구 (G)
 
 | ID | 서지 | 수준 | URL |
 |---|---|---|---|
 | G1 | M. A. Bender, J. T. Fineman, S. Gilbert, R. E. Tarjan, "A new approach to incremental cycle detection and related problems", arXiv:1112.0784 (저널판 서지 X) | A− | https://arxiv.org/abs/1112.0784 |
-| G2 | B. Haeupler, T. Kavitha, R. Mathew, S. Sen, R. E. Tarjan, "Incremental cycle detection, topological ordering, and strong component maintenance", ACM Trans. Algorithms (사전 인쇄본, arXiv:1105.2397) | A− | https://arxiv.org/pdf/1105.2397 |
+| G2 | B. Haeupler, T. Kavitha, R. Mathew, S. Sen, R. E. Tarjan, "Incremental cycle detection, topological ordering, and strong component maintenance", ACM Trans. Algorithms (사전 인쇄본, arXiv:1105.2397). 서론 §1이 증분 순환 탐지가 교착 탐지에서 나타난다고 [Belik 1990]을 인용한다. 그 참고문헌 항목은 열람한 텍스트에 없어 제목과 게재처를 확인하지 못했다(D) | A− | https://arxiv.org/pdf/1105.2397 |
 | G3 | D. J. Pearce, P. H. J. Kelly, "A dynamic topological sort algorithm for directed acyclic graphs", ACM J. Exp. Algorithmics 11, Art. 1.7, 2006(저자 페이지는 2007로 표기) | B | https://whileydave.com/publications/pk07_jea/ |
 | G4 | E. Cohen, A. Fiat, H. Kaplan, L. Roditty, "A labeling approach to incremental cycle detection", arXiv:1310.8381 | B | https://arxiv.org/pdf/1310.8381 |
 
@@ -451,3 +505,4 @@ RQ6과 RQ3은 측정 중심이라 선행연구 결과와 무관하게 하네스�
 |---|---|---|
 | v0.1 | 2026-10-29 | 최초 작성 |
 | v0.2 | 2026-10-29 | 문서 03(G1)의 정정·갱신 반영: M15 서술 정정, E2 해석 보완(스레드 수 계수 규칙, '인터럽트 의존' 열 정의), F7·S17 근거 수준 상향, M20 저자 확인, S14 URL 성격 명시, 문헌 M23–M26·S17–S18·T9·V2–V3 추가 |
+| v0.3 | 2026-10-30 | 문서 04(Phase 3)의 정정 목록 반영(문서 04 §9의 1~6): §1.2의 AND 행을 Knapp §2.2·SM T2·반례 B4에 맞춰 고치고 OR와 AND-OR/P-out-of-Q를 두 행으로 나눔, §1.3의 뱅커 행에 표기 불일치(M27)를, 뱅커 개선 주장 행에 M6의 조건부 상각 O(mn)·S13의 평가 방식·M27·M39·M40을, 그래프 기반 회피 행에 M7의 초록 내용을 반영, §3 판정표를 문서 04 §8의 판정으로 갱신(락 프로그램 정적 분석 행 추가), §4.0의 RQ2 중복 위험을 높음으로 올리고 §4.1에 Phase 3 결과 요약 추가, §6.2 신설. §7: M6, M7, M14, M22, S11, S13, S18, G2 보강, 새 문헌 M27–M47·S19–S26·E3–E5 추가. M38 저자는 확인하지 못해 적지 않음. 문서 04 §9 정정 7·8(문서 02)은 문서 02 v0.3에서 처리 |
