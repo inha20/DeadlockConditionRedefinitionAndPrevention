@@ -1,6 +1,6 @@
 # Phase 4 보고서: 연구 질문별 선행연구 게이트 (G4)
 
-- 작성일: 2026-10-31 (KST). RQ2, RQ1 추가: 2026-11-01
+- 작성일: 2026-10-31 (KST). RQ2, RQ1, RQ3 추가: 2026-11-01
 - 작성: Claude(AI 조수) · 사람의 검토 전 (v0.1, 작성 중)
 - 관련 문서: 문서 01(§4 연구 질문, §5 게이트 표), 문서 02(§3 게이트, §5 RQ별 계획), 문서 04(Phase 3), 주장 대장(`refs/claims-ledger.md`), 검색 기록(`refs/g4-search-log.md`). 문헌 ID와 근거 수준(A–D, X, V)은 문서 01과 대장 머리말의 표기를 따른다. 이 문서에서 새로 붙인 ID는 §9에 있다.
 - 범위: 문서 01 §5의 표(RQ, 선행연구 후보, 판정, 근거 링크, 차이점, 결정)를 RQ마다 채운다. 새로운 아이디어의 참신성은 주장하지 않으며, "없음"은 이번 검색에서 찾지 못했다는 뜻이다.
@@ -9,14 +9,14 @@
 
 ## 0. 한 페이지 요약
 
-진행 상태: RQ4, RQ2, RQ1 완료. 나머지 RQ는 작성 중이다. 아래 표는 RQ를 끝낼 때마다 채운다.
+진행 상태: RQ4, RQ2, RQ1, RQ3 완료. 나머지 RQ는 작성 중이다. 아래 표는 RQ를 끝낼 때마다 채운다.
 
 | RQ | 판정 | 결정 | 남은 위험 |
 |---|---|---|---|
 | RQ4 증분 위상 순서 락 순서 승인 | 하위 주장 5개 중 2개 동일(자료구조, 락 순서 검사에의 사용), 2개 부분(비디버그 상시 적용, 순환을 닫는 요청의 우회), 1개 없음(상시 적용의 요청당 비용·거부율 측정, 검색 한계 있음) | RQ3의 정책 항목 P-INC로 흡수하고 독립 RQ는 종료. 측정 질문은 RQ3에 남김 | 이진 데이터라 못 읽은 특허 2건, 읽지 않은 tracing-mutex 벤치 디렉터리, 인용 목록을 일부만 본 점 |
 | RQ2 제한 가정 아래 정확 판정·회피의 복잡도 | 하위 주장 7개 중 3개 동일(일반 난해성, 구조 조건 아래 다항 클래스, 중첩 구조 제한), 4개 부분(순환 길이 2 이하, 중첩 깊이·락 수 매개변수, 인터럽트·우선순위 문맥, 실증 분포로 정의한 클래스), 없음 0개. 부분 4개는 이웃 문제(예측, 검증, 분산 컨트롤러 합성)에서만 찾았고 안전 상태 판정에서는 못 찾음 | 문헌 기반 복잡도 지도와 빈칸 후보 목록으로 좁힘. H2의 문구('문헌 밖에도 존재한다')는 G5에서 질문형으로 다시 씀. 증명 시도는 원문을 확인한 뒤에도 비어 있는 칸에만 | Araki·Gold가 2차 서술(M9 경유), M9 인용 추적 실패, S9 Thm 3.1 진술과 증명의 불일치(도구 지적), 정리 번호·수치가 도구 요약, 이웃 문헌 다수가 초록 수준 |
 | RQ1 조건의 층위 분리와 모델별 관계의 통합 형식화 | 하위 주장 7개 중 2개 동일(정책 수준과 상태 수준의 구분, 대기 그래프 수준의 모델별 필요·충분·동치), 5개 부분(모델 계층, 자원·용량 수준의 상태 술어, 조건 사이의 함의, 예방 기법 분류, 기계 검증), 없음 0개. 기계 검증은 이웃 모델(세션 타입, 채널, RPC 모니터, 자바 스레드 의미론)에서만 찾음 | 문헌 결과의 통합 재정리, 기계 검사 가능한 정리표, 반례 카탈로그로 좁힘. 새 틀을 만든다는 서술은 쓰지 않음(H1 문구는 G5에서 질문형으로 다시 씀). 중복 위험 '높음'으로 상향 | Coffman·Holt·Levine 본문 미열람, 인용 추적(C) 못 함, Fan 외 2021이 필요성과 충분성 중 무엇을 반박하는지 모호, 정리 번호·정의가 도구 요약이라 대조 전, 초기 검색 약 35회의 기록 소실 |
-| RQ3 | 작성 중 | | |
+| RQ3 정책별 허용도–비용 프런티어 측정 | 하위 주장 8개 중 2개 동일(경쟁 수준에 따라 정책 순위가 뒤바뀐다는 관찰, 혼합 정책 개념), 5개 부분(정책 계열 간 비교, 정확 오라클 대비 불필요한 제한 비율, 비용·롤백·기아 지표의 동시 보고, 사전 정의한 지배 분석, 재현 패키지), 1개 없음(증분 위상 순서 승인의 비교 측정, RQ4에서 이월). 부분 5개는 데이터베이스 2PL과 제조 시스템에서만 겹치고 OS·스레드 락 수준에서는 찾지 못함 | 좁힘. H3를 'OS·스레드 락 수준에서도 같은 순위 뒤바뀜이 나타나는가, 정확 오라클 대비 지표로 보면 어떤가'라는 질문형으로 G5에서 다시 씀. 새 설계점을 찾았다는 서술은 쓰지 않음. 정책 목록과 데이터베이스 선행 비교의 대응표로 하네스를 방향 교차 확인. 중복 위험은 '중에서 높음 사이'로 상향 | 인용 추적(C) 못 함, Agrawal 외 1985·Chang 1975·Habermann 1973·Bak 1976 본문 미열람, 대부분 초록·요약 수준, 정확 오라클은 안전성 판정이 NP-완전이라 소규모에 한정 |
 | RQ5 | 작성 중 | | |
 | RQ6 | 작성 중 | | |
 
@@ -40,6 +40,7 @@
 - 기억에서 나온 서지는 틀릴 수 있다. 인터럽트 구동 프로그램 논문(M61)의 저자를 기억으로 다르게 적었다가 서지 페이지로 바로잡았고(G4-057, 078), Gold 1978의 DOI 추정은 확인되지 않아 쓰지 않았다(G4-049). 이런 값은 질의에만 쓰고 문서에는 열람으로 확인한 것만 적는다.
 - RQ1 검색에서 막힌 것: 인용 추적(C)을 하지 못했다. Semantic Scholar의 인용 조회 주소(Levine 2003, Tay–Loke 1995)와 IEEE Access 논문(M70)의 doi.org 주소는 열람 허가 요청에 응답이 없어(PROVENANCE_REQUIRED) 열람하지 못했고 다시 시도하지 않았다. SIAM 페이지는 client_error였고(G4-098) Zenodo 페이지는 한 번 RATE_LIMIT_EXCEEDED였다가 재시도로 열렸다(G4-126, 129). 이 한계 때문에 RQ1에서는 '없음' 판정을 쓰지 않았다.
 - RQ1의 초기 검색 약 35회는 작업 도중 작업 맥락이 압축되면서 질의 문자열과 결과의 기록이 남지 않았다. 이 문서의 근거는 G4-081–130에서 다시 열람해 확인한 것만이다. 다시 확인하지 못한 항목은 단서로도 쓰지 않았다(G4-099는 그 구간에서 열람했다고 기록된 보고서 하나의 정체를 확인하려 했으나 실패했다).
+- RQ3 검색에서 막힌 것: 인용 추적(C)을 하지 못했다. Semantic Scholar 주소가 검색 결과에 나오지 않아 인용 목록을 얻지 못했고(G4-171), 열람 허가가 필요한 주소는 쓰지 않았다. mpi-sws.org의 PDF는 리다이렉트를 따라가지 않았고(G4-150) 리다이렉트 주소는 PROVENANCE_REQUIRED였으며(G4-153) 다시 시도하지 않았다. 위스콘신 TR590의 PDF는 이전과 같이 이진 데이터였고(G4-138) CMU 학과 페이지는 robots_disallowed였다(G4-185). 이 한계 때문에 RQ3에서는 3g를 빼고 '없음' 판정을 쓰지 않았다(3g는 RQ4의 세 경로 검색을 이월). 질의에 쓴 서지가 기억에서 나와 틀리거나 확인되지 않은 사례가 둘 더 있다. Harding 외 2017의 저자로 적은 'Aguilera'는 틀렸고(G4-155, 정정은 G4-199), Bak 1976의 발행처로 적은 'Polish Academy'는 확인되지 않은 추측이었다(G4-195).
 
 ---
 
@@ -287,6 +288,97 @@
 
 ---
 
+## 5. RQ3. 정책별 허용도–비용 프런티어 측정
+
+문서 01 §4 RQ3의 질문: 같은 자원·락 트레이스에서 순서화, 천장 프로토콜, wait-die/wound-wait, 뱅커 계열, 일괄 요청, 혼합 정책을 (a) 정확한 안전 오라클 대비 불필요한 거부·지연 비율, (b) 요청당 비용, (c) 롤백·대기 시간 분포로 측정하면 다른 정책에 지배되지 않는 설계점이 있는가? 문서 02 §5.2의 가설 H3은 정확 오라클 대비 불필요한 제한 비율, 요청당 비용, 완료 시간에서 지배되지 않는 설계점이 둘 이상 있고 워크로드 군에 따라 최적 정책이 달라진다고 쓴다. RQ4에서 넘어온 항목 P-INC(증분 위상 순서 승인)의 측정도 이 RQ에 속한다(§2.5). 이 RQ는 새 알고리즘이 아니라 측정 설계이고, 문서 02 §5.2의 중단 규칙은 같은 비교 연구가 G4에서 발견되면 재현 연구로 전환한다는 것이다.
+
+용어 주의: 제조 시스템·이산사건 시스템 문헌의 '허용도(permissiveness)'는 정책이 허용하는 도달 가능한 안전 상태의 범위를 뜻하고(M94, M95), 이 RQ의 M1(문서 02 §5.2)은 트레이스 위에서 정확 오라클이 안전으로 판정한 전이 중 정책이 거부·지연·중단시킨 비율이다. 방향은 같지만 단위가 다르다. 인용할 때는 어느 쪽인지 적는다.
+
+### 5.1 하위 주장
+
+| 코드 | 하위 주장 |
+|---|---|
+| 3a | 서로 다른 예방·회피 계열(순서화, 일괄 요청, 반납 후 재시도, wait-die/wound-wait, 천장 프로토콜, 뱅커 계열, 혼합)을 같은 워크로드·트레이스에서 하나의 하네스로 비교한다. 대상은 OS·스레드 락 수준이다 |
+| 3b | 정확한 안전 오라클(최대 허용 정책 또는 소규모 완전 탐색)을 기준으로 정책이 안전한 요청을 거부·지연·중단시킨 비율(불필요한 제한)을 잰다 |
+| 3c | 요청당 비용(중앙값과 p99), 정책 상태의 메모리, 롤백·재시도 횟수, 대기 시간 분포(꼬리), 기아 지표를 같은 하네스에서 함께 보고한다 |
+| 3d1 | 정책 사이의 우열이 경쟁 수준 등 워크로드에 따라 뒤바뀌고 한 정책이 모든 곳에서 우세하지 않다는 관찰(H3의 예측) |
+| 3d2 | 지배 관계를 사전에 정의하고(모든 지표에서 나쁘지 않고 하나 이상에서 유의하게 좋음) 정책 × 워크로드의 요인 설계로 다지표 프런티어를 분석한다 |
+| 3e | 자원 클래스별 혼합 정책이라는 개념(P-MIX) |
+| 3f | 트레이스 형식, 정확 오라클, 정책 레퍼런스 구현, 차등 테스트를 갖춘 재현 가능한 비교 패키지 |
+| 3g | (RQ4에서 이월) 증분 위상 순서 승인(P-INC)의 요청당 비용과 거부율을 다른 정책과 같은 트레이스에서 비교한다 |
+
+3d를 둘로 나눈 이유: '순위가 워크로드에 따라 바뀐다'는 관찰(3d1)과 '지배 관계를 사전에 정의해 다지표로 분석한다'는 방법(3d2)은 선행연구의 겹침 정도가 다르다. 한 칸으로 묶으면 3d1의 '동일'이 3d2의 빈칸을 가린다. 3e는 개념만 따로 둔 것이고 혼합 정책의 측정된 성능은 3a, 3c에서 본다.
+
+### 5.2 선행연구 후보와 하위 주장별 대조
+
+'해당'은 그 후보가 걸리는 하위 주장이다. '수준'은 문서 01 §0.1을 따르며 A−는 열람 도구가 돌려준 본문 요약이다. 수치와 문장은 원문으로 재확인하기 전에는 논증의 전제로 쓰지 않는다. '요약에 없음'은 열람 도구의 요약에 없다는 뜻이다.
+
+| 후보 | 비교 대상과 범위 | 읽은 내용 | 해당 | 수준·근거 |
+|---|---|---|---|---|
+| M78 Yu 외 2014(PVLDB 8(3)) | 데이터베이스 2PL의 교착 처리 DL_DETECT, NO_WAIT, WAIT_DIE. 최대 1,024 코어 시뮬레이션 | YCSB와 TPC-C에서 처리량, 중단률, 시간 분해를 보고. 경쟁 수준에 따라 순위가 달라 어느 2PL도 모든 곳에서 이기지 않는다고 서술하고 워크로드에 따라 알고리즘을 바꾸자고 제안. 중단 비용이 낮은 설정임을 단서로 달고, 꼬리 지표와 정확 오라클 기준 지표는 요약에 없음 | 3a(DB), 3c, 3d1 | A−. 대장 C-SUR-139. G4-132, 137, 198 |
+| M79 Ren 외 2016(SIGMOD) | 대기 그래프 탐지, wait-die, Dreadlocks, 순서 잠금(교착 자유 잠금) | 처리량과 CPU 시간 분해. 낮은·중간 경쟁에서는 탐지 쪽이 wait-die보다 낫고(wait-die가 교착하지 않을 트랜잭션도 중단시키므로) 높은 경쟁에서는 순위가 뒤집힘. 80코어에서 순서 잠금이 셋 모두를 앞섬. 중단 비율을 오라클 대비로 잰 지표는 요약에 없음 | 3a(DB), 3b(정성 서술만), 3c, 3d1 | A−. 대장 C-SUR-140. G4-134, 180 |
+| M80 Tanabe 외(CCBench) | 2PL의 Wait(연산을 미리 정렬)와 NoWait를 포함한 동시성 제어 일곱 가지. 224 스레드 | 처리량, 중단 비율, L3 미스, 지연 분해. Wait와 NoWait 어느 쪽도 늘 이기지 않음. wait-die와 탐지는 평가하지 않음. 공통 모듈과 워크로드 매개변수를 갖춘 오픈소스 비교 플랫폼 | 3a(DB), 3d1, 3f | A−. 대장 C-SUR-141. G4-155, 161 |
+| M81 Habibi 외(Brook-2PL, SIGMOD '26) | wound-wait, 정렬 순서 잠금, Bamboo, OCC, IC3 | 처리량, p95 지연, 재시도 횟수(중단의 대용), CPU 시간 분해. 낮은 경쟁에서는 비슷하고 높은 경쟁에서 정렬 순서 잠금은 크게 떨어지고 wound-wait는 재시도로 처리량을 잃음. wait-die, no-wait, 탐지는 평가하지 않음 | 3a(DB), 3c, 3d1 | A−. 대장 C-SUR-142. G4-134, 179 |
+| M82 Agrawal·Carey·Livny 1987(TODS) | 블로킹(대기 그래프 탐지), 즉시 재시작, 낙관적 방식 | 닫힌 큐잉 모델 시뮬레이터. 처리량, 응답 시간과 표준편차, 블록·재시작 비율, 총·유효 이용률. 어느 것도 모든 곳에서 이기지 않고 자원 가정이 순위를 정함. 앞선 연구들의 상충 결과는 자원 가정 차이 때문이라 결론 | 3c, 3d1, 3a(이웃) | A−. 대장 C-SUR-143. G4-131, 141 |
+| M47 Agrawal·Carey·McVoy 1985(TR590)와 1987년 같은 제목의 목록 항목 | 데이터베이스의 교착 해소 전략들 | 목록 항목의 초록은 락킹이 선호되나 교착 처리 선택을 안내할 성능 자료가 적어 대안적 해소 전략의 성능을 검토한다고 서술. 구체 전략과 지표는 초록에 없고 PDF는 이진 데이터라 읽지 못함 | 3a(DB), 3c(미확인) | B. 대장 C-SUR-144. G4-131, 135, 136, 138 |
+| M83 Thomasian 1997(TKDE), M84 Boeheim 1991 | 대기 깊이를 제한하는 잠금 방식들(일반 대기, wound-wait, no-waiting, cautious waiting, running priority, WDL). 분산 교착 해소의 희생자 선택 규칙들 | 둘 다 시뮬레이션 비교. M83 초록: 자원·경쟁 조건에 따라 우열이 달라짐. M84 초록: 처리량과 규칙의 오버헤드로 평가 | 3a(DB), 3c, 3d1 | B. 대장 C-SUR-145, 146. G4-156, 162, 197 |
+| M85 Maryanski 1977, M86 Isloor–Marsland 1980, M87 Marsland–Isloor 1980, M88 Alsberg 외 1976 | 탐지, 예방, 회피, 무시, 혼합의 정성 비교 | 모두 논증과 표로 비교하고 측정이 없음. 비용·오버헤드, 부담, 분산 가능성 등을 기준으로 삼고 정량 평가는 후속 과제로 미룸. M86은 Howard의 혼합 접근을 검토 | 3a(정성), 3e | A−. 대장 C-SUR-147–150. G4-148, 149, 152, 154, 190, 196 |
+| F11 "Mixed solutions for the deadlock problem"(1973) | 탐지·회피·예방의 혼합 | 요약문: 혼합이 어느 하나보다 효과적이고 실용적이라 서술. 계층형 운영체제 기반 구성 방법을 제안. 저자는 페이지에 없고 M86이 'Howard의 혼합 접근'이라 부름(추정) | 3e | B. 대장 C-SUR-151. G4-146, 151 |
+| M89 Habermann 1973(Newcastle TR 53) | 회피 전략의 스펙트럼 | 초록: 회피의 오버헤드 대부분은 요청마다 도는 안전 검사에서 나옴. 가장 보수적인 것부터 가장 허용적인 것까지 전략을 기술하고 보수적인 쪽의 정책이 많은 시스템에 충분하다고 시사. 허용 범위와 검사 비용의 두 축. 본문 미열람 | 3b, 3d2(개념), 3a(회피) | B. 대장 C-SUR-152. G4-164, 167, 172 |
+| M22와 M30 Chang 1975(CMU) | 회피 알고리즘의 오버헤드와 자원 이용률 | 초록: 안전 검사 함수 safeI의 비용 하한·상한과 '회피 방식별 자원 이용률'을 다룸. 이용률 결과는 초록에 없음. 보고서 M22와 학위논문 M30의 동일성은 제목 일치 추정(C) | 3b, 3c(겹칠 수 있음) | B. 대장 C-SUR-153. G4-183, 184, 186 |
+| M90 Bak 1984(RAIRO ITA)와 참고문헌의 Bak 1976, M91 Lomet 1977(SIGMOD) | 회피 알고리즘 | Bak 1984의 참고문헌에 1976년 'A Comparative Study of Anti-Deadlock Methods'가 있으나 그 글은 찾지 못함. Lomet는 서지 페이지의 기계 생성 요약만 | 3a(미확인) | D(Bak 1976), B. 대장 C-SUR-154. G4-144, 175, 187, 195 |
+| M13 Li–Zhou–Wu 2008, M92 Abouel Nasr 외 2015, M93 Tricas 2003 | 제조 시스템의 Petri net 기반 예방 정책(M93은 회피 포함) | M13 초록: 구조 복잡도, 행동 허용도, 계산 복잡도로 비교. M92: 시간 Petri net 시뮬레이션으로 시간 성능, 이용률, 생산성과 허용도를 평가. M93: 예방·회피 알고리즘을 다른 해법과 실험적으로 비교해 허용도를 보이고 가장 허용적인 해를 찾는 일은 NP-완전이라 서술 | 3a(제조), 3b(상태 공간 기준), 3d2(개념) | B. 대장 C-SUR-155–157. G4-133, 140, 157, 159, 160 |
+| M94 Cordone 외 2013(TAC), M95 Ibrahim 외, M96 Nazeem–Reveliotis(최소 불안전 상태), M97 Nazeem–Reveliotis(R/W 락), M98 Fei 외 2014(CDC), M9 Lawley–Reveliotis 2001 | 최대 허용 교착 회피 정책(정확 오라클에 해당)과 그 계산 | 최대 허용 정책은 도달 가능한 안전 부공간으로 제한하는 정책이고 허용도는 허용하는 안전 상태 수(M94)나 기준 집합 대비 비율(M95: 소규모에서 약 0.99–1, 큰 구성에서 약 0.875–0.956)로 보고. 온라인 오버헤드는 상태 검사당 기본 연산 수(M94). R/W 락 시스템(M97)과 다중 스레드 소프트웨어(M98, 초록)에도 적용. 안전성 판정은 SU-RAS에서 NP-완전(M9)이라 완전 열거에 한계. 정책 비교 실험은 없거나 자체 알고리즘의 실행 시간만 비교(M96, M97) | 3b, 3c(비용 지표), 3d2(개념) | A−(M94–M97, M9), B(M98). 대장 C-SUR-158–163. G4-139, 143, 163, 168–170, 174, 177, 178 |
+| M99 Brandenburg 외, M100 Brandenburg 2011(UNC) | 실시간 멀티프로세서의 락 프로토콜(FMLP 스핀형·정지형, 락 프리, 웨이트 프리) | 측정한 오버헤드와 무작위 과제 집합의 스케줄 가능성으로 비교. 현 분석에서 정지형이 스핀형보다 나은 스케줄 가능성을 준 적이 없다고 서술(스케줄 가능성이라는 한 지표에서 한 정책이 다른 정책에 지배되는 결과). 교착 자유는 평가 속성이 아님. M100은 초록만 | 3a(이웃), 3c, 3d1(지배 사례) | A−(M99), B(M100). 대장 C-SUR-164, 165. G4-145, 181, 182 |
+| 리눅스 ww_mutex 패치 설명(S3) | wound-wait와 wait-die | 마이크로벤치마크(4코어 x86_64)에서 4스레드와 16스레드의 롤백 횟수와 경과 시간 순위가 바뀜. 단일 환경, 비심사 | 3a(OS 락, 2개 정책), 3c, 3d1 | A−. 대장 C-SUR-031, 092. 문서 04 §3. G4-173(새 자료 없음) |
+| 락 순서 검사 구현과 락 순서 그래프 도구(S27–S31, S1, S8) | 증분 위상 순서 승인과 이웃 방식 | RQ4 §2.2의 표와 같음. 이번에 추가한 오버헤드 질의에서 새 자료 없음 | 3g | A−. 대장 C-SUR-081–094, 169. G4-001–030, 158 |
+| S15 Carey–Livny 1988, M101 Harding 외 2017, M46 Agrawal·Carey·DeWitt 1983, Lomet 1977 | 데이터베이스 동시성 제어·교착 처리 | 서지 페이지만 확인(S15, M46, M101은 초록 없음 또는 본문 미열람) | 3a(DB, 단서) | B. 대장 C-SUR-166. G4-155, 199 |
+| 판정에 쓰지 않은 것 | Lin–Chen 1996(M102, 해소 알고리즘의 해석 비교), Gidófalvi(M77, 비교 없음), Kim–Park 1997(복잡도 비교), Ancilotti 외 1976(Bak 1976이 아님), JaConTeBe(제목만 본 Java 실제 동시성 버그 모음, 트레이스 출처 단서) | | — | A−, B, D. 대장 C-SUR-167. G4-142, 166, 176, 189, 191 |
+
+### 5.3 검색 경로
+
+- 키워드(K): 26회(G4-131–134, 145–148, 155–158, 163–166, 172–174, 184, 187, 188, 192–195). 겨냥한 곳은 (i) 교착 처리 전략의 성능 비교(G4-131, 132, 134, 155, 156, 173, 192, 194), (ii) 허용도와 계산 비용의 절충, 정확 오라클(G4-133, 157, 163, 164, 174), (iii) 천장 프로토콜·뱅커·순서화의 실측 비교(G4-145, 147, 193), (iv) 혼합 정책과 개관 문헌(G4-146, 148, 188), (v) 기아와 롤백 지표(G4-165), (vi) 트레이스·벤치마크(G4-166), (vii) 락 순서 검사의 오버헤드(G4-158, RQ3로 이월된 3g), (viii) Habermann·Chang·Bak 계열의 확인(G4-172, 184, 187, 195). 결과는 데이터베이스와 제조 시스템의 비교 연구, 강의자료, 이미 아는 서지가 대부분이었고 OS·스레드 락 수준의 비교 연구는 나오지 않았다.
+- 인용 추적(C): 0회. 시도 1회(G4-171)는 Semantic Scholar 주소가 결과에 나오지 않아 인용 목록을 얻지 못했다. 열람 허가 요청이 필요한 주소는 쓰지 않았다. 가장 중요한 경로가 비었다.
+- 인접 분야(A): 23회. 제조 시스템·이산사건 시스템의 허용도 문헌(M92–M98, M9, G4-139, 140, 143, 159, 160, 168–170, 177, 178), 실시간 락 프로토콜(M99, M100, G4-150, 153, 181, 182), 고전 회피 문헌(G4-144, 175, 176, 185, 186, 189, 191), 그 밖의 해소 알고리즘(G4-142), 데이터베이스 서지(G4-199). G4-150은 리다이렉트를 따라가지 않았고 G4-153은 PROVENANCE_REQUIRED, G4-185는 robots_disallowed였다.
+- 직접 열람(R): 19회(G4-135–138, 141, 149, 151, 152, 154, 161, 162, 167, 179, 180, 183, 190, 196–198). G4-138은 이진 데이터라 읽지 못했다.
+- 근거 행: 대장 C-SUR-139–170.
+
+### 5.4 판정과 차이점
+
+- 3a: 부분. 정책 계열별 비교는 있으나 이 RQ의 정책 집합과 대상 수준에서는 없다. (i) 데이터베이스 2PL: 같은 시뮬레이터·워크로드에서 대기 그래프 탐지, NO_WAIT, WAIT_DIE(M78), 대기 그래프 탐지, wait-die, Dreadlocks, 순서 잠금(M79), Wait(사전 정렬)와 NoWait(M80), wound-wait와 정렬 순서 잠금(M81), 일반 대기, wound-wait, no-waiting, cautious waiting, running priority, WDL(M83, B)을 비교한다. M82는 블로킹(탐지), 즉시 재시작, 낙관적 방식을 비교한다. (ii) OS 락: ww_mutex 패치 설명(S3)이 wound-wait와 wait-die 둘을 마이크로벤치마크로 비교한다. (iii) 제조 시스템: 예방 정책을 구조 복잡도, 행동 허용도, 계산 복잡도로 비교한 서베이(M13, B), 시뮬레이션 비교(M92, B), 예방·회피 알고리즘의 실험 비교(M93, B)가 있다. (iv) 정성 비교는 1970년대부터 있다(M85–M88). 찾지 못한 것: OS·스레드 락 수준에서 순서화, 일괄 요청, 반납 후 재시도, 타임스탬프, 천장 프로토콜, 뱅커 계열, 혼합을 같은 트레이스에서 함께 비교한 연구. 데이터베이스 비교의 NO_WAIT는 반납 후 재시도(P-RET)와 비슷한 점이 있으나 같다고 단정하지 않는다. Bak 1976의 'Comparative Study'(D)와 M47의 본문은 읽지 못해 겹침 정도를 모른다.
+- 3b: 부분. '정확한 안전 오라클 대비 허용도'라는 척도는 제조·이산사건 시스템 문헌에 있다. 최대 허용 정책은 도달 가능한 안전 부공간으로 제한하는 정책이고 허용도는 허용하는 도달 가능 안전 상태의 수(M94)나 기준 집합 대비 비율(M95: 소규모 구성에서 약 0.99–1, 완전 탐색이 끝나지 않는 구성에서 전체 도달 가능 안전 집합 대비 약 0.875–0.956, 저자는 보수적 추정이라 서술)로 보고된다. 이 계산은 R/W 락 시스템(M97)과 다중 스레드 소프트웨어(M98, B)에도 적용된다. 안전성 판정 자체가 SU-RAS에서 NP-완전이라(M9) 정확 오라클은 규모에 한계가 있다. 데이터베이스 쪽은 불필요한 중단을 말로 설명한다(M79: wait-die가 교착하지 않을 트랜잭션도 중단시킨다)고 요약되나 그 비율을 오라클 대비로 재는 것으로는 요약되지 않았다. 찾지 못한 것: 트레이스의 전이 단위로, OS 락 정책(타임스탬프 롤백, 천장 프로토콜, 순서화, 뱅커 등)이 안전한 요청을 거부·지연·중단시킨 비율을 정확 오라클 대비로 잰 결과. Chang 1975(M22, M30)의 초록은 '회피 방식별 자원 이용률'을 다룬다고 하나 본문을 읽지 못해 겹침 정도를 모른다. Habermann 1973(M89)은 허용 범위와 안전 검사 비용의 축을 개념으로 둔다.
+- 3c: 부분. 지표 하나하나는 선행 연구가 보고한다. 처리량, 중단률, 시간 분해(M78), 처리량과 CPU 시간 분해(M79), 처리량, 중단 비율, L3 미스, 지연 분해(M80), 처리량, p95 지연, 재시도 횟수, CPU 시간 분해(M81), 응답 시간과 표준편차, 블록·재시작 비율, 이용률(M82), 롤백 횟수와 경과 시간(S3), 상태 검사당 기본 연산 수(M94)다. 찾지 못한 것: 요청당 비용의 중앙값과 p99, 정책 상태의 메모리, 롤백·재시도 분포, 기아 지표(최대 연속 거부·대기)를 같은 하네스에서 함께 보고한 연구. 기아 지표는 이번에 열람한 비교 연구의 요약에서 보이지 않았다(대장 C-SUR-170).
+- 3d1: 동일(이웃 설정에서). 우열이 경쟁 수준에 따라 뒤바뀐다는 관찰은 이미 여럿이다. M78은 경쟁 수준에 따라 순위가 달라 어느 2PL도 모든 곳에서 이기지 않는다고 쓰고, M79는 낮은·중간 경쟁과 높은 경쟁에서 wait-die와 대기 그래프 탐지의 순위가 뒤집힌다고 쓰며, M80은 Wait와 NoWait 어느 쪽도 늘 이기지 않는다고 쓰고, M82는 자원 가용성에 따라 블로킹과 낙관적 방식의 순위가 바뀐다고 쓴다. OS 락에서도 ww_mutex 패치의 마이크로벤치마크(S3)에서 4스레드와 16스레드의 순위가 바뀐다(단일 환경, 비심사). 따라서 H3의 예측(지배되지 않는 설계점이 둘 이상이고 워크로드에 따라 최적이 달라진다)은 이웃 설정에서 이미 관찰되어 있어 새 서술이 아니다. 한계: 이 문헌들의 정책 집합과 지표(주로 처리량)가 RQ3의 것과 다르고 대부분 요약 수준이다. 반대로 한 정책이 다른 정책에 지배된다는 보고도 있다. M99는 현 분석에서 정지형 락이 스핀형보다 나은 스케줄 가능성을 준 적이 없다고 쓴다(실시간 설정, 스케줄 가능성 한 지표, 교착은 평가 속성이 아님). 프런티어가 퇴화할 수 있다는 반증 조건은 실제로 가능한 결과다.
+- 3d2: 부분. 지배 관계를 사전에 정의해 다지표 프런티어를 분석한 연구는 이번 검색에서 찾지 못했다(파레토 분석을 내세운 항목은 G4-164의 결과에 없음). 가까운 것은 절충의 축을 명시한 문헌이다. M89(B)는 가장 보수적인 것부터 가장 허용적인 것까지의 스펙트럼과 안전 검사 비용을, M13(B)은 구조 복잡도, 행동 허용도, 계산 복잡도를 비교 기준으로, M93(B)은 허용도와 계산 비용의 절충을, M94는 허용도, 온라인 비용, 오프라인 합성 비용의 분리를 둔다. 허용도–비용 평면 위에서 지배 관계를 따지는 것은 이 축들에서 자연스럽게 나오는 형태이나 그렇게 한 연구는 찾지 못했다.
+- 3e: 동일(개념). 자원 클래스별 혼합 정책은 1973년 CACM 논문(F11)이 탐지, 회피, 예방의 혼합이 어느 하나보다 효과적이고 실용적이라고 서술하고, M86이 Howard의 혼합 접근을 검토한다. 이미 있는 개념이므로 정책 목록의 한 항목(P-MIX)으로만 둔다(문서 01 §4 RQ3 '근거'와 같은 처리). 혼합 정책의 측정된 성능은 이번 검색에서 찾지 못했다(3a, 3c에 속함). 저자가 Howard인지는 2차 문헌(M86) 근거의 추정이다.
+- 3f: 부분. 공정 비교 플랫폼은 데이터베이스 동시성 제어에 있다. M80의 CCBench는 공통 모듈과 워크로드 매개변수를 갖춘 오픈소스 플랫폼이고 M78은 시뮬레이터에서 일곱 알고리즘을 비교한다. 단 포함된 교착 처리는 일부다(M80은 wait-die와 탐지를 평가하지 않는다). 락 트레이스 형식, 정확 오라클, 정책 레퍼런스 구현, 차등 테스트를 함께 갖춘 비교 패키지는 찾지 못했다. 최대 허용 정책의 계산 알고리즘은 있으나(M94–M98) 공개 구현은 확인하지 못했다. 트레이스 출처 후보는 JaConTeBe의 서지 항목(제목만 확인)과 Dimmunix의 평가 대상(문서 01 S6)이다.
+- 3g: 없음(RQ4에서 이월). 위상 순서 기반 승인의 요청당 비용과 거부율을 다른 정책과 같은 트레이스에서 비교한 자료는 RQ4 검색(키워드, 인용 추적, 인접 분야 세 경로, G4-001–030)과 이번 검색(G4-158)에서 찾지 못했다. 한계는 §2.4의 4d와 같다(특허 2건, tracing-mutex 벤치 디렉터리, Pearce–Kelly 인용 100건 이후 미열람).
+- 종합: 하위 주장 8개 중 동일 2(3d1, 3e), 부분 5(3a, 3b, 3c, 3d2, 3f), 없음 1(3g, RQ4 이월)이다. 질문의 핵심인 '정책 사이의 우열이 워크로드에 따라 달라진다'는 이미 이웃 설정에서 관찰되어 있고, 정책 계열별 비교와 허용도 척도도 각각 데이터베이스와 제조 시스템에 있다. 남는 것은 (i) OS·스레드 락 수준의 정책 집합(천장 프로토콜, 뱅커 계열, 일괄 요청, 혼합 포함)을 같은 트레이스에서 비교하는 것, (ii) 정확 오라클 대비 불필요한 제한 비율을 전이 단위로 재는 것, (iii) 요청당 비용 분포, 롤백·재시도, 기아 지표를 함께 보고하는 것, (iv) 지배 관계의 사전 정의와 다지표 분석이다. 이 넷은 이번 검색에서 같은 형태로는 찾지 못했으나 부분적으로 겹치는 문헌이 각각 있고, 인용 추적(C)이 비어 있으며 Habermann 1973, Chang 1975, Agrawal 외 1985, Bak 1976의 본문을 읽지 못해 '없음'이라 쓰지 않는다. 문서 01 §4.0의 잠정 평가('중')는 '중에서 높음 사이'로 올린다.
+
+### 5.5 결정
+
+좁힌다. RQ3을 'OS·스레드 락 수준의 정책 집합에 대해 같은 관찰이 성립하는지, 정확 오라클 대비 지표로 보면 어떤지'를 묻는 측정 연구로 두고, 새 설계점을 찾았다는 서술은 쓰지 않는다. 문서 02 §5.2의 중단 규칙(같은 비교 연구가 발견되면 재현 연구로 전환)은 3d1만 이웃 설정에서 '동일'이므로 전체 전환 대신 아래처럼 반영한다.
+
+1. H3의 문구('지배되지 않는 설계점이 둘 이상이고 워크로드에 따라 최적 정책이 달라진다')는 이미 이웃 설정의 관찰이므로 새 주장으로 읽힌다. G5에서 질문형으로 다시 쓴다. 예: '락 수준의 정책 집합(순서화, 일괄 요청, 반납 후 재시도, wait-die, wound-wait, 천장, 뱅커, 혼합, 증분 순서 승인)에서도 데이터베이스 2PL 비교와 같은 방향의 순위 뒤바뀜이 나타나는가, 나타난다면 어떤 워크로드 매개변수(경쟁 수준, 중첩 깊이, 순서 위반 확률, 롤백 비용)에서 바뀌는가, 정확 오라클 대비 불필요한 제한 비율로 보면 처리량 중심 결과와 같은 방향인가'.
+2. 정책 목록과 선행 비교의 대응표를 만든다. 가까운 짝은 다음과 같고 어느 것도 같다고 단정하지 않는다. B1(주기적 탐지·복구)은 DL_DETECT와 대기 그래프 탐지(검사 시점이 다를 수 있음), P-WD는 WAIT_DIE와 wait-die, P-WW는 wound-wait, P-ORD는 정렬 순서 잠금과 2PL-Wait(이쪽은 레코드·연산 정렬이고 P-ORD는 락 클래스 순서), P-RET의 즉시 재시도형은 NO_WAIT. 이 대응으로 하네스 검증(WP3.1의 차등 테스트)에 '데이터베이스 문헌의 순위 방향과 일치하는가'를 교차 확인 항목으로 더한다. 수치를 맞추는 것이 아니라 방향을 보는 것이다.
+3. 새로 더하는 후보는 3b(정확 오라클 대비 M1을 전이 단위로), 3c(요청당 비용 p99, 메모리, 롤백 분포, 기아 지표의 동시 보고), 3d2(사전 정의한 지배 분석), 3a(OS 락 수준 정책 집합의 같은 트레이스 비교)다. 모두 가설이며 새롭다고 쓰지 않는다. M1의 정의는 제조 시스템의 허용도(상태 부공간 기준, M94, M95)와 단위가 다르므로 두 척도를 구분하고 대응 관계를 표로 적는다.
+4. 지표는 선행 보고와 비교할 수 있게 처리량(또는 완료 시간), 중단·재시도 횟수, p95·p99 지연, CPU 시간 분해를 포함하도록 문서 02 §5.2의 M1–M8을 점검한다. 확정은 사전 분석 계획에서 한다.
+5. 정확 오라클은 안전성 판정이 NP-완전(M9)이므로 소규모에 한정하고 크기 한계를 명시한다. 최대 허용 정책의 계산 문헌(M94–M98)은 방법 참고로만 쓰고 구현은 Phase 5 이후다.
+6. P-INC는 RQ4 §2.5의 결정대로 정책 목록에 둔다(3g).
+7. 읽지 못한 Agrawal 외 1985(M47), Chang 1975(M22, M30), Habermann 1973(M89), Bak 1976, Lomet 1977의 본문을 확인하기 전에는 3a, 3b의 '찾지 못함'을 '없음'으로 쓰지 않는다. 사람이 PDF를 줄 수 있으면 WP3.1 착수 전에 확인한다(사람 몫 목록의 추가 후보).
+8. 중복 위험은 '중'에서 '중에서 높음 사이'로 올린다.
+
+### 5.6 판정을 바꿀 수 있는 것
+
+- 읽지 못한 원문: Agrawal·Carey·McVoy 1985의 PDF(이진 데이터)와 1987년 같은 제목 항목의 정체, Chang 1975 본문(M22, M30), Habermann 1973 본문(M89), Bak 1976(참고문헌에서만 봄), Lomet 1977, Thomasian 1997과 Boeheim 1991 본문, Carey–Livny 1988(S15), Harding 외 2017(M101), 열람이 막힌 mpi-sws의 OPODIS 2008 PDF(제목 미확인). 이 중 Agrawal 외, Chang, Habermann, Bak은 3a, 3b, 3c와 겹칠 가능성이 있다.
+- 못 한 검색 경로: 인용 추적(C). Agrawal 외 1985, Yu 외 2014, Li–Zhou–Wu 2008의 인용 목록에 OS 락 수준의 비교나 오라클 기준 측정 논문이 있으면 3a, 3b, 3c가 바뀔 수 있다.
+- 본문 대신 초록·요약으로 본 것이 대부분이다. M83, M84, M89, M92, M93, M13, M98, M100은 초록 수준이고 나머지도 열람 도구 요약이다. 수치와 순위 서술은 원문 재확인 전이다.
+- OS 커널·실시간 문헌에 대한 키워드 검색의 재현율이 낮았다(G4-147, 193, 194는 강의자료와 이미 아는 서지가 대부분). 웹 검색은 ACM DL, IEEE Xplore, Springer의 본문에 닿지 못한다.
+- 질의에 쓴 서지가 기억에서 나왔다가 틀리거나 확인되지 않은 사례가 둘 있다(Harding 외의 저자로 적은 'Aguilera', G4-155. Bak 1976의 발행처로 적은 'Polish Academy', G4-195). 질의에만 쓰고 문서에는 열람으로 확인한 것만 적었다.
+- 3g는 RQ4 §2.6의 항목(특허 2건, tracing-mutex 벤치, Pearce–Kelly 인용 100건 이후)에 같이 걸린다.
+
+---
+
 ## 9. 새 문헌 ID
 
 문서 01 §7로 옮길 새 항목이다. 아직 문서 01에는 옮기지 않았다.
@@ -346,6 +438,38 @@
 | V3(갱신) | 2026-11-01 arXiv:2508.14851을 읽음. 저자 Rowicki, Francalanza, Scalas. 단일 스레드 RPC(SRPC) 네트워크의 분산 교착 탐지 모니터. 건전·완전·투명성을 Coq 8.20으로 기계 검증. OOPSLA 2025 논문의 확장. 나머지 둘(arXiv:1109.2015, EDS 기록)은 제목만 | 첫 항목 D에서 A−로 | https://arxiv.org/pdf/2508.14851 |
 | M18(갱신) | 초록을 Unpaywall 페이지에서 다시 읽음. 필요충분조건·순환·매듭 언급 없음. 본문 미열람 | B 유지 | https://unpaywall.org/10.1007%2FS004460050011 |
 | 단서(D) | SIAM 페이지 "Freedom from Deadlock of Safe Locking Policies"(제목과 DOI 10.1137/0211031만 검색 결과로 보았고 열람 실패, 저자·연도 X). Ibaraki–Kameda(M64 요약문이 독립 발견으로 언급). Kameda의 Springer 주소 10.1007/3-540-08138-0_24(열람 안 함). Inverardi, Uchitel, "Proving Deadlock Freedom in Component-Based Programming"(Zenodo 2007, 설명 없음). Asratian, Makarov, "Deadlock prevention with collectively occupied resources", Avtomatika i Telemekhanika 1985(5): 143–147(RQ6 단서, 초록만) | D | — |
+| M78 | X. Yu, G. Bezerra, A. Pavlo, S. Devadas, M. Stonebraker, "Staring into the Abyss: An Evaluation of Concurrency Control with One Thousand Cores", PVLDB 8(3): 209–220, 2014-11 | A− | https://people.csail.mit.edu/devadas/pubs/1000cores.pdf · https://dspace.mit.edu/handle/1721.1/100022 |
+| M79 | K. Ren, J. M. Faleiro, D. J. Abadi, "Design Principles for Scaling Multi-core OLTP Under High Contention", SIGMOD 2016(채택 원고), arXiv:1512.06168 | A− | https://arxiv.org/pdf/1512.06168 |
+| M80 | T. Tanabe 외, "An Analysis of Concurrency Control Protocols for In-Memory Databases with CCBench (Extended Version)", arXiv:2009.11558. 게재지는 페이지에 없음(참고문헌이 2020년까지) | A− | https://arxiv.org/pdf/2009.11558 |
+| M81 | F. Habibi, J. Fang, T. Lorido-Botran, F. Nawab, "Brook-2PL: Tolerating High Contention Workloads with A Deadlock-Free Two-Phase Locking Protocol", SIGMOD '26(arXiv:2508.18576 v1, 2025-08) | A− | https://arxiv.org/pdf/2508.18576 |
+| M82 | R. Agrawal, M. J. Carey, M. Livny, "Concurrency Control Performance Modeling: Alternatives and Implications", ACM TODS 12(4): 609–654, 1987. 열람한 것은 강의 자료 디렉터리의 사본 | A− | https://web.eecs.umich.edu/~jag/eecs584/papers/acl.pdf |
+| M83 | A. Thomasian, "A performance comparison of locking methods with limited wait depth", IEEE TKDE, 1997-12. DOI 10.1109/69.599931. 초록만 | B | https://research.ibm.com/publications/a-performance-comparison-of-locking-methods-with-limited-wait-depth |
+| M84 | C. K. Boeheim, "A performance study of deadlock resolution in distributed systems", 일리노이대 박사논문, 1991. 초록만(저자명은 페이지에 'Chidori Kawamura Boeheim'으로 적혀 있음) | B | https://ideals.illinois.edu/items/20615 |
+| M85 | F. J. Maryanski, "A Deadlock Prevention Algorithm for Distributed Data Base Management Systems", Kansas State Univ. 기술 보고서 CS77-02, 1977-02 | A− | https://apps.dtic.mil/sti/tr/pdf/ADA103067.pdf |
+| M86 | S. S. Isloor, T. A. Marsland, "The Deadlock Problem: An Overview", Computer 13(9): 58–78, 1980. DOI 10.1109/MC.1980.1653786. 사본 문서에는 게재지·연도가 없고 서지는 OpenAlex 기록(G4-154)으로 확인 | A−(사본), B(서지) | https://webdocs.cs.ualberta.ca/~tony/OldPapers/dead.pdf · https://api.openalex.org/works/doi:10.1109%2FMC.1980.1653786 |
+| M87 | T. A. Marsland, S. S. Isloor, "Detection of Deadlocks in Distributed Database Systems", INFOR 18(1), 1980 | A− | https://webdocs.cs.ualberta.ca/~tony/OldPapers/Marsland-Isloor-Feb80.pdf |
+| M88 | P. A. Alsberg 외, "Research in Network Data Management and Resource Sharing: Synchronization and Deadlock", Univ. of Illinois Center for Advanced Computation 문서 185(CCTC-WAD 문서 6503), 1976-03. OCR로 저자명이 손상될 수 있음 | A− | https://apps.dtic.mil/sti/pdfs/ADA043093.pdf |
+| M89 | A. N. Habermann(페이지 표기는 'Haberrmann'), "A Spectrum of Deadlock-Avoidance Strategies", Univ. of Newcastle upon Tyne Computing Laboratory 기술 보고서 53, 1973, 34쪽. 초록만 | B | https://eprints.ncl.ac.uk/160019 |
+| M90 | Piotr Bak, "A fast method of deadlock avoidance", RAIRO Informatique théorique 18(1): 71–80, 1984. 서지 페이지만. 참고문헌에 같은 저자의 1976년 "A Comparative Study of Anti-Deadlock Methods"가 있고 그 글은 찾지 못함(D) | B, D | https://www.numdam.org/item/ITA_1984__18_1_71_0/ |
+| M91 | D. B. Lomet, "A Practical Deadlock Avoidance Algorithm for Data Base Systems", SIGMOD '77. DOI 10.1145/509404.509423. 서지 페이지의 기계 생성 요약만 | B | https://rmarcus.info/dbscholar/papers/hb90b7532f092c434 |
+| M92 | E. Abouel Nasr, A. M. El-Tamimi, A. Al-Ahmari, H. Kaid, "Comparison and Evaluation of Deadlock Prevention Methods for Different Size Automated Manufacturing Systems", Mathematical Problems in Engineering 2015. 초록만 | B | https://ideas.repec.org/a/hin/jnlmpe/537893.html |
+| M93 | F. Tricas García, "Deadlock Analysis, Prevention and Avoidance in Sequential Resource Allocation Systems", 박사논문, Univ. de Zaragoza, 2003(지도 J. Ezpeleta). 초록만 | B | https://zaguan.unizar.es/record/1927?ln=en |
+| M94 | R. Cordone, A. Nazeem, L. Piroddi, S. Reveliotis, "Designing optimal deadlock avoidance policies for sequential resource allocation systems through classification theory: existence results and customized algorithms", IEEE TAC 58(11): 2772–2787, 2013. DOI 10.1109/TAC.2013.2266952. 열람한 것은 제출본(2013-05) | A−(제출본), B(서지) | https://www2.isye.gatech.edu/~spyros/publications/CordNazPirRev-TAC-13.pdf · https://re.public.polimi.it/handle/11311/732572 |
+| M95 | M. Ibrahim, S. Reveliotis, A. Nazeem, "Maximal linear deadlock avoidance policies for sequential resource allocation systems: characterization, computation and approximation". 게재지·연도는 페이지에 없고 CDC 2018 예비판을 언급(X) | A− | https://par.nsf.gov/servlets/purl/10232934 |
+| M96 | A. Nazeem, S. Reveliotis, "Efficient enumeration of minimal unsafe states in complex resource allocation systems". 게재지·연도는 페이지에 없고 예비판은 2012년 학회 논문(X) | A− | https://www2.isye.gatech.edu/~spyros/publications/TASE-Reviewed.pdf |
+| M97 | A. Nazeem, S. Reveliotis, "Maximally Permissive Deadlock Avoidance for Resource Allocation Systems with R/W-Locks", Discrete Event Dynamic Systems(원고, 접수 2013-01-24, 게재 연도 X) | A− | https://www2.isye.gatech.edu/~spyros/publications/Rev-3-WodesExtended.pdf |
+| M98 | Z. Fei, K. Åkesson, S. Reveliotis, "Symbolic computation and representation of deadlock avoidance policies for complex resource allocation systems with application to multithreaded software", 53rd IEEE CDC, 2014, pp. 5935–5942. 초록만 | B | https://research.chalmers.se/publication/219557 |
+| M99 | B. B. Brandenburg, J. M. Calandrino, A. Block, H. Leontyev, J. H. Anderson, "Real-Time Synchronization on Multiprocessors: To Block or Not to Block, to Suspend or Spin?". 게재지·연도는 페이지에 없고 파일명이 rtas08(X) | A− | https://people.mpi-sws.org/~bbb/papers/pdf/rtas08.pdf |
+| M100 | B. B. Brandenburg, "Scheduling and Locking in Multiprocessor Real-Time Operating Systems", UNC Chapel Hill 박사논문, 2011. 초록만 | B | https://www.cs.unc.edu/~bbb/diss |
+| M101 | R. Harding, D. Van Aken, A. Pavlo, M. Stonebraker, "An Evaluation of Distributed Concurrency Control", PVLDB 10(5). 서지 페이지만(쪽수 미확인) | B | https://mail.vldb.org/pvldb/volumes/10/paper/An%20Evaluation%20of%20Distributed%20Concurrency%20Control |
+| M102 | X. Lin, J. Chen, "An Optimal Deadlock Resolution Algorithm in Multidatabase Systems". 게재지는 페이지에 없고 IEEE 저작권 1996 표기만 있음(X) | A− | https://cgi.cse.unsw.edu.au/~lxue/paper/deadlock_1996.pdf |
+| F11(갱신) | 2026-11-01 CACM 항목을 다시 읽음. 요약문은 탐지·회피·예방의 혼합이 어느 하나보다 효과적이고 실용적이라 서술하고 계층형 운영체제 기반 구성 방법을 제안한다고 쓴다. 저자·날짜는 항목에 없음. Isloor–Marsland 개관(M86)이 'Howard의 혼합 접근'을 검토하므로 저자 후보는 Howard이나 2차 문헌 근거의 추정(C) | B 유지 | https://cacm.acm.org/?p=14587 |
+| M47(갱신) | Nokia Bell Labs 목록에 같은 제목('Database-Management'로 하이픈)의 1987-01-01 항목이 있다(저자·학술지 미표기). 초록: 교착 처리 선택을 안내할 성능 자료가 적어 대안적 해소 전략의 성능을 검토한다. 두 항목이 같은 글인지는 확인하지 못함. PDF는 이번에도 이진 데이터 | B 유지 | https://www.nokia.com/bell-labs/publications-and-media/publications/the-performance-of-alternative-strategies-for-dealing-with-deadlocks-in-database-management-systems |
+| M22, M30(갱신) | DTIC 페이지의 초록을 다시 읽음: 회피 알고리즘의 오버헤드(안전 검사 함수의 비용 하한·상한)와 회피 방식별 자원 이용률 두 측면. 이용률 결과는 초록에 없음. Mathematics Genealogy 항목(M30)으로 학위논문 제목과 지도 교수(Habermann)를 재확인. 두 항목의 동일성은 제목 일치 추정(C) | B 유지 | https://apps.dtic.mil/sti/html/tr/ADA021732/index.html · https://mathgenealogy.org/id.php?id=50241 |
+| M13(갱신) | 초록의 비교 기준: 구조 복잡도, 행동 허용도, 계산 복잡도. 비교한 정책 수는 페이지에 없음 | B 유지 | https://researchwith.njit.edu/en/publications/a-survey-and-comparison-of-petri-net-based-deadlock-prevention-po/ |
+| M9(갱신 2) | 2026-11-01 RQ3 관점으로 재열람: 정책 비교 실험은 없고 안전성 NP-완전(3-SAT 환원)과 다항 시간 특수 경우만 있음 | A− 유지 | https://www2.isye.gatech.edu/~spyros/publications/accept-SU-compl.pdf |
+| 단서(D, RQ3) | Bak 1976 "A Comparative Study of Anti-Deadlock Methods"(Bak 1984의 참고문헌에서만 봄). Zöbel, "The deadlock problem: a classifying bibliography"(1983, 질의에만 썼고 결과에 나오지 않음, 서지 X). JaConTeBe(Java 실제 동시성 버그 벤치마크 모음, 검색 결과의 제목만). mpi-sws.org의 opodis08.pdf(PROVENANCE_REQUIRED로 열지 못했고 제목 미확인). arXiv 1811.12204(Chiller)와 arXiv 2404.02276, USPTO 공개 문서 11243820, IDEALS의 "Performance study of distributed deadlock detection algorithms for distributed database systems", VT의 cj95.4.pdf, Euromicro RTS 1994 항목(모두 검색 결과의 제목만, 열람 안 함). 서지 미확인 | D | — |
+| 단서(로그만, RQ3) | Kim·Park(1997)의 한국어 논문(Habermann 회피 알고리즘의 개선, 이론적 복잡도 비교, G4-176), Ancilotti 외 1976(G4-189), Gidófalvi 재열람(G4-191)은 비교 판정에 쓰지 않음 | — | G4-176, 189, 191 |
 
 ---
 
@@ -367,3 +491,10 @@
 - 문서 02 §5.3: H1 문구를 질문형으로 다시 쓰고(G5), WP1.1에 M62–M65, M14, M17, M70과 불일치 후보 세 가지(AND-OR의 매듭 서술, 순환 대기의 필요성, '안전'의 뜻)를 더하며, WP1.3에서 T1, T2의 대기 그래프 수준 정리를 '재현'으로 표시하고, WP1.5 도구 후보에 이웃 모델의 선례(V1, V3, M75)를 참고로 적고, 중단 규칙과 위험 항목에 이 판정을 반영한다.
 - 문서 04 §4(a)와 SM 명세 §7: SM의 WFG·RAG 정의가 M63의 대기 그래프(프로세스 정점만, §3)와 같은지 대조하고 다르면 차이를 적는다. SM 정리 T2, T3, T5를 M62, M63, M14, M17과 짝지어 '재현'으로 표시한다. 다중 단위에서 순환이 교착을 뜻하지 않는 예(SM B4)가 문헌에 있는지는 F2 본문 확인 전이다.
 - 진행 기록(문서 00)에 RQ1 완료와 초기 검색 약 35회의 기록 소실을 적는다.
+- 문서 01 §4.0·RQ3: 판정(동일 2, 부분 5, 없음 1)과 결정(좁힘)을 반영하고 중복 위험의 잠정 값('중')을 '중에서 높음 사이'로 올린다. '아직 모르는 것'의 "OS 정책을 같은 기준으로 비교한 연구(이번 조사에서는 못 찾았으나 부재 증명 아님)"는 데이터베이스 2PL의 교착 처리 비교(M78–M83), 제조 시스템의 허용도 비교(M13, M92, M93), 최대 허용 정책 문헌(M94–M98)이 있고 OS·스레드 락 수준의 같은 조건 비교는 못 찾았다고 고치며, M22의 내용(회피 방식별 자원 이용률을 다룬다는 초록 서술, 본문 미열람)을 더한다. '근거'의 혼합 정책(F11)에는 저자 후보 Howard(2차 문헌 추정)를 적는다. §5의 게이트 표를 채운다.
+- 문서 01 §3 판정표의 '정책 비교(허용도·비용)' 행(현재 'OS 정책 비교는 이번 조사에서 확인 못함')을 '부분. 데이터베이스 2PL의 교착 처리 방식 비교(S15, M46, M47, M78–M83)와 제조 시스템의 정책 비교(M13, M92, M93)가 있고, OS·스레드 락 수준에서 같은 조건으로 비교한 연구는 못 찾음(부재 증명 아님)'으로 고친다.
+- 문서 02 §5.2: H3 문구를 질문형으로 다시 쓰고(G5), 정책 목록 표에 선행 비교와의 근사 대응 열(B1: DL_DETECT·대기 그래프 탐지, P-WD: WAIT_DIE, P-WW: wound-wait, P-ORD: 정렬 순서 잠금·2PL-Wait, P-RET: NO_WAIT)을 더하며, 지표 표에 처리량(완료 시간), 시간 분해, p95·p99를 선행 보고 방식에 맞춰 점검하고, WP3.1에 '데이터베이스 문헌의 순위 방향과 일치하는가' 교차 확인과 오라클 크기 한계(안전성 판정 NP-완전, M9)를 더한다. 중단 규칙에는 3d1(순위 뒤바뀜)이 이웃 설정에서 이미 관찰되어 있으므로 전환 대신 질문형으로 처리한다고 적는다.
+- 문서 01 §7: §9의 M78–M102를 옮기고 F11, M13, M22, M30, M47, M9의 갱신을 반영한다.
+- 문서 04 §3의 비용표: P-WD / P-WW 행(ww_mutex 패치 수치) 옆에 M78–M81의 데이터베이스 2PL 측정을 이웃 행으로 더하되 조건이 달라 직접 비교하지 않는다고 적는다.
+- 문서 04 §12 1항(원문 PDF 목록)과 진행 기록(문서 00)의 '사람이 할 일'에 M47(Agrawal·Carey·McVoy, 위스콘신 TR590의 PDF가 이진 데이터로만 받아져 본문 미열람), Habermann 1973(뉴캐슬 TR 53, M89), Bak 1976(M90의 참고문헌에서 본 글), Lomet 1977(M91)의 원문을 더한다. 이미 목록에 있는 Chang 1975(M22, M30)와 함께 WP3.1 착수 전에 필요하다.
+- 진행 기록(문서 00)에 RQ3 완료를 적는다.
