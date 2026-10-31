@@ -1,11 +1,11 @@
 # 교착상태 조건의 재정의와 효율적인 예방 알고리즘
 
-## 선행연구 조사 계획 및 연구 질문 후보 (v0.3)
+## 선행연구 조사 계획 및 연구 질문 후보 (v0.3.1)
 
 - 작성일: 2026-10-29 (KST)
 - 초안 작성: Claude(AI 조수) · 사람의 검토 전
 - 상태: 1차 서지 확인 완료 · 원문 대조 1차 완료(유료 원문 일부는 접근 불가, 문서 03) · Phase 3 정리 반영(문서 04, G3 조건부 통과 초안) · 연구 질문 미확정
-- 변경: v0.3(2026-10-30) — 문서 04 §9의 정정 목록 중 문서 01에 해당하는 6건을 반영했다(§1.2 AND·OR·AND-OR 행, §1.3 뱅커 개선·그래프 기반 회피 행, §3 판정표, §7 참고문헌). v0.2(2026-10-29) — 문서 03(G1 원문 대조)의 정정·갱신을 반영했다. 변경 내역은 §9.
+- 변경: v0.3.1(2026-10-31) — 문서 04 §10.3의 사후 확인을 반영했다(M38 저자·서지 확정, E5 본문 열람). v0.3(2026-10-30) — 문서 04 §9의 정정 목록 중 문서 01에 해당하는 6건을 반영했다(§1.2 AND·OR·AND-OR 행, §1.3 뱅커 개선·그래프 기반 회피 행, §3 판정표, §7 참고문헌). v0.2(2026-10-29) — 문서 03(G1 원문 대조)의 정정·갱신을 반영했다. 변경 내역은 §9.
 - 원칙: 이 문서는 어떤 아이디어의 참신성도 주장하지 않는다. "새롭다"는 판정은 §5의 게이트(동일/부분/없음 + 근거 링크)를 통과한 뒤에만 한다. 확인하지 못한 것은 추측으로 채우지 않고 X로 남긴다.
 
 ---
@@ -198,7 +198,7 @@ v0.3 주: AND, OR, AND-OR 세 행은 문서 04 §9의 정정 1·2에 따라 고�
 | 인터럽트·간접 호출을 포함한 교착 모델 | lockdep이 사용 상태 규칙으로 운영(S1), 커널 실증(E2) | 형식 모델 선행 미확인 | RQ5 |
 | 증분 순환 탐지 기반 락 순서 검사 | Abseil 디버그 모드(S10, C), Belik(M7), Haeupler 외가 서론에서 교착 탐지를 응용으로 인용(G2 §1. 인용 항목은 미확인) | 부분 선점(근거 보강) | RQ4 중복 위험 높음 유지 |
 | 실제 교착의 구조 통계 | 사용자 공간(E1), 커널(E2). 자기 대기에 해당하는 사례의 비중이 표본마다 22.6%~78.9%(E1·E2는 '단일 스레드 교착', E3·E4는 '이중 락'으로 센 값이고 분모도 달라 서로 비교할 수 없음, 문서 04 §6) | 존재 | 다중 인스턴스 자원이 관여하는 비율은 미확인 |
-| 락 프로그램 정적 분석의 결정 가능성(신규) | 락 접근이 중첩 구조면 효율적으로 결정 가능, 중첩이 아니면 스레드가 둘뿐이어도 도달 가능성이 결정 불가능(M38 초록, B) | 경계 확인 | M38 저자 미확인. RQ2 중복 위험 요인(문서 04 §4 읽는 법 4) |
+| 락 프로그램 정적 분석의 결정 가능성(신규) | 락 접근이 중첩 구조면 효율적으로 결정 가능, 중첩이 아니면 스레드가 둘뿐이어도 도달 가능성이 결정 불가능(M38 초록, B) | 경계 확인 | M38은 Kahlon·Ivančić·Gupta의 CAV 2005 논문(§7.2). RQ2 중복 위험 요인(문서 04 §4 읽는 법 4) |
 
 v0.2의 판정에서 바뀐 곳과 사유는 문서 04 §8의 '변경 사유' 열에 있다. 이 판정은 AI 초안이며 사람의 검토 전이다.
 
@@ -337,9 +337,10 @@ v0.3 주: Phase 3 결과(문서 04 §11.2)는 다음과 같다. RQ2는 M9(구조
 | S11 | ASP-DAC판으로 보이는 저자 사이트 PDF(S19, 본문 A−)와 학위논문 초록(S20, B)을 확인. TPDS판 본문과의 관계는 미확인 |
 | S18 | Crossref 서지에 SOSP '71로 등록됨(B) |
 | G2 | 서론 §1이 교착 탐지를 응용으로 [Belik 1990]을 인용(A−). 그 참고문헌 항목은 열람한 텍스트에 없어 미확인(D) |
-| M38 | 저자 미확인(열람한 페이지에 저자 없음). 기억에서 나온 이름은 쓰지 않는다 |
+| M38 | 저자·서지 확정(2026-10-31): Kahlon, Ivančić, Gupta, CAV 2005, DOI 10.1007/11513988_49. 세 곳이 일치한다(문서 04 §10.3). 내용은 초록 수준(B) |
+| E5 | 본문 PDF를 읽음(2026-10-31, A−). 블로킹 85건 중 Mutex 28, RWMutex 5이고 이중 락 건수는 본문에 없다. Go 내장 교착 탐지기는 재현한 블로킹 버그 21건 중 2건을 탐지(문서 04 §10.3) |
 | 새 서지 | M27~M47, S19~S26, E3~E5를 §7에 추가. M31~M36은 Crossref 서지만 확인했고 내용은 읽지 못함 |
-| 읽지 못한 원문 | Belik 1987 본문(M6), Li 2013 본문(M27), Minoura 1982 명제(M5), Chang 1975 하한의 수치(M22, M30), Gold(M3)·Araki(M4) 원문, Dimmunix(S6)의 수치, Go 연구(E5) 본문, FreeBSD WITNESS 매뉴얼. 사람이 PDF를 주거나 다른 접근 경로가 필요하다(문서 04 §12) |
+| 읽지 못한 원문 | Belik 1987 본문(M6), Li 2013 본문(M27), Minoura 1982 명제(M5), Chang 1975 하한의 수치(M22, M30), Gold(M3)·Araki(M4) 원문, Dimmunix(S6)의 수치, FreeBSD WITNESS 매뉴얼. 사람이 PDF를 주거나 다른 접근 경로가 필요하다(문서 04 §12) |
 
 ---
 
@@ -406,7 +407,7 @@ v0.3 주: Phase 3 결과(문서 04 §11.2)는 다음과 같다. RQ2는 M9(구조
 | M35 | Jiang, "Process Security Sequence Improvement Algorithm Based on Banker Algorithm", J. Phys.: Conf. Ser. 1237(2): 022111, 2019. DOI 10.1088/1742-6596/1237/2/022111. 내용 미열람(게재처 페이지는 robots_disallowed) | B(서지) | Crossref 조회(제목·DOI) |
 | M36 | D. A. Hensgen, D. L. Sims, D. Charley, "A fair Banker's Algorithm for read and write locks", Information Processing Letters 48(3): 131–137, 1993. DOI 10.1016/0020-0190(93)90255-8. Crossref에 초록 없음 | B(서지) | https://api.crossref.org/works/10.1016/0020-0190(93)90255-8 |
 | M37 | D. B. Lomet, "A practical deadlock avoidance algorithm for data base systems", ACM SIGMOD Int. Conf. on Management of Data, 1977 | B | https://research.ibm.com/publications/a-practical-deadlock-avoidance-algorithm-for-data-base-systems |
-| M38 | "Reasoning about threads communicating via locks", CAV 2005, LNCS 3576, pp. 505–518. 열람한 페이지에 저자가 표시되지 않았다. 검색 질의에 쓴 저자명은 AI의 기억에서 온 것이라 확인하지 못했고(X) 여기에 적지 않는다. 초록: 락 접근이 중첩 구조이면 효율적으로 결정 가능하고, 중첩이 아니면 스레드가 둘뿐이어도 도달 가능성이 결정 불가능 | B | https://collaborate.princeton.edu/en/publications/reasoning-about-threads-communicating-via-locks/ |
+| M38 | V. Kahlon, F. Ivančić, A. Gupta, "Reasoning about threads communicating via locks", Computer Aided Verification (CAV 2005), LNCS 3576, pp. 505–518, 2005. DOI 10.1007/11513988_49. 저자와 서지는 Princeton 기록 '-2', springerprofessional.de 페이지, arXiv:2307.04925의 참고문헌 항목 세 곳이 일치한다(문서 04 §10.3, 대장 C-SUR-079). 처음 열람한 Princeton 기록에는 저자가 없었다. 초록: 락 접근이 중첩 구조이면 효율적으로 결정 가능하고, 중첩이 아니면 스레드가 둘뿐이어도 도달 가능성이 결정 불가능 | B | https://collaborate.princeton.edu/en/publications/reasoning-about-threads-communicating-via-locks-2/ |
 | M39 | K. Dixit, A. Khuteta, "A Dynamic and Improved Implementation of Banker's Algorithm", IJRITCC 5(8): 45–49, 2017 | B | https://www.academia.edu/36875137/A_Dynamic_and_Improved_Implementation_of_Banker_s_Algorithm |
 | M40 | M. Gaur, D. Singh, "Implementation of Banker's Algorithm Using Dynamic Modified Approach", IJRITCC 5(11): 157–163, 2017 | B | https://www.academia.edu/36852573/Implementation_of_Banker_s_Algorithm_Using_Dynamic_Modified_Approach |
 | M41 | H. R. Wicaksono 외, "Banker's Algorithm Optimization to Dynamically Avoid Deadlock in Operating System", JEEMECS 6(1), 2023 | A− | https://jurnal.unmer.ac.id/index.php/jeemecs/article/download/8986/pdf |
@@ -456,7 +457,7 @@ v0.3 주: Phase 3 결과(문서 04 §11.2)는 다음과 같다. RQ2는 M9(구조
 | E2 | S. Gong, C.-E. Lin, K. Wu, E. Lu, P. Fonseca, "A Comprehensive Study of Concurrency Bugs in the Linux Kernel", ICSE 2026. DOI 10.1145/3744916.3787790 (공개 데이터셋 주소는 논문 기재: https://github.com/rssys/kernel-concurrency-bug-study, 미접속) | A | https://cs.purdue.edu/homes/lin1963/publications/icse26_kernel_concurrency_bug_study.pdf |
 | E3 | "Fearless Concurrency? Understanding Concurrent Programming Safety in Real-World Rust Software", arXiv:1902.01906. 교착 10건 중 7건이 이중 락이다(§4.2, 표 4의 Mutex 열. 본문이 이를 이중 락이라 부른다). 표본은 Servo, TiKV, Rand 세 응용 | A− | https://arxiv.org/pdf/1902.01906 |
 | E4 | B. Qin 외, "Understanding and Detecting Real-World Safety Issues in Rust"(본문이 학회 논문의 확장판이라고 밝히지만 어느 논문인지는 확인하지 않았다. 열람한 텍스트에 게재처·연도가 없고 가장 새로운 자료는 2019년 6월). 블로킹 버그 59건 중 Mutex/RwLock 관련 38건이고 그중 이중 락 30건, 잠금 순서 충돌 7건(§5.1, 표 3) | A− | https://par.nsf.gov/servlets/purl/10509785 |
-| E5 | T. Tu 외, "Understanding Real-World Concurrency Bugs in Go", ASPLOS 2019. 블로그 요약으로만 확인: 응용 6개에서 동시성 버그 171건(블로킹 85건, 비블로킹 86건). Mutex 관련 건수는 요약에 없다 | C | https://blog.acolyer.org/2019/05/17/understanding-real-world-concurrency-bugs-in-go/ |
+| E5 | T. Tu, X. Liu, L. Song, Y. Zhang, "Understanding Real-World Concurrency Bugs in Go", ASPLOS'19(2019-04-13~17, Providence). 응용 6개에서 동시성 버그 171건(블로킹 85건, 비블로킹 86건). 블로킹 85건 중 Mutex 28, RWMutex 5(Table 6). 이중 락 등 유형별 건수는 본문에 없다. Go 내장 교착 탐지기는 재현한 블로킹 버그 21건 중 2건을 탐지(Table 8). 처음에는 블로그 요약(https://blog.acolyer.org/2019/05/17/understanding-real-world-concurrency-bugs-in-go/, C)으로만 확인했고 2026-10-31에 본문을 읽었다(열람 도구 요약 경유. §5.2 텍스트와 Table 7이 맞지 않는다는 도구 보고가 있어 수정 방식 건수는 쓰지 않음) | A− | https://songlh.github.io/paper/go-study.pdf |
 
 ### 7.5 알고리즘 도구 (G)
 
@@ -506,3 +507,4 @@ v0.3 주: Phase 3 결과(문서 04 §11.2)는 다음과 같다. RQ2는 M9(구조
 | v0.1 | 2026-10-29 | 최초 작성 |
 | v0.2 | 2026-10-29 | 문서 03(G1)의 정정·갱신 반영: M15 서술 정정, E2 해석 보완(스레드 수 계수 규칙, '인터럽트 의존' 열 정의), F7·S17 근거 수준 상향, M20 저자 확인, S14 URL 성격 명시, 문헌 M23–M26·S17–S18·T9·V2–V3 추가 |
 | v0.3 | 2026-10-30 | 문서 04(Phase 3)의 정정 목록 반영(문서 04 §9의 1~6): §1.2의 AND 행을 Knapp §2.2·SM T2·반례 B4에 맞춰 고치고 OR와 AND-OR/P-out-of-Q를 두 행으로 나눔, §1.3의 뱅커 행에 표기 불일치(M27)를, 뱅커 개선 주장 행에 M6의 조건부 상각 O(mn)·S13의 평가 방식·M27·M39·M40을, 그래프 기반 회피 행에 M7의 초록 내용을 반영, §3 판정표를 문서 04 §8의 판정으로 갱신(락 프로그램 정적 분석 행 추가), §4.0의 RQ2 중복 위험을 높음으로 올리고 §4.1에 Phase 3 결과 요약 추가, §6.2 신설. §7: M6, M7, M14, M22, S11, S13, S18, G2 보강, 새 문헌 M27–M47·S19–S26·E3–E5 추가. M38 저자는 확인하지 못해 적지 않음. 문서 04 §9 정정 7·8(문서 02)은 문서 02 v0.3에서 처리 |
+| v0.3.1 | 2026-10-31 | 문서 04 §10.3의 사후 확인 반영: M38의 저자·서지 확정(Kahlon, Ivančić, Gupta, CAV 2005)을 §3, §6.2, §7.2에, E5(Go 연구)의 본문 열람 결과(근거 수준 C에서 A−로. 블로킹 85건 중 Mutex 28, RWMutex 5. 이중 락 건수 없음)를 §6.2, §7.4에 반영. v0.3 행의 'M38 저자는 확인하지 못해 적지 않음'은 당시 상태의 기록이라 그대로 둔다 |

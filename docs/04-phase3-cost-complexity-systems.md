@@ -4,6 +4,7 @@
 - 작성: Claude(AI 조수) · 사람의 검토 전 (v0.1)
 - 관련 문서: 문서 01(조사 계획), 문서 02(진행 계획서), 문서 03(G1), 모델·용어 사양(`docs/spec/model-spec.md`), 주장 대장(`refs/claims-ledger.md`), RQ6 인벤토리(`refs/rq6-inventory.md`). 문헌 ID(F1, M6, S1, E1 등)와 근거 수준(A–D, X)은 문서 01의 표기를 따르고 V는 대장 머리말의 정의를 따른다. 이 문서에서 새로 붙인 ID는 §10에 있다.
 - 범위: 문서 02 §3의 G3 통과 조건("비용표·복잡도 지도·시스템/실증 정리 완료. 일정 재추정")과 WP6.1(주장 인벤토리). 새로운 아이디어의 참신성은 주장하지 않는다.
+- 사후 갱신: 2026-10-31. 열린 확인 항목 중 M38 저자, Go 연구(E5) 본문, G2의 Belik 1990 인용 키를 처리하고 §6, §10의 해당 칸을 고쳤다(§10.3). 나머지 본문은 처음 쓴 상태다.
 
 ---
 
@@ -28,7 +29,7 @@
 - 페이지 열람 도구는 본문을 요약해 돌려준다. 그래서 본문을 읽은 항목은 A−, 초록·서지 페이지만 본 항목은 B로 적는다. 숫자와 정리 번호는 논증의 전제로 쓰기 전에 원문으로 다시 확인한다.
 - 서지 대조: Crossref에서 제목으로 한 건씩 조회한 결과는 B(구조화된 서지 메타데이터)로 쓴다.
 - 열리지 않은 곳: IEEE Xplore(빈 응답), ScienceDirect·ACM DL·SIAM·DTIC PDF(오류), KCI·KoreaScience 일부 PDF·NSF PAR 서지 페이지·IOP(robots_disallowed), 봇 차단 안내 페이지(asren-aggregator 2건), PMC(reCAPTCHA 확인 화면. 같은 논문의 PLOS 본문 페이지는 열렸다), 위스콘신 TR590 PDF(이진 데이터). 거부를 다른 경로로 우회하지 않았다.
-- 읽지 못한 것(이 문서의 칸에서 X 또는 제목 수준): Belik 1987 본문, Li 2013 본문, Minoura 1982 명제, Chang 1975 하한의 수치, Gold·Araki 원문, Dimmunix의 수치(USENIX 페이지를 열었으나 서지 정보만 있고 기술 설명이 없었다), Go 연구 본문(블로그로만 확인), FreeBSD WITNESS 매뉴얼(색인 페이지만 열림).
+- 읽지 못한 것(이 문서의 칸에서 X 또는 제목 수준): Belik 1987 본문, Li 2013 본문, Minoura 1982 명제, Chang 1975 하한의 수치, Gold·Araki 원문, Dimmunix의 수치(USENIX 페이지를 열었으나 서지 정보만 있고 기술 설명이 없었다), FreeBSD WITNESS 매뉴얼(색인 페이지만 열림). 이 문서를 쓸 때는 Go 연구 본문도 읽지 못하고 블로그로만 확인했으나 2026-10-31에 본문을 읽었다(§10.3).
 - 부재 증명이 아니다. "찾지 못했다"는 이번 검색 범위에서 못 찾았다는 뜻이다.
 
 RQ6 외 Phase 3 질의(날짜 2026-10-29, WebSearch 표준 모드):
@@ -40,8 +41,8 @@ RQ6 외 Phase 3 질의(날짜 2026-10-29, WebSearch 표준 모드):
 | Q26 | Rosenkrantz Stearns Lewis "System level concurrency control for distributed database systems" ACM TODS 1978 wait-die wound-wait abstract | 10 | 직접 일치 없음. S14는 D 유지 |
 | Q27 | "Deadlock detection is cheap" Agrawal Carey SIGMOD Record abstract deadlock detection cost versus avoidance database | 10 | M46, M47(제목·서지만. 두 페이지 모두 초록 없음) |
 | Q28 | Rust real-world concurrency bugs double lock Mutex RwLock blocking bugs study 38 blocking bugs | 10 | E3, E4 |
-| Q29 | Understanding Real-World Concurrency Bugs in Go ASPLOS 2019 blocking bugs 85 Mutex misuse | 10 | E5(블로그 요약만) |
-| Q30 | Kahlon Ivancic Gupta "Reasoning about threads communicating via locks" decidable nested locks lock reachability undecidable | 10 | M38 |
+| Q29 | Understanding Real-World Concurrency Bugs in Go ASPLOS 2019 blocking bugs 85 Mutex misuse | 10 | E5(이 질의의 결과는 블로그 요약뿐이었다. 본문은 2026-10-31에 따로 열람, §10.3) |
+| Q30 | Kahlon Ivancic Gupta "Reasoning about threads communicating via locks" decidable nested locks lock reachability undecidable | 10 | M38. 질의의 저자명은 AI의 기억에서 온 것이었고 열람한 페이지에는 저자가 없었다. 2026-10-30·31에 세 곳으로 일치함을 확인했다(§10.3) |
 
 ---
 
@@ -193,7 +194,7 @@ G2 서론 §1은 증분 순환 탐지가 교착 탐지에서 나타난다고 [Be
 
 보조 비율: E1에서 교착의 96.8%(30/31)가 자원 2개 이하, E2에서 교착의 95.9%(47/49)가 실행 문맥 2개 이하, E4에서 Mutex/RwLock 블로킹 버그 중 잠금 순서 충돌이 18.4%(7/38).
 
-Go 연구(E5)는 블로킹 버그 85건(전체 171건 중)을 보고하지만, Mutex 관련 건수와 이중 락 건수는 이번에 원문으로 확인하지 못했다(블로그 요약에 없음, C). 이전 열람에서 Mutex 관련 28건이라고 기록했으나 위치를 남기지 않았으므로 전제로 쓰지 않는다.
+Go 연구(E5)는 이 문서를 처음 쓸 때 블로그 요약으로만 확인했고, 2026-10-31에 본문을 읽었다(A−, 열람 도구 요약 경유, 대장 C-SUR-080). 블로킹 버그 85건(전체 171건 중) 가운데 Mutex 관련이 28건, RWMutex 관련이 5건이다(Table 6). 본문은 Mutex 28건의 원인에 이중 락, 잠금 순서 충돌, 해제 누락이 있다고 쓰지만 유형별 건수를 주지 않으므로 이 연구로는 이중 락 비중을 계산할 수 없다. 그래서 위 표에 E5 행을 넣지 않았다. 이전 열람에서 기록했던 'Mutex 관련 28건'은 Table 6으로 확인되었다.
 
 **읽는 법과 한계**
 
@@ -278,7 +279,7 @@ Go 연구(E5)는 블로킹 버그 85건(전체 171건 중)을 보고하지만, M
 | M30 | H.-C. Chang, CMU 박사논문 1975, "An Analysis of Deadlock Avoidance Schemes and the Resource Utilization For Non-pre-emptible Resources"(지도: Habermann). M22(DTIC ADA021732)와의 동일성은 제목 유사성뿐(C) | 복잡도 지도 | B |
 | M31~M36 | 뱅커 개선 후보 6건의 서지: Tricas·Colom·Ezpeleta 2000(ICRA), Zarnay·Garcia 2014(ETFA), Ma·Yan 2011(EMEIT), Song·Li·Song 2021(CISCE), Jiang 2019(JPCS 1237), Hensgen·Sims·Charley 1993(IPL 48(3)). 내용 미열람 | RQ6 | B(서지) |
 | M37 | D. B. Lomet, "A practical deadlock avoidance algorithm for data base systems", SIGMOD 1977 | 비용표, A5 | B |
-| M38 | "Reasoning about threads communicating via locks", CAV 2005, LNCS 3576, pp. 505–518. 열람한 페이지에 저자가 표시되지 않았다. 검색 질의(Q30)에 쓴 'Kahlon, Ivancic, Gupta'는 AI의 기억에서 온 이름이라 확인하지 못했다(X) | 복잡도 지도 | B |
+| M38 | V. Kahlon, F. Ivančić, A. Gupta, "Reasoning about threads communicating via locks", Computer Aided Verification (CAV 2005), LNCS 3576, pp. 505–518, 2005. DOI 10.1007/11513988_49. 저자와 서지는 세 곳이 일치한다(대장 C-SUR-079). 처음 열람한 Princeton 기록에는 저자가 없었고 검색 질의(Q30)의 저자명은 AI의 기억에서 온 것이었다. 세 곳으로 확인된 뒤에 채택했다 | 복잡도 지도 | B |
 | M39 | K. Dixit, A. Khuteta, IJRITCC 5(8): 45–49, 2017 | RQ6(R6-04) | B |
 | M40 | M. Gaur, D. Singh, IJRITCC 5(11): 157–163, 2017 | RQ6(R6-12) | B |
 | M41 | H. R. Wicaksono 외, JEEMECS 6(1), 2023 | RQ6(R6-06) | A− |
@@ -292,7 +293,7 @@ Go 연구(E5)는 블로킹 버그 85건(전체 171건 중)을 보고하지만, M
 | S22~S26 | Rust `Mutex`, POSIX `pthread_mutex_lock`, Java `ThreadMXBean`, parking_lot `deadlock`, Linux mutex-design 문서 | 시스템 표 | A− |
 | E3 | arXiv:1902.01906, "Fearless Concurrency? Understanding Concurrent Programming Safety in Real-World Rust Software" | 실증 | A− |
 | E4 | B. Qin 외, "Understanding and Detecting Real-World Safety Issues in Rust"(확장판. 열람한 텍스트에 게재처·연도 없음) | 실증 | A− |
-| E5 | T. Tu 외, ASPLOS 2019, Go 동시성 버그 연구(블로그 요약으로만 확인) | 실증 | C |
+| E5 | T. Tu, X. Liu, L. Song, Y. Zhang, "Understanding Real-World Concurrency Bugs in Go", ASPLOS'19(2019-04-13~17, Providence). 처음에는 블로그 요약(C)으로만 확인했고 2026-10-31에 본문 PDF를 읽었다(대장 C-SUR-080) | 실증 | A−(블로그 요약 C 병기) |
 
 ### 10.2 근거 수준 변경표
 
@@ -308,6 +309,22 @@ Go 연구(E5)는 블로킹 버그 85건(전체 171건 중)을 보고하지만, M
 | M25 | B | B(서지·초록 재확인) | KoreaScience 페이지 |
 | M5 | B | B(변화 없음) | JACM 서지는 키워드만 |
 | 문서 02 P13 | B, B, D | B, A−, B | M42, M41, M39로 서지 확정 |
+| M38 | B(저자 X) | B(저자·서지 확정) | 세 곳 일치(C-SUR-079). 2026-10-31 |
+| E5 | C | A− | 본문 PDF 열람(C-SUR-080). 2026-10-31 |
+
+### 10.3 사후 확인 (2026-10-31)
+
+이 문서를 쓴 뒤 열린 확인 항목 중 처리한 것이다. 위 §6, §10.1, §10.2의 해당 칸만 고쳤고 나머지 본문은 처음 쓴 상태를 유지한다.
+
+| 항목 | 결과 | 수준 | 대장 |
+|---|---|---|---|
+| M38 저자 | Kahlon, Ivančić, Gupta. CAV 2005, LNCS 3576, pp. 505–518, DOI 10.1007/11513988_49. Princeton 기록 '-2', springerprofessional.de 페이지, arXiv:2307.04925의 참고문헌 항목이 일치한다 | B | C-SUR-079 |
+| E5 본문 | 블로킹 85건 중 Mutex 28, RWMutex 5(Table 6). 이중 락 건수는 없다. Go 내장 교착 탐지기는 재현한 블로킹 버그 21건 중 2건만 탐지했다(Mutex는 7건 중 1건, Table 8) | A− | C-SUR-080 |
+| G2의 Belik 1990 | 인용 키가 Belik1990임을 ar5iv 판 HTML에서 다시 확인했다. 참고문헌 항목은 얻지 못해 D를 유지한다. 제목·게재처는 여전히 미확인 | D | C-SUR-041 |
+
+E5의 탐지기 수치는 표본이 작고(21건) 도구가 하나뿐이므로 '런타임 탐지가 실제로 놓치는 비율'로 일반화하지 않는다. RQ4·RQ5의 동기 자료로만 쓴다(해석).
+
+아직 열려 있는 항목: Belik 1990의 서지, Belik 1987·Li 2013 본문, E5의 §5.2 텍스트와 Table 7이 맞지 않는다는 도구 보고(원문 재대조).
 
 ---
 
