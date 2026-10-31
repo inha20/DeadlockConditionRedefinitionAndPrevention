@@ -5,7 +5,7 @@
 - 작성일: 2026-10-29 (KST)
 - 초안 작성: Claude(AI 조수) · 사람의 검토 전
 - 상태: 1차 서지 확인 완료 · 원문 대조 1차 완료(유료 원문 일부는 접근 불가, 문서 03) · Phase 3 정리 반영(문서 04, G3 조건부 통과 초안) · 연구 질문 미확정
-- 변경: v0.3.1(2026-10-31) — 문서 04 §10.3의 사후 확인을 반영했다(M38 저자·서지 확정, E5 본문 열람). v0.3(2026-10-30) — 문서 04 §9의 정정 목록 중 문서 01에 해당하는 6건을 반영했다(§1.2 AND·OR·AND-OR 행, §1.3 뱅커 개선·그래프 기반 회피 행, §3 판정표, §7 참고문헌). v0.2(2026-10-29) — 문서 03(G1 원문 대조)의 정정·갱신을 반영했다. 변경 내역은 §9.
+- 변경: v0.3.1(2026-10-31) — 문서 04 §10.3의 사후 확인을 반영했다(M38 저자·서지 확정, E5 본문 열람, Belik 1990 후보 서지 M48). v0.3(2026-10-30) — 문서 04 §9의 정정 목록 중 문서 01에 해당하는 6건을 반영했다(§1.2 AND·OR·AND-OR 행, §1.3 뱅커 개선·그래프 기반 회피 행, §3 판정표, §7 참고문헌). v0.2(2026-10-29) — 문서 03(G1 원문 대조)의 정정·갱신을 반영했다. 변경 내역은 §9.
 - 원칙: 이 문서는 어떤 아이디어의 참신성도 주장하지 않는다. "새롭다"는 판정은 §5의 게이트(동일/부분/없음 + 근거 링크)를 통과한 뒤에만 한다. 확인하지 못한 것은 추측으로 채우지 않고 X로 남긴다.
 
 ---
@@ -196,7 +196,7 @@ v0.3 주: AND, OR, AND-OR 세 행은 문서 04 §9의 정정 1·2에 따라 고�
 | 정책 비교(허용도·비용) | Petri net 계열 비교 서베이(M13), DB 알고리즘 비교(S15), DB 교착 처리 방식 비교 보고서 2건(M46, M47. 서지 페이지에 초록 없음) | OS 정책 비교는 이번 조사에서 확인 못함 | 부재 증명 아님 |
 | 모델 통합·기계 검증 | 해당 모델의 기계 증명은 확인 못함(인접: V1). 이 저장소의 소규모 전수 검증(V)은 있음 | 미확인 | 전수 검증은 증명이 아님. 추가 검색 필요 |
 | 인터럽트·간접 호출을 포함한 교착 모델 | lockdep이 사용 상태 규칙으로 운영(S1), 커널 실증(E2) | 형식 모델 선행 미확인 | RQ5 |
-| 증분 순환 탐지 기반 락 순서 검사 | Abseil 디버그 모드(S10, C), Belik(M7), Haeupler 외가 서론에서 교착 탐지를 응용으로 인용(G2 §1. 인용 항목은 미확인) | 부분 선점(근거 보강) | RQ4 중복 위험 높음 유지 |
+| 증분 순환 탐지 기반 락 순서 검사 | Abseil 디버그 모드(S10, C), Belik(M7, M48), Haeupler 외가 서론에서 교착 탐지를 응용으로 인용(G2 §1. 인용 항목은 열람한 텍스트에 없고, M48이 그 후보라는 것은 저자·연도 일치로 한 추정) | 부분 선점(근거 보강) | RQ4 중복 위험 높음 유지 |
 | 실제 교착의 구조 통계 | 사용자 공간(E1), 커널(E2). 자기 대기에 해당하는 사례의 비중이 표본마다 22.6%~78.9%(E1·E2는 '단일 스레드 교착', E3·E4는 '이중 락'으로 센 값이고 분모도 달라 서로 비교할 수 없음, 문서 04 §6) | 존재 | 다중 인스턴스 자원이 관여하는 비율은 미확인 |
 | 락 프로그램 정적 분석의 결정 가능성(신규) | 락 접근이 중첩 구조면 효율적으로 결정 가능, 중첩이 아니면 스레드가 둘뿐이어도 도달 가능성이 결정 불가능(M38 초록, B) | 경계 확인 | M38은 Kahlon·Ivančić·Gupta의 CAV 2005 논문(§7.2). RQ2 중복 위험 요인(문서 04 §4 읽는 법 4) |
 
@@ -336,11 +336,11 @@ v0.3 주: Phase 3 결과(문서 04 §11.2)는 다음과 같다. RQ2는 M9(구조
 | M22 | 저자·연도 후보: H.-C. Chang, CMU 박사논문 1975(M30). 동일성은 제목 유사성뿐(C). 하한의 수치는 읽지 못함 |
 | S11 | ASP-DAC판으로 보이는 저자 사이트 PDF(S19, 본문 A−)와 학위논문 초록(S20, B)을 확인. TPDS판 본문과의 관계는 미확인 |
 | S18 | Crossref 서지에 SOSP '71로 등록됨(B) |
-| G2 | 서론 §1이 교착 탐지를 응용으로 [Belik 1990]을 인용(A−). 그 참고문헌 항목은 열람한 텍스트에 없어 미확인(D) |
+| G2 | 서론 §1이 교착 탐지를 응용으로 [Belik 1990]을 인용(A−). 그 참고문헌 항목은 열람한 텍스트에 없다(D). 후보 서지로 F. Belik, IEEE Trans. Computers 39(7), 1990(M48)을 Crossref에서 찾았고(2026-10-31) 같은 논문이라는 것은 저자·연도 일치에 의한 추정(C)이다 |
 | M38 | 저자·서지 확정(2026-10-31): Kahlon, Ivančić, Gupta, CAV 2005, DOI 10.1007/11513988_49. 세 곳이 일치한다(문서 04 §10.3). 내용은 초록 수준(B) |
 | E5 | 본문 PDF를 읽음(2026-10-31, A−). 블로킹 85건 중 Mutex 28, RWMutex 5이고 이중 락 건수는 본문에 없다. Go 내장 교착 탐지기는 재현한 블로킹 버그 21건 중 2건을 탐지(문서 04 §10.3) |
-| 새 서지 | M27~M47, S19~S26, E3~E5를 §7에 추가. M31~M36은 Crossref 서지만 확인했고 내용은 읽지 못함 |
-| 읽지 못한 원문 | Belik 1987 본문(M6), Li 2013 본문(M27), Minoura 1982 명제(M5), Chang 1975 하한의 수치(M22, M30), Gold(M3)·Araki(M4) 원문, Dimmunix(S6)의 수치, FreeBSD WITNESS 매뉴얼. 사람이 PDF를 주거나 다른 접근 경로가 필요하다(문서 04 §12) |
+| 새 서지 | M27~M47, S19~S26, E3~E5를 §7에 추가(M48, M49는 2026-10-31에 추가). M31~M36은 Crossref 서지만 확인했고 내용은 읽지 못함 |
+| 읽지 못한 원문 | Belik 1987 본문(M6), Belik 1990 본문(M48), Li 2013 본문(M27), Minoura 1982 명제(M5), Chang 1975 하한의 수치(M22, M30), Gold(M3)·Araki(M4) 원문, Dimmunix(S6)의 수치, FreeBSD WITNESS 매뉴얼. 사람이 PDF를 주거나 다른 접근 경로가 필요하다(문서 04 §12) |
 
 ---
 
@@ -417,6 +417,8 @@ v0.3 주: Phase 3 결과(문서 04 §11.2)는 다음과 같다. RQ2는 M9(구조
 | M45 | 이원섭, 이상희, "분산 데이터베이스 시스템에서의 교착상태 탐지기법의 성능평가", 한국컴퓨터정보학회논문지 8(3): 26–33, 2003. 뱅커 알고리즘을 다루지 않음 | B | https://koreascience.or.kr/article/JAKO200311922045289.pub |
 | M46 | R. Agrawal, M. Carey, D. DeWitt, "Deadlock Detection is Cheap", UC Berkeley EECS 기술 보고서 UCB/ERL M83/5, 1983. 서지 페이지에 초록이 없고 PDF는 열람하지 않음 | B | https://www2.eecs.berkeley.edu/Pubs/TechRpts/1983/109.html |
 | M47 | R. Agrawal, M. J. Carey, L. W. McVoy, "The Performance of Alternative Strategies for Dealing with Deadlocks in Database Management Systems", Univ. of Wisconsin–Madison 기술 보고서 TR590, 1985. 저자 표기는 페이지 본문이 세 명이고 인용 메타데이터는 McVoy만 적는다. 초록 칸이 비었고 PDF는 이진 데이터로 받아 읽지 못함 | B | https://minds.wisc.edu/items/2b72db1d-d09f-47e9-a431-6020ff0202b4 |
+| M48 | F. Belik, "An efficient deadlock avoidance technique", IEEE Transactions on Computers 39(7): 882–888, 1990. DOI 10.1109/12.55690. 초록(OpenAlex, 역색인에서 재구성): 시간에 따라 바뀌되 비순환을 유지하는 방향 비순환 그래프로 시스템을 표현하는 회피 기법이며 자원 종류마다 인스턴스가 하나인 시스템에 적용된다. 경로 행렬로 순환을 효율적으로 탐지하고 그 비용을 다른 할당 연산에 상각해 밀집 시스템에서 연산당 선형 또는 상수 상각 시간을 얻는다고 쓴다. 본문은 읽지 못함. G2의 [Belik1990]이 이 논문이라는 것은 저자·연도 일치에 의한 추정(C) | B | https://api.openalex.org/works/doi:10.1109/12.55690 |
+| M49 | R. A. Finkel, H. Madduri, "An efficient deadlock avoidance algorithm", Information Processing Letters 24(1): 25–30, 1987. DOI 10.1016/0020-0190(87)90195-5. 서지만 확인(Crossref, OpenAlex 모두 초록 없음). 내용을 몰라 뱅커 알고리즘 관련인지 알 수 없다 | B(서지) | https://api.openalex.org/works/doi:10.1016/0020-0190(87)90195-5 |
 
 ### 7.3 시스템·실무 (S)
 
@@ -464,7 +466,7 @@ v0.3 주: Phase 3 결과(문서 04 §11.2)는 다음과 같다. RQ2는 M9(구조
 | ID | 서지 | 수준 | URL |
 |---|---|---|---|
 | G1 | M. A. Bender, J. T. Fineman, S. Gilbert, R. E. Tarjan, "A new approach to incremental cycle detection and related problems", arXiv:1112.0784 (저널판 서지 X) | A− | https://arxiv.org/abs/1112.0784 |
-| G2 | B. Haeupler, T. Kavitha, R. Mathew, S. Sen, R. E. Tarjan, "Incremental cycle detection, topological ordering, and strong component maintenance", ACM Trans. Algorithms (사전 인쇄본, arXiv:1105.2397). 서론 §1이 증분 순환 탐지가 교착 탐지에서 나타난다고 [Belik 1990]을 인용한다. 그 참고문헌 항목은 열람한 텍스트에 없어 제목과 게재처를 확인하지 못했다(D) | A− | https://arxiv.org/pdf/1105.2397 |
+| G2 | B. Haeupler, T. Kavitha, R. Mathew, S. Sen, R. E. Tarjan, "Incremental cycle detection, topological ordering, and strong component maintenance", ACM Trans. Algorithms (사전 인쇄본, arXiv:1105.2397). 서론 §1이 증분 순환 탐지가 교착 탐지에서 나타난다고 [Belik 1990]을 인용한다. 그 참고문헌 항목은 열람한 텍스트에 없다(D). 후보 서지는 M48(저자·연도 일치에 의한 추정) | A− | https://arxiv.org/pdf/1105.2397 |
 | G3 | D. J. Pearce, P. H. J. Kelly, "A dynamic topological sort algorithm for directed acyclic graphs", ACM J. Exp. Algorithmics 11, Art. 1.7, 2006(저자 페이지는 2007로 표기) | B | https://whileydave.com/publications/pk07_jea/ |
 | G4 | E. Cohen, A. Fiat, H. Kaplan, L. Roditty, "A labeling approach to incremental cycle detection", arXiv:1310.8381 | B | https://arxiv.org/pdf/1310.8381 |
 
@@ -507,4 +509,4 @@ v0.3 주: Phase 3 결과(문서 04 §11.2)는 다음과 같다. RQ2는 M9(구조
 | v0.1 | 2026-10-29 | 최초 작성 |
 | v0.2 | 2026-10-29 | 문서 03(G1)의 정정·갱신 반영: M15 서술 정정, E2 해석 보완(스레드 수 계수 규칙, '인터럽트 의존' 열 정의), F7·S17 근거 수준 상향, M20 저자 확인, S14 URL 성격 명시, 문헌 M23–M26·S17–S18·T9·V2–V3 추가 |
 | v0.3 | 2026-10-30 | 문서 04(Phase 3)의 정정 목록 반영(문서 04 §9의 1~6): §1.2의 AND 행을 Knapp §2.2·SM T2·반례 B4에 맞춰 고치고 OR와 AND-OR/P-out-of-Q를 두 행으로 나눔, §1.3의 뱅커 행에 표기 불일치(M27)를, 뱅커 개선 주장 행에 M6의 조건부 상각 O(mn)·S13의 평가 방식·M27·M39·M40을, 그래프 기반 회피 행에 M7의 초록 내용을 반영, §3 판정표를 문서 04 §8의 판정으로 갱신(락 프로그램 정적 분석 행 추가), §4.0의 RQ2 중복 위험을 높음으로 올리고 §4.1에 Phase 3 결과 요약 추가, §6.2 신설. §7: M6, M7, M14, M22, S11, S13, S18, G2 보강, 새 문헌 M27–M47·S19–S26·E3–E5 추가. M38 저자는 확인하지 못해 적지 않음. 문서 04 §9 정정 7·8(문서 02)은 문서 02 v0.3에서 처리 |
-| v0.3.1 | 2026-10-31 | 문서 04 §10.3의 사후 확인 반영: M38의 저자·서지 확정(Kahlon, Ivančić, Gupta, CAV 2005)을 §3, §6.2, §7.2에, E5(Go 연구)의 본문 열람 결과(근거 수준 C에서 A−로. 블로킹 85건 중 Mutex 28, RWMutex 5. 이중 락 건수 없음)를 §6.2, §7.4에 반영. v0.3 행의 'M38 저자는 확인하지 못해 적지 않음'은 당시 상태의 기록이라 그대로 둔다 |
+| v0.3.1 | 2026-10-31 | 문서 04 §10.3의 사후 확인 반영: M38의 저자·서지 확정(Kahlon, Ivančić, Gupta, CAV 2005)을 §3, §6.2, §7.2에, E5(Go 연구)의 본문 열람 결과(근거 수준 C에서 A−로. 블로킹 85건 중 Mutex 28, RWMutex 5. 이중 락 건수 없음)를 §6.2, §7.4에 반영. v0.3 행의 'M38 저자는 확인하지 못해 적지 않음'은 당시 상태의 기록이라 그대로 둔다. 같은 날 Belik 1990의 서지를 Crossref에서 찾아 M48(Belik 1990), M49(Finkel·Madduri 1987)를 §7.2에 추가하고 G2의 Belik 1990 인용에 후보 서지로 연결(§3, §6.2, §7.5) |

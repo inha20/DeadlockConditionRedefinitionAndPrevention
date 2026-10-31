@@ -105,11 +105,11 @@
 | Q07 | WebSearch | optimized banker's algorithm reduce complexity O(mn^2) multiple resources | 10 | 위와 같은 후보, M41 |
 | Q08 | WebSearch | 은행원 알고리즘 개선 교착상태 회피 논문 | 9 | 교육 자료와 울산대 학위논문(탐지). 후보 없음 |
 | Q09 | WebSearch | "banker's algorithm" modified OR improved OR enhanced safe sequence new algorithm journal 2015..2025 time complexity comparison | 10 | M40 추가, 서베이(§4.2) |
-| Q10 | WebSearch | Belik "An efficient deadlock avoidance technique" IEEE Transactions on Computers 1990 banker's algorithm | 10 | 이 제목의 논문을 찾지 못함. 질의의 제목과 게재처는 AI의 기억에서 온 것이라 확인 불가(X). 다만 G2(Haeupler 외)의 서론 §1이 "Belik 1990"을 교착 탐지의 응용 사례로 인용한다(A−). 참고문헌 항목은 열람한 텍스트에 없어 제목·게재처는 미확인(D). 2026-10-30에 ar5iv 판 HTML에서 인용 키가 Belik1990임을 다시 확인했으나 항목은 얻지 못했다 |
+| Q10 | WebSearch | Belik "An efficient deadlock avoidance technique" IEEE Transactions on Computers 1990 banker's algorithm | 10 | 이 질의에서는 이 제목의 논문을 찾지 못했다. 질의의 제목과 게재처는 AI의 기억에서 온 것이라 당시에는 확인 불가(X)였다. 다만 G2(Haeupler 외)의 서론 §1이 "Belik 1990"을 교착 탐지의 응용 사례로 인용한다(A−). 참고문헌 항목은 열람한 텍스트에 없다(D). 2026-10-30에 ar5iv 판 HTML에서 인용 키가 Belik1990임을 다시 확인했으나 항목은 얻지 못했다. 2026-10-31에 Crossref에서 같은 제목·게재처의 서지(F. Belik, IEEE Trans. Computers 39(7): 882–888, 1990, DOI 10.1109/12.55690)를 찾았고 기억에서 온 제목과 게재처가 서지와 일치했다. 이 논문이 G2의 [Belik1990]이라는 것은 저자·연도 일치에 의한 추정이다(C). OpenAlex 초록은 단일 인스턴스 자원의 경로 행렬 기반 회피 기법이라 RQ6의 뱅커 개선 주장 목록에는 넣지 않는다 |
 | Q11 | WebSearch | 은행원 알고리즘 시간 복잡도 개선 KCI 교착상태 회피 알고리즘 제안 | 10 | 탐지 논문 2건(제외), M25 재확인 |
 | Q12 | WebSearch | Agrawal "Total Need based Resource Reservation" deadlock avoidance banker's algorithm | 10 | TNRR 원문은 찾지 못함(M39, M40이 인용) |
 | Q13 | WebSearch | Zohora dynamic banker's algorithm deadlock avoidance O(n^2 d) safe state | 10 | 새 후보 없음 |
-| Q14 | WebSearch | Belik 1990 "efficient deadlock avoidance technique" IEEE Trans. Comput. 39 | 10 | M7, M22, M37, M23 단서. Belik 1990은 다시 찾지 못함 |
+| Q14 | WebSearch | Belik 1990 "efficient deadlock avoidance technique" IEEE Trans. Comput. 39 | 10 | M7, M22, M37, M23 단서. Belik 1990은 이 검색에서 다시 찾지 못했다(2026-10-31에 Crossref로 찾음, Q10 행) |
 | Q15 | WebSearch | Lee Mooney "parallel banker's algorithm" hardware PBAU deadlock avoidance O(n) Verilog | 10 | 저자 사이트 PDF 다수 → S19~S21 |
 | Q16 | WebSearch(ieeexplore.ieee.org) | banker's algorithm improved deadlock avoidance algorithm | 10 | M8, M31, M32, M33, M34, R6-T7, R6-T8 |
 | Q17 | WebSearch(dl.acm.org) | banker's algorithm deadlock avoidance modified efficient | 10 | M6, M8, M5, R6-T11, R6-T12, Andrews·Levin 1982(예방), 주석 달린 서지(Newton 1979로 보이나 미확인) |
