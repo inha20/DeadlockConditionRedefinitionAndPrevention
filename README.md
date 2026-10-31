@@ -36,7 +36,7 @@
 |---|---|
 | `docs/00-progress-log.md` | 진행 기록 |
 | `docs/01-survey-plan-and-research-questions.md` | 선행연구 조사, 연구 질문 후보, 게이트 표, 참고문헌 |
-| `docs/02-research-execution-plan.md` | 실행 계획(단계, 게이트 G1~G5, 연구 질문별 작업 패키지) |
+| `docs/02-research-execution-plan.md` | 실행 계획(단계, 게이트 G1–G5, 연구 질문별 작업 패키지) |
 | `docs/03-phase1-source-verification.md` | Phase 1 원문 대조 기록 |
 | `docs/spec/model-spec.md` | 스냅샷 모델 SM의 정의, 정리 진술, 반례 |
 | `docs/04-phase3-cost-complexity-systems.md` | 비용표, 복잡도 경계 지도, 시스템·실증 정리 |
@@ -57,11 +57,11 @@ python3 -I oracle/check_sm.py formal/rq1/sm-check-results.md          # 약 1분
 python3 -I oracle/mutation_check.py formal/rq1/sm-mutation-results.md # 약 1.5분
 ```
 
-10개 소규모 범위(프로세스 3~4개, 자원 종류 2~3개, 용량 1~3)의 595,676개 상태에서 정리 진술 위반이 0건이다. 증명이 아니다. 오라클, 정리 진술, 검증이 같은 정의에서 나왔으므로 정의 내부의 일관성만 보여 준다(`oracle/README.md`).
+10개 소규모 범위(프로세스 3–4개, 자원 종류 2–3개, 용량 1–3)의 595,676개 상태에서 정리 진술 위반이 0건이다. 증명이 아니다. 오라클, 정리 진술, 검증이 같은 정의에서 나왔으므로 정의 내부의 일관성만 보여 준다(`oracle/README.md`).
 
 ## 읽을 때 주의
 
-- 확인 수준 표기는 `docs/01-…` §0.1(A~D, X)을 따르고, 이 저장소의 코드로 재현한 자체 계산은 V로 구분한다(`refs/claims-ledger.md` 머리말).
+- 확인 수준 표기는 `docs/01-…` §0.1(A–D, X)을 따르고, 이 저장소의 코드로 재현한 자체 계산은 V로 구분한다(`refs/claims-ledger.md` 머리말).
 - 선행연구 판정(동일/부분/없음)의 '없음'은 이번 검색에서 찾지 못했다는 뜻이며 부재 증명이 아니다.
 - 제3자 자료: `analysis/rq5`는 Gong 외(ICSE 2026)의 공개 데이터셋 원본을 복제하지 않고 커밋 해시 색인과 자체 분류만 둔다. 원본 저장소에 LICENSE 파일이 없다는 점을 2026-10-29에 확인했기 때문이다.
 - 라이선스: 아직 정하지 않았다. LICENSE 파일이 없으므로 기본 저작권이 적용된다.
