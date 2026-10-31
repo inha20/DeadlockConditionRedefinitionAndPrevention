@@ -6,7 +6,7 @@
 ## 작업 방식
 
 - 정본은 Claude의 작업공간에 있는 저장소 사본이고, 사용자 PC의 이 폴더는 그 사본을 복사해 둔 것이다. 작업공간에서 만든 파일을 PC로 복사할 때 PC 쪽 파일이 그사이 바뀌었는지 확인한다.
-- git 이력은 작업공간의 저장소에 있고 GitHub 공개 저장소 `inha20/DeadlockConditionRedefinitionAndPrevention`(https://github.com/inha20/DeadlockConditionRedefinitionAndPrevention)에 푸시했다(2026-11-01). 사용자 PC의 폴더는 git 저장소가 아니라 복사본이다.
+- git 이력은 작업공간의 저장소에 있고 GitHub 공개 저장소 `inha20/DeadlockConditionRedefinitionAndPrevention`(https://github.com/inha20/DeadlockConditionRedefinitionAndPrevention)에 푸시했다(2026-11-01). 사용자 PC의 폴더(`바탕 화면\DeadlockConditionRedefinitionAndPrevention`, 2026-11-01에 `새 폴더`에서 이름을 바꿈)는 git 저장소가 아니라 복사본이다.
 - 코드와 실험은 작업공간(코어 2개, 메모리 약 8GB)에서 돌린다. 커널 실험과 유료 원문 열람은 사용자 쪽 작업이 필요하다.
 - 근거 수준 표기와 게이트 규칙은 문서 01, 02를 따른다. 확인하지 못한 것은 X로 둔다. 자체 계산 결과는 수준 V로 구분한다(`refs/claims-ledger.md` 머리말).
 
@@ -23,7 +23,8 @@
 | 2026-10-30 | Phase 3 정정을 문서 01·02에 반영(v0.3) | 완료(AI 초안, 사람 검토 대기) | `docs/01-…`(커밋 b492db8), `docs/02-…`, `docs/04-…` §9 상태 문구, `refs/claims-ledger.md` 비고, `refs/rq6-inventory.md` §8 | 문서 04 §9의 정정 8건 반영. 문서 02에 Q8(RQ6 최소 건수) 추가. 저장소 이름은 사용자가 다시 "조금 더 있다가 정하자"고 해서(03:39 KST) 만들지 않음 |
 | 2026-10-31 | Phase 3 열린 확인 항목 처리(사후 확인) | 일부 완료 | `docs/04-…` §10.3, `docs/01-…`(v0.3.1), `refs/claims-ledger.md`(C-SUR-079~082), `refs/rq6-inventory.md` Q10, Q14 | M38 저자·서지 확정(세 곳 일치), Go 연구 본문 열람(블로킹 85건 중 Mutex 28, 이중 락 건수는 본문에 없음, 내장 탐지기는 21건 중 2건 탐지), Belik 1990은 후보 서지를 Crossref에서 찾음(M48. 초록은 단일 인스턴스 자원에서 경로 행렬로 순환을 탐지하는 회피 기법이고 G2 인용과의 동일성은 추정). 저장소 이름은 사용자가 다시 "조금 더 있다가 정하자"고 해서(21:21 KST) 만들지 않음 |
 | 2026-10-31 | Phase 4 선행연구 게이트(G4) | **진행 중**: RQ4 판정 완료, 나머지 RQ 진행 | `docs/05-phase4-gate-decisions.md`(v0.1 작성 중), `refs/g4-search-log.md`, `refs/claims-ledger.md`(C-SUR-083~094) | RQ4: 자료구조와 락 순서 검사 용도는 이미 구현(Abseil, tracing-mutex)이라 RQ3의 P-INC로 흡수하는 쪽으로 판정. 판정은 AI 초안이며 사람의 검토 전 |
-| 2026-11-01 | GitHub 공개 저장소 생성과 푸시 | 완료 | `README.md`(신규), 원격 저장소 `inha20/DeadlockConditionRedefinitionAndPrevention` | 이름은 사용자가 기존 저장소 이름 규칙에 맞춰 정하라고 맡겼다(2026-10-31 22:22 KST). 커밋 9개를 푸시했다. 라이선스는 정하지 않았다. PC의 `새 폴더`를 같은 이름으로 바꾸는 일은 이어서 한다 |
+| 2026-11-01 | GitHub 공개 저장소 생성과 푸시 | 완료 | `README.md`(신규), 원격 저장소 `inha20/DeadlockConditionRedefinitionAndPrevention` | 이름은 사용자가 기존 저장소 이름 규칙에 맞춰 정하라고 맡겼다(2026-10-31 22:22 KST). 커밋 9개를 푸시했다. 라이선스는 정하지 않았다. PC 폴더 이름 변경은 다음 행 |
+| 2026-11-01 | PC 폴더 이름 변경 | 완료 | `C:\Users\cjh3c\OneDrive\바탕 화면\새 폴더` → `…\DeadlockConditionRedefinitionAndPrevention` | 이름을 바꾸기 전에 최신 파일 5개(README, 문서 00·05, 주장 대장, 검색 기록)를 PC로 복사해 PC 폴더가 커밋 d39db13과 같은 내용이 되게 했다. 이름을 바꾼 뒤에는 이 대화의 폴더 연결 경로가 옛 이름에 머물러 새 경로의 접근 승인 전에는 PC로 복사할 수 없다(아래 "막힌 것") |
 
 ### Phase 2에서 한 것
 
@@ -64,11 +65,13 @@
 | Phase 4 (RQ별 판정표, G4), Phase 5 (RQ 확정, G5) | 안 함 | |
 | RQ6 재현, RQ3, RQ5 사례 코딩, RQ4, RQ2 | 안 함 | G2~G5 이후. RQ5 사례 코딩은 E2 49건 색인(`analysis/rq5/index.csv`)까지만 있다. RQ6 주장 인벤토리(WP6.1)는 Phase 3에서 1차로 끝냈다 |
 | GitHub 저장소 생성·푸시 | **완료**(2026-11-01) | `inha20/DeadlockConditionRedefinitionAndPrevention`(공개). 라이선스는 미정(아래 "막힌 것") |
+| PC 폴더 이름 변경 | **완료**(2026-11-01) | `바탕 화면\DeadlockConditionRedefinitionAndPrevention`. 새 경로의 폴더 접근 승인이 있어야 이후 변경분을 PC로 복사할 수 있다(아래 "막힌 것") |
 
 ### 막힌 것
 
 - **라이선스**: 저장소에 LICENSE 파일이 없다. 공개 저장소이므로 사람이 정해야 하며, 정하기 전에는 기본 저작권만 적용된다. 정해 주면 파일을 추가한다.
 - 해결됨(2026-11-01) 저장소 이름과 생성: 사용자가 기존 저장소 이름 규칙에 맞춰 정하라고 맡겼다(2026-10-31 22:22 KST). 계정 inha20의 이름 규칙(영어 단어를 붙인 파스칼 케이스, 하이픈 없음, 숫자 접두사는 '구조 인식 연구 프로그램' 1~8편에만)에 따라 `DeadlockConditionRedefinitionAndPrevention`으로 정했다. GitHub 연결 도구가 없고 작업공간의 `gh` 토큰이 무효라서 이 컴퓨터의 내장 브라우저(inha20로 로그인되어 있음)에서 빈 공개 저장소를 만들고 작업공간 저장소를 `origin`으로 연결해 푸시했다.
+- **PC 폴더 접근 승인**: 폴더 이름을 바꾼 뒤 이 대화에 연결된 폴더 경로가 옛 이름(`새 폴더`)에 머물러 있어 새 경로가 연결되지 않은 것으로 나온다(파일 이름 목록만 보임). 새 경로에 대한 접근 승인이 있으면 이후 변경분을 PC로 복사한다. 그때까지 PC 폴더는 커밋 d39db13 시점의 내용이다.
 - **유료 원문**: F1(Coffman 외 1971), F2(Holt 1972), F3(Habermann 1969)과 이에 연결된 M3, M4, M5, M18, M19. 사람이 PDF를 주면 WP1.1과 모델 매트릭스를 원문 위치로 채운다(문서 03 §9).
 - **Linux 실행 환경**: 커널 실험(L4, RQ5 일부)에 필요하다. 미정.
 
