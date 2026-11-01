@@ -1,8 +1,10 @@
-# bench/ — 뱅커 계열 정책의 측정 하니스 (RQ6용, 동결 전)
+# bench/ — 측정 하니스: 뱅커 계열 정책(RQ6)과 락 정책(RQ3) (동결 전)
 
 AI(Claude)가 작성한 초안이며 사람의 검토 전이다. 측정 도구(문서 02 §3의 동결 전 허용 작업 ①)와 교재식 기준 구현(②)이다.
 이 폴더의 코드로 **본 실험을 돌리지 않았다**. 점검과 파일럿에만 썼다. 파일럿(B-6)은 2026-11-01에 돌렸고(실행기 `pilot_rq6.py`, 자료 `experiments/pilot/`, 프로토콜과 결과 `docs/rq6/pilot.md`) 그 자료는 본 분석에 쓰지 않는다(`prereg/README.md` §2).
 어떤 크기·시드 수·입력 분포도 동결 전에는 확정이 아니다.
+
+RQ3(락 정책)용 초안 구현·워크로드 생성기·실행기·전수 검사는 아래 '파일' 표 뒤의 'RQ3 (락 정책)' 표에 따로 있다. RQ3의 정책 의미는 AI가 고른 것이라 사람이 정하기 전에는 '기준 정책'이 아니라 '초안 구현'이다(`docs/rq3/policies.md` §9).
 
 ## 파일
 
@@ -32,6 +34,22 @@ AI(Claude)가 작성한 초안이며 사람의 검토 전이다. 측정 도구(�
 | `pilot_summary_rq6.py` | 파일럿 자료에서 요약 `experiments/pilot/pilot-summary.md`를 만든다(생성 파일). K1·K4·K5·K6을 계산하는 코드가 없다 |
 | `check_pilot.py` | 파일럿 실행기·요약의 자체 점검(알려진 답, 시뮬레이션, 작은 크기의 실행, 요약에 금지 표현이 없음). 결과: `formal/rq6/pilot-check-results.md` |
 
+## RQ3 (락 정책) — 파일
+
+| 파일 | 내용 |
+|---|---|
+| `policies/lock/system.py` | 락 표(`LockTable`: 보유자, 대기, 위상 START/RUN/BLOCKED/DONE/FAILED), 결정(GRANT/WAIT/DENY/FAIL/WOUND), 정책 인터페이스, 스레드 한 걸음(`step_thread`), 탐지 한 걸음(`detect_step`), SM 상태로의 변환(`to_sm`) |
+| `policies/lock/policies.py` | 정책 11종 초안 구현: B0, B1(탐지), P-ORD, P-ALL, P-RET, P-WD, P-WW, P-PCP, P-BNK, P-RAG, P-MIX. P-INC-F/R은 동결 전이라 없다. 의미는 `docs/rq3/policies.md` |
+| `policies/lock/mutants.py` | 점검용으로 일부러 틀린 정책 17종. 결과 분석에는 쓰지 않는다 |
+| `lockexplore.py` | 직선 락 프로그램 모음의 도달 가능 상태를 모두 열거하며 불변식·교착 집합·멈춤·영구 함정·O1/O2 대조를 검사하는 탐색기 |
+| `lockrun.py` | 균등 무작위 스케줄 실행기(시간 모델 없음). 걸음마다 불변식과 교착 집합을 점검하고 요청·충돌 수를 센다. 선택적으로 트레이스(`traces/FORMAT.md`)를 기록 |
+| `workloads/l1.py` | L1 합성 워크로드 생성기(T, R, Zipf 지수, 깊이, 순서 위반 확률 p_v, 임계구역 길이 분포)와 L2 고전 문제(식사하는 철학자, 계좌 이체) |
+| `check_lock_policies.py` | 정책 초안 구현의 소규모 전수 검사(범위 S1–S5, 변이체 17종). 결과: `formal/rq3/lock-policies-check.md` |
+| `check_workloads.py` | 생성기와 무작위 스케줄 실행기의 무결성 점검, 연기 시험, 경쟁 라벨 점검. 결과: `formal/rq3/workloads-check.md` |
+| `probe_wd_ww.py` | P-WD와 P-WW의 상태 그래프 크기 대조(탐색 기록, 원인은 설명하지 않음). 결과: `formal/rq3/wd-ww-count-probe.md` |
+
+오라클 O2(`oracle/locks.py`, 검사 `oracle/check_locks.py`)와 트레이스 도구(`traces/`)는 각 폴더의 README와 `traces/FORMAT.md`에 있다.
+
 ## 실행
 
 ```
@@ -45,6 +63,13 @@ python3 -I bench/check_variants_dixit.py formal/rq6/variants-check-dixit.md   # 
 python3 -I bench/literature/botlagunta2021.py   # 문헌 예제 두 상태의 판정
 python3 -I bench/check_pilot.py formal/rq6/pilot-check-results.md   # 약 3초
 python3 -I bench/pilot_rq6.py summary   # experiments/pilot/의 자료로 요약을 다시 만든다
+
+# RQ3 (락 정책)
+python3 -I oracle/check_locks.py formal/rq3/o2-check-results.md   # 약 20초
+python3 -I bench/check_lock_policies.py formal/rq3/lock-policies-check.md   # 약 10분(코어 2개). 긴 실행이니 백그라운드로, 원자료 저장 --save-raw PATH, 보고서만 다시 만들기 --load-raw PATH
+python3 -I bench/check_workloads.py formal/rq3/workloads-check.md   # 약 0.5분
+python3 -I bench/probe_wd_ww.py formal/rq3/wd-ww-count-probe.md   # 약 10초
+python3 -I traces/check_validate.py   # 약 2초, formal/rq3/trace-validator-check.md
 ```
 
 파일럿의 단계 실행(`python3 -I bench/pilot_rq6.py s`, `c`, `o`, `v`, `v2`, `v3`, `p`, `r`)은 합쳐 20분 안팎이 걸린다(코어 2개를 공유하는 가상 환경). 기본 출력이 `experiments/pilot/`이고 그 자료는 최종본이므로 다시 돌릴 때는 `--out`으로 다른 폴더를 지정한다. 각 단계는 끝난 단위를 건너뛰며 이어서 실행한다.
