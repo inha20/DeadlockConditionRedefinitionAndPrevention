@@ -14,6 +14,7 @@
 | Phase 3 비용표·복잡도 지도·시스템/실증 정리(G3) | 조건부 통과(AI 초안) |
 | Phase 4 연구 질문별 선행연구 게이트(G4) | 조건부 통과(AI 초안, 사람 검토 대기). 여섯 연구 질문의 판정과 종합을 마치고 문서 01·02·04에 반영했다: RQ4는 RQ3의 정책 항목으로 흡수, RQ1·RQ2·RQ3·RQ5는 범위를 좁힘, RQ6은 조건부 유지 |
 | Phase 5 연구 질문 확정과 실험(G5) | 질문형 연구 질문과 사전 분석 계획의 AI 초안을 썼다(문서 06, `prereg/`). **사람의 검토와 동결 전이며 G5는 통과하지 않았다.** 본 실험과 새 아이디어의 구현은 하지 않았다 |
+| RQ6 동결 전 준비(문서 02 단계 B) | 정확 오라클 O1, 측정 하니스, 교재식 기준 구현, 문헌 변형 네 편의 구현과 예제 재현, 파일럿(운영 수치: 표집 난이도, 시간 분산, 비용, 동률, 재현성)을 마쳤다(AI 초안, 사람 검토 대기). **본 실험은 하지 않았다.** 사람이 정할 항목은 `prereg/RQ6.md` §9와 `docs/rq6/pilot.md` §6에 있다 |
 
 단계별 기록과 막힌 점은 `docs/00-progress-log.md`에 있다.
 
@@ -47,10 +48,11 @@
 | `refs/rq6-inventory.md` | RQ6 재현 후보 인벤토리(v0.4) |
 | `prereg/` | 사전 분석 계획 초안(RQ6, RQ3, RQ1, RQ5, RQ2)과 공통 통계·측정 규약. 동결 전(AI 초안) |
 | `oracle/` | SM의 참조 구현과 소규모 전수 검사(`oracle/README.md`) |
-| `bench/` | RQ6용 측정 하니스(교재식 기준 구현, 문헌 변형 구현, 입력 생성기, 통계 도구, 실행기)와 자체 점검, 문헌 예제(`bench/literature/`)(`bench/README.md`). 동결 전, 본 실험은 돌리지 않았다 |
-| `docs/rq6/` | RQ6 기준 구현의 정의(`reference.md`)와 문헌 변형 구현의 해석·재현 결과(`variants.md`). AI 초안 |
+| `bench/` | RQ6용 측정 하니스(교재식 기준 구현, 문헌 변형 구현, 입력 생성기, 통계 도구, 실행기)와 자체 점검, 문헌 예제(`bench/literature/`), 파일럿 실행기와 요약 도구(`bench/README.md`). 동결 전, 본 실험은 돌리지 않았다 |
+| `docs/rq6/` | RQ6 기준 구현의 정의(`reference.md`), 문헌 변형 구현의 해석·재현 결과(`variants.md`), 파일럿의 프로토콜과 결과(`pilot.md`), CP1 점검표(`cp1-check.md`). AI 초안 |
+| `experiments/` | 측정 원자료 보관 자리. 지금은 RQ6 파일럿 자료(`experiments/pilot/`, 해시 파일 포함)뿐이다. 본 실험의 자료는 없다(`experiments/README.md`) |
 | `formal/rq1/` | 전수 검사와 변이 검사 결과 |
-| `formal/rq6/` | 뱅커 오라클 O1과 하니스의 자체 점검 결과, 문헌 변형(DBDAA, Begum 외, Wicaksono 외, Dixit·Khuteta)의 예제 재현·차등·PDF 대조·도출 확인 결과 |
+| `formal/rq6/` | 뱅커 오라클 O1과 하니스의 자체 점검 결과, 문헌 변형(DBDAA, Begum 외, Wicaksono 외, Dixit·Khuteta)의 예제 재현·차등·PDF 대조·도출 확인 결과, 파일럿 도구의 자체 점검 결과 |
 | `analysis/` | 실증 자료 재분석(RQ5 자료 색인, 자기 대기 비중 계산) |
 
 ## 검사 실행
@@ -63,6 +65,8 @@ python3 -I oracle/mutation_check.py formal/rq1/sm-mutation-results.md # 약 1.5�
 ```
 
 10개 소규모 범위(프로세스 3–4개, 자원 종류 2–3개, 용량 1–3)의 595,676개 상태에서 정리 진술 위반이 0건이다. 증명이 아니다. 오라클, 정리 진술, 검증이 같은 정의에서 나왔으므로 정의 내부의 일관성만 보여 준다(`oracle/README.md`).
+
+RQ6용 하니스, 기준 구현, 문헌 변형, 파일럿 도구의 점검 실행법은 `bench/README.md`의 '실행'에 있다.
 
 ## 읽을 때 주의
 

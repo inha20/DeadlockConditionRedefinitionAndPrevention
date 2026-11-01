@@ -1,4 +1,4 @@
-# WP6.3 문헌 변형의 재구현: 해석과 재현 결과 (RQ6용, AI 초안 v0.2)
+# WP6.3 문헌 변형의 재구현: 해석과 재현 결과 (RQ6용, AI 초안 v0.3)
 
 - 작성일: 2026-11-01 (KST) · 작성: Claude(AI 조수) · 사람의 검토 전 · **동결 아님**
 - 근거: `prereg/RQ6.md` §4–§5, `docs/rq6/reference.md`, `refs/rq6-inventory.md`, 구현 `bench/policies/banker/variants/`, 문헌 입력 `bench/literature/`, 점검 결과 `formal/rq6/`
@@ -25,6 +25,8 @@
 | 도출 | 위 두 변형에 대한 AI 도출 | — | `bench/check_variants_derivations.py` | `variants-derivations.md`(55개 통과) |
 | R6-06 | Wicaksono 외 2023, JEEMECS 6(1) | `wicaksono-sweep` | `bench/policies/banker/variants/wicaksono2023.py` | `variants-check-wicaksono.md`(52개 통과). PDF 기계 대조 없음 |
 | R6-04 | Dixit·Khuteta 2017, IJRITCC 5(8): 45–49 | `dixit-max-once`, `dixit-max-top`, `dixit-max-repeat`, `dixit-alloc-once`, `dixit-alloc-top`, `dixit-alloc-repeat` | `bench/policies/banker/variants/dixit2017.py` | `variants-check-dixit.md`(69개 통과). 저널 PDF 대조 없음 |
+
+파일럿(B-6)이 이 열두 정책(교재식 둘 포함)의 호출당 시간, 정렬 동률 빈도, 같은 시드의 재실행 결과를 쟀다(`docs/rq6/pilot.md`). 변형의 판정은 기록하지 않았고(`withheld`) 오라클과 견주지 않았다. 이 문서의 서술은 그대로다.
 
 그 밖의 항목(R6-12 Gaur·Singh 2017의 비교 불가 후보, 새로 찾은 R6-14 Botlagunta 외 2021과 R6-T18 Wu·Uk·Lee 2016 등)은 `refs/rq6-inventory.md`에 있다.
 
@@ -400,7 +402,7 @@ Max = Allocation + Need를 만드는 일은 입력의 일부로 보고 세지 �
 - **R6-12 Gaur·Singh 2017**: 5단계가 모호하고 20개 실험의 입력이 없으며 실행 중 자원 추가를 쓰는 비교 불가 후보다(인벤토리). 구현은 선택 사항이며 사람이 필요하다고 할 때 한다.
 - **R6-14 Botlagunta 외 2021**: 안전 판정이 아니라 예약 정책이라 변형으로 구현하지 않고 예제의 두 상태만 오라클 점검에 썼다(`bench/literature/botlagunta2021.py`).
 - 본문을 읽지 못한 R6-01(Belik 1987)과 R6-10(Li 2013), 수식을 판독하지 못한 R6-08(Bak 1984)은 PDF를 받은 뒤에 판단한다. 새로 찾은 후보와 분리 항목은 인벤토리 v0.5에 적는다.
-- 다음 단계: B-6 파일럿(시간 한도, 분산, F-rand의 난이도, 동결 값 제안), 사람의 결정 V-1–V-14.
+- 다음 단계: B-6 파일럿(시간 한도, 분산, F-rand의 난이도, 동결 값 제안)은 끝났다(`docs/rq6/pilot.md` v0.2. AI 초안). 사람의 결정 V-1–V-14와 파일럿이 연 O6-10–O6-12가 남았다.
 
 ## 6. 열린 항목(사람이 정할 것)
 
@@ -410,8 +412,8 @@ Max = Allocation + Need를 만드는 일은 입력의 일부로 보고 세지 �
 | V-2 | DBDAA의 상태 판정 규칙(Z-2) | 두 읽기를 모두 보고한다. 필요하면 저자 문의 문안을 만들 수 있다(보내는 것은 사람) |
 | V-3 | K2의 단위: 논문 단위(`paper_cmp`)와 전체 스칼라(`sca_cmp`), 복잡도 주장을 어떤 지표로 다룰지 | 두 단위를 함께 보고하고 머리 주장은 사람이 고른다. 변형이 더하는 비용 종류(Dixit의 정렬 `sort_cmp`·`key_add`, Wicaksono의 Need 재계산 `need_ops`)를 어느 단위에 넣을지도 같이 정한다 |
 | V-4 | Begum 순서도의 'j == d'(B-2) | 사람이 PDF의 그림 1을 확인한다. 읽기를 확정하려면 저자 문의가 필요할 수 있다 |
-| V-5 | 정렬 동률 규칙(Z-4, B-4)과 입력군에서 동률이 나오는 빈도 | 파일럿에서 동률 빈도를 확인한 뒤 규칙을 정한다 |
-| V-6 | 이 변형들에 맞춘 적대적 입력(역사슬 등)을 F-bound에 넣을지 | 동결 전에 정한다. 교재식 최악 입력이 이 변형들에도 최악인지는 알려지지 않았다 |
+| V-5 | 정렬 동률 규칙(Z-4, B-4)과 입력군에서 동률이 나오는 빈도 | 파일럿에서 동률 빈도를 확인한 뒤 규칙을 정한다. **파일럿 결과**(`docs/rq6/pilot.md` §7.4, F-rand 인스턴스 1,926개): 최대 Need 키(DBDAA·Begum)는 모든 인스턴스에서 겹치고, Need 합 키(Dixit)는 99.8%에서 겹친다(겹치지 않은 4개는 모두 n = 16). 동률은 예외가 아니라 거의 모든 입력에 있으므로 규칙은 정책 정의의 일부이며 동결 전에 정해야 한다 |
+| V-6 | 이 변형들에 맞춘 적대적 입력(역사슬 등)을 F-bound에 넣을지 | 동결 전에 정한다. 교재식 최악 입력이 이 변형들에도 최악인지는 알려지지 않았다. **파일럿 관찰**(`docs/rq6/pilot.md` §7.6, 호출당 절대 시간): (4096, 8)의 사슬 입력은 교재식 둘과 Wicaksono에서만 2.5초 이상이고 나머지 변형은 3–22 ms였다. Dixit의 Allocation 키 세 변형은 같은 점의 F-rand 안전 입력에서 약 275 ms로 사슬 입력(3–5 ms)보다 오래 걸렸다. 정책마다 느린 입력이 다르다는 운영 관찰이며 정책 사이의 우열이나 변형별 최악 입력의 탐색이 아니다 |
 | V-7 | Begum의 공간 복잡도 주장(B-9) | 공간의 정의가 없다. 시험 대상으로 삼을지 사람이 정한다 |
 | V-8 | 도착 시각과 시계(Z-1)를 다룰지 | 이 저장소의 입력군은 시각이 없다. 필요하면 별도 변형으로 둔다 |
 | V-9 | 그림(Begum 그림 1, DBDAA 그림 2–7)의 사람 대조 | 기계 대조에 들어 있지 않다 |
@@ -437,3 +439,4 @@ Max = Allocation + Need를 만드는 일은 입력의 일부로 보고 세지 �
 
 - v0.1 (2026-11-01): 새로 작성. DBDAA와 Begum 외 2020의 구현, 해석 항목, 재현 결과, 도출, 열린 항목.
 - v0.2 (2026-11-01): §5를 Wicaksono 외 2023(R6-06)과 Dixit·Khuteta 2017(R6-04)의 구현, 해석 항목(W-1–W-10, DK-1–DK-8), 재현 결과, 도출(D6–D10), 열린 항목으로 바꿨다. §1(원칙 6, 현황, 실행법), §2.6(DBDAA 표 8의 Wicaksono 열), §4(5–7), §6(V-10–V-14), §7을 더하거나 갱신했다. §2–§3의 기존 서술은 고치지 않았다. 점검 보고서 `formal/rq6/variants-check-wicaksono.md`(52개)와 `variants-check-dixit.md`(69개)를 더했다. 범주(유지, 불유지 등)는 정하지 않았다.
+- v0.3 (2026-11-01): RQ6 파일럿(B-6, `docs/rq6/pilot.md` v0.2)에 따른 반영: §1.2에 파일럿 한 문단, §5.3의 다음 단계, §6의 V-5(동률 빈도)와 V-6(정책마다 느린 입력이 다름)에 파일럿 증거를 더했다. 구현, 해석 항목, 재현 결과는 고치지 않았다. 범주는 정하지 않았다.

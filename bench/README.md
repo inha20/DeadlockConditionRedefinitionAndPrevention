@@ -1,7 +1,7 @@
 # bench/ — 뱅커 계열 정책의 측정 하니스 (RQ6용, 동결 전)
 
 AI(Claude)가 작성한 초안이며 사람의 검토 전이다. 측정 도구(문서 02 §3의 동결 전 허용 작업 ①)와 교재식 기준 구현(②)이다.
-이 폴더의 코드로 **본 실험을 돌리지 않았다**. 점검과 (나중의) 파일럿에만 쓴다. 파일럿 자료는 본 분석에 쓰지 않는다(`prereg/README.md` §2).
+이 폴더의 코드로 **본 실험을 돌리지 않았다**. 점검과 파일럿에만 썼다. 파일럿(B-6)은 2026-11-01에 돌렸고(실행기 `pilot_rq6.py`, 자료 `experiments/pilot/`, 프로토콜과 결과 `docs/rq6/pilot.md`) 그 자료는 본 분석에 쓰지 않는다(`prereg/README.md` §2).
 어떤 크기·시드 수·입력 분포도 동결 전에는 확정이 아니다.
 
 ## 파일
@@ -28,6 +28,9 @@ AI(Claude)가 작성한 초안이며 사람의 검토 전이다. 측정 도구(�
 | `check_variants_derivations.py` | 해석 문서의 도출 D1–D5(AI)를 코드로 확인. 결과: `formal/rq6/variants-derivations.md` |
 | `check_variants_wicaksono.py` | Wicaksono 외 구현의 예제 재현(표 2·5), 도착 시점 민감도, 제자리 갱신을 옮긴 두 번째 구현과의 차등, 속성, 변이체 검출, DBDAA 표 8의 열과의 대조. 결과: `formal/rq6/variants-check-wicaksono.md` |
 | `check_variants_dixit.py` | Dixit·Khuteta 구현 여섯 정책의 예제 재현, 정렬 키 후보, 스택 전체 정렬을 쓴 두 번째 구현과의 차등, 속성, 변이체 검출, 도출 D7–D10. 결과: `formal/rq6/variants-check-dixit.md` |
+| `pilot_rq6.py` | RQ6 파일럿(B-6)의 실행기. 단계 `s`(표집·난이도·동률), `c`(비용 사다리와 O1), `o`(과제마다 드는 고정 비용), `v`·`v2`·`v3`(시간의 분산 성분, 조각 길이, 안전/불안전을 나눈 분산), `p`(짝지은 비용의 분산. 계수만), `r`(재현성), `summary`. 마스터 시드 `rq6-pilot-v1`. 변형의 판정은 기록하지 않는다(`withheld`). 이어서 실행할 수 있다 |
+| `pilot_summary_rq6.py` | 파일럿 자료에서 요약 `experiments/pilot/pilot-summary.md`를 만든다(생성 파일). K1·K4·K5·K6을 계산하는 코드가 없다 |
+| `check_pilot.py` | 파일럿 실행기·요약의 자체 점검(알려진 답, 시뮬레이션, 작은 크기의 실행, 요약에 금지 표현이 없음). 결과: `formal/rq6/pilot-check-results.md` |
 
 ## 실행
 
@@ -40,7 +43,11 @@ python3 -I bench/check_variants_derivations.py formal/rq6/variants-derivations.m
 python3 -I bench/check_variants_wicaksono.py formal/rq6/variants-check-wicaksono.md   # 약 30초
 python3 -I bench/check_variants_dixit.py formal/rq6/variants-check-dixit.md   # 약 50초
 python3 -I bench/literature/botlagunta2021.py   # 문헌 예제 두 상태의 판정
+python3 -I bench/check_pilot.py formal/rq6/pilot-check-results.md   # 약 3초
+python3 -I bench/pilot_rq6.py summary   # experiments/pilot/의 자료로 요약을 다시 만든다
 ```
+
+파일럿의 단계 실행(`python3 -I bench/pilot_rq6.py s`, `c`, `o`, `v`, `v2`, `v3`, `p`, `r`)은 합쳐 20분 안팎이 걸린다(코어 2개를 공유하는 가상 환경). 기본 출력이 `experiments/pilot/`이고 그 자료는 최종본이므로 다시 돌릴 때는 `--out`으로 다른 폴더를 지정한다. 각 단계는 끝난 단위를 건너뛰며 이어서 실행한다.
 
 PDF 대조(`verify_*_pdf.py`)는 사람이 PDF를 제공해야 하고 `pdftotext`가 필요하다. 사용법은 `docs/rq6/variants.md` §1.3.
 
@@ -53,8 +60,14 @@ PDF 대조(`verify_*_pdf.py`)는 사람이 PDF를 제공해야 하고 `pdftotext
 5. **K2에 반복 방문 수를 함께 센다.** `Restart`는 벡터 비교 횟수가 `Sweep`과 거의 같아도 끝난 프로세스를 건너뛰는 방문이 Θ(n²)번 생겨 시간이 다르다(점검 실행에서 시간 비가 비교 횟수 비보다 컸다). prereg/RQ6.md §5의 K2는 비교 횟수만 정하므로 방문 수를 보조 수량으로 넣을지는 열린 항목이다.
 6. **파이썬 구현이다.** 시간(K3)은 인터프리터 오버헤드를 포함한다. 컴파일 언어 구현을 K3에 쓸지는 문서 06 Q6(언어 선호)에 달렸고 답이 없다. K2는 언어와 무관하다.
 
-## 알려진 한계 (파일럿에서 다룰 것)
+## 알려진 한계 (파일럿에서 다룰 것. 파일럿에서 본 것은 맨 아래)
 
 - **F-rand의 후보 분포는 첫 제안이다.** 불안전 상태는 (보유 비율 phi, 청구 비율 s)가 모두 큰 좁은 영역에서만 나온다(점검 중 관찰: n = 16, m = 4에서 s = 0.3 이하는 불안전이 0%, s = 1.0, phi ≥ 0.8은 95% 이상 불안전. 크기가 클수록 전이가 급하다). 그래서 (a) 수율이 낮고(n = 5–6에서 인스턴스 하나에 수백 번의 시도) (b) 안전 쪽 표본이 '모두 한 번에 끝낼 수 있는' 쉬운 상태에 쏠릴 수 있다. 실행기는 입력마다 닫힘 반복 횟수(`cl_passes`)를 기록하므로 파일럿에서 난이도 분포를 보고 사전 분포나 층화 축을 정해야 한다. n ≤ 4 정도의 아주 작은 크기는 F-ex가 맡는다.
 - 시간 측정은 공유 가상 환경(코어 2개)에서의 값이다. 비율과 기울기만 의미가 있다.
 - 통계 도구의 덮임률 점검은 합성 분포에서 방법이 거의 맞게 작동하는지 보는 것이다. 실제 비용 분포(꼬리가 두껍거나 이봉일 수 있음)에서의 성질은 파일럿에서 본다.
+
+**파일럿에서 본 것(B-6, `docs/rq6/pilot.md` §7, AI 초안)**
+
+- F-rand의 난이도: 위의 (b)가 맞았다. 안전 입력의 91.5%는 닫힘 반복 1회로 끝나고 불안전 입력의 38.2%는 한 프로세스도 끝내지 못한다(§7.3). 입력군을 바꿀지는 사람이 정한다(O6-12). 새 입력군은 동결 전에 구현하지 않았다.
+- 비용 분포: 시간과 비교 횟수의 인스턴스 사이 분포는 안전/불안전 두 무리로 갈라져 로그 시간의 σ_b가 σ_w보다 크다. 이봉성이 구간 추정에 주는 영향은 §7.5에 있다. 통계 도구의 덮임률은 이 분포에서 다시 점검하지 않았다.
+- 시간 측정: 가상 환경에서 드리프트는 보이지 않았으나 드문 한 번짜리 튐(카나리 60회 중 최대 +15.8%)이 있었다.
