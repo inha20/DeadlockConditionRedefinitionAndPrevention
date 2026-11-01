@@ -12,7 +12,7 @@
 | Phase 1 원문 대조(G1) | 조건부 통과. 일부 원문은 접근하지 못함 |
 | Phase 2 모델·용어 사양과 정확 오라클(G2) | 잠정. 사람 검토 대기 |
 | Phase 3 비용표·복잡도 지도·시스템/실증 정리(G3) | 조건부 통과(AI 초안) |
-| Phase 4 연구 질문별 선행연구 게이트(G4) | 진행 중. 여섯 연구 질문의 판정을 마쳤다(AI 초안): RQ4는 RQ3의 정책 항목으로 흡수, RQ1·RQ2·RQ3·RQ5는 범위를 좁힘, RQ6은 조건부 유지. 종합(조건부 통과, AI 초안)을 썼고 문서 반영이 남음 |
+| Phase 4 연구 질문별 선행연구 게이트(G4) | 조건부 통과(AI 초안, 사람 검토 대기). 여섯 연구 질문의 판정과 종합을 마치고 문서 01·02·04에 반영했다: RQ4는 RQ3의 정책 항목으로 흡수, RQ1·RQ2·RQ3·RQ5는 범위를 좁힘, RQ6은 조건부 유지 |
 | Phase 5 연구 질문 확정과 실험 | 시작 전 |
 
 단계별 기록과 막힌 점은 `docs/00-progress-log.md`에 있다.
@@ -40,7 +40,7 @@
 | `docs/03-phase1-source-verification.md` | Phase 1 원문 대조 기록 |
 | `docs/spec/model-spec.md` | 스냅샷 모델 SM의 정의, 정리 진술, 반례 |
 | `docs/04-phase3-cost-complexity-systems.md` | 비용표, 복잡도 경계 지도, 시스템·실증 정리 |
-| `docs/05-phase4-gate-decisions.md` | 연구 질문별 선행연구 게이트 판정(작성 중) |
+| `docs/05-phase4-gate-decisions.md` | 연구 질문별 선행연구 게이트 판정과 종합(AI 초안) |
 | `refs/claims-ledger.md` | 주장 대장: 주장, 출처, 위치, 확인 수준, 확인일 |
 | `refs/g4-search-log.md` | Phase 4 검색·열람 호출 기록 |
 | `refs/rq6-inventory.md` | RQ6 재현 후보 인벤토리 |
