@@ -50,7 +50,7 @@
 | `bench/` | RQ6용 측정 하니스(교재식 기준 구현, 문헌 변형 구현, 입력 생성기, 통계 도구, 실행기)와 자체 점검, 문헌 예제(`bench/literature/`)(`bench/README.md`). 동결 전, 본 실험은 돌리지 않았다 |
 | `docs/rq6/` | RQ6 기준 구현의 정의(`reference.md`)와 문헌 변형 구현의 해석·재현 결과(`variants.md`). AI 초안 |
 | `formal/rq1/` | 전수 검사와 변이 검사 결과 |
-| `formal/rq6/` | 뱅커 오라클 O1과 하니스의 자체 점검 결과, 문헌 변형(DBDAA, Begum 외)의 예제 재현·차등·PDF 대조·도출 확인 결과 |
+| `formal/rq6/` | 뱅커 오라클 O1과 하니스의 자체 점검 결과, 문헌 변형(DBDAA, Begum 외, Wicaksono 외, Dixit·Khuteta)의 예제 재현·차등·PDF 대조·도출 확인 결과 |
 | `analysis/` | 실증 자료 재분석(RQ5 자료 색인, 자기 대기 비중 계산) |
 
 ## 검사 실행

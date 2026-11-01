@@ -2,9 +2,11 @@
 from bench.policies.banker.base import DENY, ERROR, GRANT, WAIT, SafetyPolicy  # noqa: F401
 from bench.policies.banker.textbook import TextbookRestart, TextbookSweep
 from bench.policies.banker.variants.begum2020 import BegumReturn
+from bench.policies.banker.variants.dixit2017 import DIXIT_POLICIES
+from bench.policies.banker.variants.wicaksono2023 import WicaksonoSweep
 from bench.policies.banker.variants.zohora2024 import DBDAACycle1, DBDAARepeat
 
-REGISTRY = {cls.name: cls for cls in (TextbookRestart, TextbookSweep, DBDAACycle1, DBDAARepeat, BegumReturn)}
+REGISTRY = {cls.name: cls for cls in (TextbookRestart, TextbookSweep, DBDAACycle1, DBDAARepeat, BegumReturn, WicaksonoSweep) + DIXIT_POLICIES}
 
 
 def get(name: str) -> SafetyPolicy:
