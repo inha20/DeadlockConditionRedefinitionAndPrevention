@@ -31,6 +31,9 @@ class PlainOps:
     def tick(self, name: str = "iters", k: int = 1) -> None:
         pass
 
+    def add_counts(self, sca_cmp: int = 0, vec_add: int = 0, iters: int = 0, **extra: int) -> None:
+        """안쪽 반복에서 스칼라 비교를 직접 세는 변형이 마지막에 한꺼번에 알린다. 시간을 재는 실행에서는 아무것도 하지 않는다."""
+
 
 class CountingOps(PlainOps):
     counting = True
@@ -68,6 +71,13 @@ class CountingOps(PlainOps):
             self.iters += k
         else:
             self.extra[name] = self.extra.get(name, 0) + k
+
+    def add_counts(self, sca_cmp: int = 0, vec_add: int = 0, iters: int = 0, **extra: int) -> None:
+        self.sca_cmp += sca_cmp
+        self.vec_add += vec_add
+        self.iters += iters
+        for key, v in extra.items():
+            self.extra[key] = self.extra.get(key, 0) + v
 
     def snapshot(self) -> dict:
         d = {"vec_cmp": self.vec_cmp, "sca_cmp": self.sca_cmp, "vec_add": self.vec_add, "iters": self.iters}
