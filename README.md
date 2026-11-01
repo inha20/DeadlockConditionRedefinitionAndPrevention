@@ -13,7 +13,7 @@
 | Phase 2 모델·용어 사양과 정확 오라클(G2) | 잠정. 사람 검토 대기 |
 | Phase 3 비용표·복잡도 지도·시스템/실증 정리(G3) | 조건부 통과(AI 초안) |
 | Phase 4 연구 질문별 선행연구 게이트(G4) | 조건부 통과(AI 초안, 사람 검토 대기). 여섯 연구 질문의 판정과 종합을 마치고 문서 01·02·04에 반영했다: RQ4는 RQ3의 정책 항목으로 흡수, RQ1·RQ2·RQ3·RQ5는 범위를 좁힘, RQ6은 조건부 유지 |
-| Phase 5 연구 질문 확정과 실험 | 시작 전 |
+| Phase 5 연구 질문 확정과 실험(G5) | 질문형 연구 질문과 사전 분석 계획의 AI 초안을 썼다(문서 06, `prereg/`). **사람의 검토와 동결 전이며 G5는 통과하지 않았다.** 본 실험과 새 아이디어의 구현은 하지 않았다 |
 
 단계별 기록과 막힌 점은 `docs/00-progress-log.md`에 있다.
 
@@ -28,7 +28,7 @@
 | RQ5 | 인터럽트·간접 호출을 포함한 조건 모델 확장(G4 판정: 범위를 좁힘) |
 | RQ6 | 뱅커 개선 주장의 동일 조건 재현(G4 판정: 조건부 유지) |
 
-자세한 내용은 `docs/01-survey-plan-and-research-questions.md` §4.
+자세한 내용은 `docs/01-survey-plan-and-research-questions.md` §4. 질문형으로 다시 쓴 문구(AI 초안, 확정 아님)는 `docs/06-phase5-questions-and-preanalysis.md` §2.1에 있다.
 
 ## 구성
 
@@ -41,9 +41,11 @@
 | `docs/spec/model-spec.md` | 스냅샷 모델 SM의 정의, 정리 진술, 반례 |
 | `docs/04-phase3-cost-complexity-systems.md` | 비용표, 복잡도 경계 지도, 시스템·실증 정리 |
 | `docs/05-phase4-gate-decisions.md` | 연구 질문별 선행연구 게이트 판정과 종합(AI 초안) |
+| `docs/06-phase5-questions-and-preanalysis.md` | 질문형 연구 질문, 열린 결정 목록, G5 점검표(AI 초안. G5 미통과) |
 | `refs/claims-ledger.md` | 주장 대장: 주장, 출처, 위치, 확인 수준, 확인일 |
 | `refs/g4-search-log.md` | Phase 4 검색·열람 호출 기록 |
 | `refs/rq6-inventory.md` | RQ6 재현 후보 인벤토리 |
+| `prereg/` | 사전 분석 계획 초안(RQ6, RQ3, RQ1, RQ5, RQ2)과 공통 통계·측정 규약. 동결 전(AI 초안) |
 | `oracle/` | SM의 참조 구현과 소규모 전수 검사(`oracle/README.md`) |
 | `formal/rq1/` | 전수 검사와 변이 검사 결과 |
 | `analysis/` | 실증 자료 재분석(RQ5 자료 색인, 자기 대기 비중 계산) |
