@@ -1,0 +1,26 @@
+{"trace_format":"rq3-trace-v0.1","source":"synthetic","generator":"bench/lockrun.run_random policy=P-ALL seed=31 workload=L1:T4-R5-s0.8-d2-pv0.5-rb1.0-exp-n1#0 master=rq3-trace-samples","clock":"logical","threads":4,"notes":"AI(Claude)가 만든 형식 시험용 견본. 균등 무작위 스케줄, 시간 모델 없음, ts는 걸음 번호. 성능 자료가 아님."}
+{"seq":0,"ts":1,"th":0,"task":"0.0","attempt":0,"op":"BEGIN"}
+{"seq":1,"ts":1,"th":0,"task":"0.0","attempt":0,"op":"ACQUIRE","lock":3,"cls":3,"mode":"X"}
+{"seq":2,"ts":1,"th":0,"task":"0.0","attempt":0,"op":"ACQUIRE","lock":4,"cls":4,"mode":"X"}
+{"seq":3,"ts":2,"th":3,"task":"3.0","attempt":0,"op":"BEGIN"}
+{"seq":4,"ts":2,"th":3,"task":"3.0","attempt":0,"op":"ACQUIRE","lock":0,"cls":0,"mode":"X"}
+{"seq":5,"ts":2,"th":3,"task":"3.0","attempt":0,"op":"ACQUIRE","lock":2,"cls":2,"mode":"X"}
+{"seq":6,"ts":5,"th":1,"task":"1.0","attempt":0,"op":"BEGIN"}
+{"seq":7,"ts":5,"th":1,"task":"1.0","attempt":0,"op":"WAIT","locks":[0,4]}
+{"seq":8,"ts":8,"th":0,"task":"0.0","attempt":0,"op":"RELEASE","lock":3,"cls":3,"mode":"X"}
+{"seq":9,"ts":9,"th":0,"task":"0.0","attempt":0,"op":"RELEASE","lock":4,"cls":4,"mode":"X"}
+{"seq":10,"ts":10,"th":3,"task":"3.0","attempt":0,"op":"RELEASE","lock":0,"cls":0,"mode":"X"}
+{"seq":11,"ts":10,"th":1,"task":"1.0","attempt":0,"op":"ACQUIRE","lock":0,"cls":0,"mode":"X"}
+{"seq":12,"ts":10,"th":1,"task":"1.0","attempt":0,"op":"ACQUIRE","lock":4,"cls":4,"mode":"X"}
+{"seq":13,"ts":13,"th":1,"task":"1.0","attempt":0,"op":"RELEASE","lock":0,"cls":0,"mode":"X"}
+{"seq":14,"ts":14,"th":0,"task":"0.0","attempt":0,"op":"END"}
+{"seq":15,"ts":15,"th":3,"task":"3.0","attempt":0,"op":"RELEASE","lock":2,"cls":2,"mode":"X"}
+{"seq":16,"ts":16,"th":1,"task":"1.0","attempt":0,"op":"RELEASE","lock":4,"cls":4,"mode":"X"}
+{"seq":17,"ts":17,"th":1,"task":"1.0","attempt":0,"op":"END"}
+{"seq":18,"ts":18,"th":2,"task":"2.0","attempt":0,"op":"BEGIN"}
+{"seq":19,"ts":18,"th":2,"task":"2.0","attempt":0,"op":"ACQUIRE","lock":2,"cls":2,"mode":"X"}
+{"seq":20,"ts":18,"th":2,"task":"2.0","attempt":0,"op":"ACQUIRE","lock":3,"cls":3,"mode":"X"}
+{"seq":21,"ts":19,"th":3,"task":"3.0","attempt":0,"op":"END"}
+{"seq":22,"ts":22,"th":2,"task":"2.0","attempt":0,"op":"RELEASE","lock":2,"cls":2,"mode":"X"}
+{"seq":23,"ts":23,"th":2,"task":"2.0","attempt":0,"op":"RELEASE","lock":3,"cls":3,"mode":"X"}
+{"seq":24,"ts":24,"th":2,"task":"2.0","attempt":0,"op":"END"}
