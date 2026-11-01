@@ -20,11 +20,13 @@ AI(Claude)가 작성한 초안이며 사람의 검토 전이다. 측정 도구(�
 | `runner.py` | 셀 × 정책 × 인스턴스 계획을 섞어 count 패스(K2)와 time 패스(K3)로 나누어 실행하고 기록 |
 | `summarize.py` | K1(FU·FS와 구간), 인스턴스별 K2·K3, 셀별 짝지은 비율, 시간의 분산 성분(파일럿용) |
 | `check_pipeline.py` | 위 전체의 자체 점검. 결과: `formal/rq6/harness-check-results.md` |
+| `check_banker_policies.py` | 교재식 기준 구현의 소규모 전수 차등 테스트(O1 대조, 889,373개 상태), 속성, 변이체 검출, O1 크기·시간 한계표. 결과: `formal/rq6/policies-diff-results.md` |
 
 ## 실행
 
 ```
 python3 -I bench/check_pipeline.py formal/rq6/harness-check-results.md   # 약 10초
+python3 -I bench/check_banker_policies.py formal/rq6/policies-diff-results.md   # 약 2.5분
 ```
 
 ## 설계 결정 (사람이 검토할 것)
@@ -32,7 +34,7 @@ python3 -I bench/check_pipeline.py formal/rq6/harness-check-results.md   # 약 1
 1. **기준 구현이 둘이다.** 교재의 의사코드는 "Finish가 거짓이고 Need ≤ Work인 i를 찾는다 → 끝낸다 → 2단계로"이다. 이것을 글자 그대로 옮기면 끝낼 때마다 처음부터 훑는다(`Restart`). 훑기를 이어서 하는 형태(`Sweep`)도 흔하다. 판정은 같고(닫힘 연산) 비용이 다르다. 어느 쪽이 기준인가는 사람이 정한다(`docs/rq6/reference.md`의 열린 항목). 교재 쪽 번호와 문구는 확인하지 못했다.
 2. **count 패스와 time 패스를 나눈다.** 계측 코드가 시간에 영향을 주지 않게 하려는 prereg/RQ6.md §5 K2의 요구다. 두 패스의 실행 순서는 각각 마스터 시드로 섞는다(SP-1).
 3. **인스턴스는 번호로 다시 만든다.** F-rand의 후보는 (마스터 시드, 셀, n, m, 시도 번호)만으로 정해진다(`gen_banker.candidate_at`). 큰 입력을 메모리에 쌓지 않고 정책마다 같은 인스턴스를 다시 만들 수 있다(짝지은 비교).
-4. **큰 입력의 정답은 numpy 닫힘(`safe_fast`)이다.** 이것은 교재식 알고리즘과 같은 닫힘 연산이므로 큰 입력에서는 독립적인 정답이 아니다. 독립성은 오라클 O1(SM 축소·순열·DP 세 판정)과의 일치가 확인된 소규모 범위에서만 주장한다. 큰 입력에서의 정답은 '오라클과 같은 정의를 다른 코드로 계산한 값'이라고 쓴다.
+4. **정답은 O1이 원칙이고 numpy 닫힘(`safe_fast`)은 빠른 대용이다.** 측정한 모든 크기(최대 n = 4096, m = 256)에서 O1이 입력당 수 초 안에 돌고 O1과 `safe_fast`, 교재식 구현이 같은 판정을 냈다(`formal/rq6/policies-diff-results.md` §5). 본 실행에서 모든 입력을 O1로 대조할지 표본만 대조할지는 열린 항목이다(`docs/rq6/reference.md` R-8). `safe_fast`는 교재식 알고리즘과 같은 닫힘 연산이라 O1을 쓰지 않은 큰 입력의 정답은 독립적인 정답이 아니다.
 5. **K2에 반복 방문 수를 함께 센다.** `Restart`는 벡터 비교 횟수가 `Sweep`과 거의 같아도 끝난 프로세스를 건너뛰는 방문이 Θ(n²)번 생겨 시간이 다르다(점검 실행에서 시간 비가 비교 횟수 비보다 컸다). prereg/RQ6.md §5의 K2는 비교 횟수만 정하므로 방문 수를 보조 수량으로 넣을지는 열린 항목이다.
 6. **파이썬 구현이다.** 시간(K3)은 인터프리터 오버헤드를 포함한다. 컴파일 언어 구현을 K3에 쓸지는 문서 06 Q6(언어 선호)에 달렸고 답이 없다. K2는 언어와 무관하다.
 
