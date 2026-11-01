@@ -35,6 +35,7 @@ python3 -I bench/check_variants_begum.py formal/rq6/variants-check-begum.md     
 python3 -I bench/check_variants_derivations.py formal/rq6/variants-derivations.md   # 약 10초
 python3 -I bench/literature/verify_dbdaa_pdf.py <DBDAA PDF> formal/rq6/dbdaa-pdf-crosscheck.md
 python3 -I bench/literature/verify_begum_pdf.py <Begum PDF> formal/rq6/begum-pdf-crosscheck.md
+python3 -I bench/literature/botlagunta2021.py   # R6-14 예제의 두 상태를 O1로 판정(변형이 아니라 오라클 점검)
 ```
 
 PDF 대조는 `pdftotext`가 필요하고 PDF 사본은 사람이 제공해야 한다(저장소에 없다).
@@ -43,7 +44,7 @@ PDF 대조는 `pdftotext`가 필요하고 PDF 사본은 사람이 제공해야 �
 
 ### 2.1 자료와 읽은 범위
 
-Zohora·Farhin·Kaiser, "Optimized Deadlock Avoidance Algorithm"(PLOS ONE 19(9): e0310807, 2024, CC BY). 저널본 PDF(18쪽)를 전문 읽었다. Algorithm 1(53줄), 표 2–9, 본문의 순서와 비교 횟수를 `verify_dbdaa_pdf.py`가 기계로 대조했다(54개, 실패 0). 그림 2–7은 기계 대조에 들어 있지 않다.
+Zohora MF, Farhin F, Kaiser MS, "DBDAA: A real-time approach to Dynamic Banker's Deadlock Avoidance Algorithm with optimized time complexity"(PLOS ONE 19(9): e0310807, 2024, doi:10.1371/journal.pone.0310807, CC BY). 저널본 PDF(18쪽)를 전문 읽었다. Algorithm 1(53줄), 표 2–9, 본문의 순서와 비교 횟수를 `verify_dbdaa_pdf.py`가 기계로 대조했다(54개, 실패 0). 그림 2–7은 기계 대조에 들어 있지 않다.
 
 논문의 주장(인벤토리 R6-07): 비교 횟수가 최선 10 대 85, 평균 36 대 100, 최악 70 대 125이고, 시간은 최선 O(n), 평균·최악 O(nd), 원래 뱅커는 O(n²d)다. 평가는 손으로 만든 10프로세스·5자원 데이터셋 3개의 비교 횟수뿐이고 실측 시간은 없다.
 
@@ -103,6 +104,7 @@ Zohora·Farhin·Kaiser, "Optimized Deadlock Avoidance Algorithm"(PLOS ONE 19(9):
 - 표 3 P4 행의 Need R5가 4로 인쇄됐다. Maximum R5 = 5, Allocation R5 = 0이므로 식 1은 5다. 추적표 6과 본문은 4를 따른다(Z-8).
 - 본문의 'Max_Need (5)'는 값이 아니라 자원 위치 R5를 가리킨다(이 저장소의 앞선 서술에서 값으로 오해한 적이 있고 정정했다: `dbdaa2024.py`의 주석).
 - 표 8의 'Momotaz et al. [4]' 열은 Begum 외 2020(§3)의 알고리즘이다('Momotaz'는 첫 저자 Momotaz Begum의 이름). 이 저장소의 인벤토리 R6-05는 저자를 'Das 외'로 적었는데(한 서지 목록이 Bimal Chandra Das만 표시한 것을 따랐다), PDF의 저자는 Momotaz Begum, Omar Faruque, Md. Waliur Rahman Miah, Bimal Chandra Das(넷째)이고 R6-14의 참고문헌 18번도 같은 네 사람을 적으므로 'Begum 외'로 정정한다. 인벤토리가 옮긴 다른 목록의 'CNSA 2020' 표기는 두 제3자 참고문헌(S13, R6-14)의 ISCAIE 2020과 어긋난다. 어느 쪽이 틀렸는지 단정하지 않고 ISCAIE 2020을 쓴다.
+- 표 1(관련 연구 요약)은 '순열 행렬을 없앴고 원래보다 n배, 최근 변형보다 d배 빠르다'는 서술을 참고문헌 5번(Bondarenko·Azeez 2021)의 행에 적는데, 같은 주장이 Begum 외 2020의 PDF 결론에 있다. 표 1의 4번 행(Begum 외)은 정렬과 연결 리스트, O(nd), '여러 경우에 틀린 답'이라 적는다. 5번 행이 5번 논문의 주장인지 표의 귀속 착오인지는 5번 논문을 보지 못해 알 수 없다(인벤토리 관찰 6).
 - 상태 판정 규칙이 없다(Z-2), 시계가 정의되지 않았다(Z-1), 동률 규칙이 없다(Z-3, Z-4).
 
 ### 2.7 도출(AI), 사람 검토 대기
@@ -123,7 +125,7 @@ Z-1–Z-9의 대표 선택(§6 V-1), 상태 판정 규칙 Z-2(V-2), 비용 단�
 
 ### 3.1 자료와 읽은 범위
 
-Begum M, Faruque O, Miah MWR, Das BC, "An Improved Safety Detection Algorithm Towards Deadlock Avoidance", ISCAIE 2020, 쪽 73–78. 학회 이름과 DOI(10.1109/ISCAIE47305.2020.9108818. IEEE Xplore 문서 9108818)는 PDF 텍스트에 없다. 제3자 논문(Botlagunta 외 2021, 인벤토리 R6-14)의 참고문헌 18번이 같은 저자·제목·쪽에 이 학회명과 DOI를 적은 것을 따른다(2차 경로, 수준 B). PDF에서 확인한 것은 제목과 쪽 하단의 IEEE 표기(©2020 IEEE)다. 6쪽 PDF를 전문 읽었고 그림 1(순서도)은 확대한 그림으로 읽었다. 표 I–IV와 본문의 값·순서·횟수, 의사코드의 핵심 구문 48개를 `verify_begum_pdf.py`가 대조했다(실패 0). 그림은 기계 대조 대상이 아니다. DBpia에는 이 논문이 없었다(인벤토리 R6-05). IEEE 저작물이라 아래는 의역이다.
+Begum M, Faruque O, Miah MWR, Das BC, "An Improved Safety Detection Algorithm Towards Deadlock Avoidance", ISCAIE 2020, 쪽 73–78. 학회 이름과 DOI(10.1109/ISCAIE47305.2020.9108818. IEEE Xplore 문서 9108818)는 PDF 텍스트에 없다. 제3자 논문 둘의 참고문헌에 따른다: DBDAA 논문(S13)의 참고문헌 4번이 같은 저자·제목에 'ISCAIE, IEEE 2020, 73–78쪽'을, Botlagunta 외 2021(인벤토리 R6-14)의 참고문헌 18번이 같은 저자·제목·쪽에 학회명과 DOI를 적는다(2차 경로, 수준 B). PDF에서 확인한 것은 제목과 쪽 하단의 IEEE 표기(©2020 IEEE)다. 6쪽 PDF를 전문 읽었고 그림 1(순서도)은 확대한 그림으로 읽었다. 표 I–IV와 본문의 값·순서·횟수, 의사코드의 핵심 구문 48개를 `verify_begum_pdf.py`가 대조했다(실패 0). 그림은 기계 대조 대상이 아니다. DBpia에는 이 논문이 없었다(인벤토리 R6-05). IEEE 저작물이라 아래는 의역이다.
 
 논문의 주장: 안전 검사의 시간 복잡도가 O(nd)이고(표 V: 원래 O(n²d), 수정 뱅커 [6]은 O(nd²+dΣM[j])), 최선의 경우 비교가 n회라고 한다. 결론은 원래 뱅커보다 n배, [6]보다 d배 빠르다고 쓴다. 공간 복잡도는 연결 리스트를 쓰므로 원래보다 작다고 하나 식이 없다. 실험은 안전 검사에 대해서만 했다고 결론에 쓴다. 예제는 프로세스 10개·자원 5종이고 10회의 비교로 안전 순서를 얻으며, 원래 뱅커는 같은 일에 적어도 50회라고 한다.
 

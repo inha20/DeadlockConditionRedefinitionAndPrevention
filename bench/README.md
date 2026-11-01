@@ -21,13 +21,24 @@ AI(Claude)가 작성한 초안이며 사람의 검토 전이다. 측정 도구(�
 | `summarize.py` | K1(FU·FS와 구간), 인스턴스별 K2·K3, 셀별 짝지은 비율, 시간의 분산 성분(파일럿용) |
 | `check_pipeline.py` | 위 전체의 자체 점검. 결과: `formal/rq6/harness-check-results.md` |
 | `check_banker_policies.py` | 교재식 기준 구현의 소규모 전수 차등 테스트(O1 대조, 889,373개 상태), 속성, 변이체 검출, O1 크기·시간 한계표. 결과: `formal/rq6/policies-diff-results.md` |
+| `policies/banker/variants/` | 문헌 변형의 재구현(AI 초안, 해석은 `docs/rq6/variants.md`): `zohora2024.py`(DBDAA. 정책 `dbdaa-cycle1`, `dbdaa-repeat`), `begum2020.py`(정책 `begum-return`) |
+| `literature/` | 문헌 예제 입력(F-lit)과 논문 PDF 대조 스크립트: `dbdaa2024.py`, `begum2020.py`, `botlagunta2021.py`(예제 두 상태를 O1로 판정), `verify_dbdaa_pdf.py`, `verify_begum_pdf.py`. PDF는 저장소에 넣지 않고 사람이 제공한다(SHA-256만 기록) |
+| `check_variants.py` | DBDAA 구현의 예제 재현(논문 표 5–8), 줄 번호를 옮긴 두 번째 구현과의 차등, 속성, 변이체 검출, 표시(mark) 읽기 비교. 결과: `formal/rq6/variants-check-results.md` |
+| `check_variants_begum.py` | Begum 외 구현의 예제 재현, 순서도를 옮긴 두 번째 구현과의 차등, 속성, 변이체 검출, 분기 적용 횟수. 결과: `formal/rq6/variants-check-begum.md` |
+| `check_variants_derivations.py` | 해석 문서의 도출 D1–D5(AI)를 코드로 확인. 결과: `formal/rq6/variants-derivations.md` |
 
 ## 실행
 
 ```
 python3 -I bench/check_pipeline.py formal/rq6/harness-check-results.md   # 약 10초
 python3 -I bench/check_banker_policies.py formal/rq6/policies-diff-results.md   # 약 2.5분
+python3 -I bench/check_variants.py formal/rq6/variants-check-results.md   # 약 30초
+python3 -I bench/check_variants_begum.py formal/rq6/variants-check-begum.md   # 약 25초
+python3 -I bench/check_variants_derivations.py formal/rq6/variants-derivations.md   # 약 10초
+python3 -I bench/literature/botlagunta2021.py   # 문헌 예제 두 상태의 판정
 ```
+
+PDF 대조(`verify_*_pdf.py`)는 사람이 PDF를 제공해야 하고 `pdftotext`가 필요하다. 사용법은 `docs/rq6/variants.md` §1.3.
 
 ## 설계 결정 (사람이 검토할 것)
 

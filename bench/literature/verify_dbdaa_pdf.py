@@ -108,7 +108,10 @@ def main() -> int:
     def check(name: str, ok: bool, detail: str = "") -> None:
         res.append((name, bool(ok), detail))
 
-    check("PDF 제목", "Optimized Deadlock Avoidance Algorithm" in text and "pone.0310807" in text)
+    flat = " ".join(text.split())
+    check("PDF 제목(DBDAA: A real-time approach to Dynamic Banker's Deadlock Avoidance Algorithm with optimized time complexity)과 DOI",
+          "DBDAA: A real-time approach to Dynamic" in flat and "Deadlock Avoidance Algorithm with optimized time complexity" in flat
+          and "pone.0310807" in flat)
 
     # 표 2–4
     marks = {"best": ("Table 2. List of processes", "pone.0310807.t002"), "average": ("Table 3. List of processes", "pone.0310807.t003"),

@@ -1,7 +1,7 @@
 """문헌 예제 입력(F-lit): Begum·Faruque·Miah·Das 2020의 예제(표 I–IV)와 본문이 밝힌 결과.
 
 출처: Begum M, Faruque O, Miah MWR, Das BC (2020) "An Improved Safety Detection Algorithm Towards Deadlock Avoidance". ISCAIE 2020,
-쪽 73–78(제공받은 PDF의 쪽 번호와 쪽 하단의 ©2020 IEEE 표기). IEEE Xplore 문서 번호 9108818(인벤토리 R6-05). DOI 문자열은 PDF 텍스트에 없어 확인하지 못했다.
+쪽 73–78(제공받은 PDF의 쪽 번호와 쪽 하단의 ©2020 IEEE 표기). IEEE Xplore 문서 번호 9108818(인벤토리 R6-05). 학회 이름과 DOI(10.1109/ISCAIE47305.2020.9108818)는 PDF 텍스트에 없고 제3자 논문 Botlagunta 외 2021(인벤토리 R6-14)의 참고문헌 18번이 적은 것이다.
 (DBDAA 논문은 이 논문을 'Momotaz et al.'로 부른다: 첫 저자 Momotaz Begum의 이름이다. DBDAA 논문 참고문헌 4번이 이 논문이다.)
 
 이 논문은 IEEE의 저작물이다. 재현 점검에 필요한 최소한의 숫자(예제 하나의 입력과 논문이 밝힌 결과)만 옮겼고 문장은 옮기지 않았다.

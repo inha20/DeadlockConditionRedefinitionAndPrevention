@@ -4,7 +4,7 @@
 
 | 점검 | 결과 |
 |---|---|
-| PDF 제목 | 통과 |
+| PDF 제목(DBDAA: A real-time approach to Dynamic Banker's Deadlock Avoidance Algorithm with optimized time complexity)과 DOI | 통과 |
 | 표 입력 best: 행 수 10 | 통과 |
 | 표 입력 best: 모든 칸(ID, AT, BT, Maximum, Allocation, 인쇄된 Need)이 옮긴 값과 같음 | 통과 |
 | 표 입력 best: 인쇄된 Need ≠ Maximum − Allocation인 행이 KNOWN_TABLE_INCONSISTENCIES와 같음 | 통과 |
