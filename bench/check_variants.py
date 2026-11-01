@@ -45,10 +45,13 @@ class _Log:
 
 # ---------------------------------------------------------------- 두 번째 독립 구현(DBDAA)
 
-def literal_dbdaa(total, alloc, need, avail, requeue: bool, tie: str = "first", mutation: str | None = None):
+def literal_dbdaa(total, alloc, need, avail, requeue: bool, tie: str = "first", mutation: str | None = None,
+                  mark_reset: str = "process"):
     """Algorithm 1을 줄 번호 그대로 옮긴 goto 기계. 반환: (Safe_Sequence, 남은 Primary_Unsafe, Unsafe, 논문이 센 비교 수, 주기 수).
     run()과 구조를 달리한다: 위치(L1, L2)는 최댓값·최솟값을 먼저 구한 뒤 값으로 다시 찾는다.
-    mutation: 점검의 비공허성을 보이려는 고의 오류('strict19': 19줄에서 <, 'no-l3': 35줄 검사 생략, 'desc-sort': 내림차순 정렬)."""
+    mutation: 점검의 비공허성을 보이려는 고의 오류('strict19': 19줄에서 <, 'no-l3': 35줄 검사 생략, 'desc-sort': 내림차순 정렬).
+    mark_reset: 표시(mark)를 지우는 시점의 읽기. 'process'(구현의 선택: 프로세스를 꺼낼 때마다 지움)와
+    'success'(본문 문장 그대로: 통과해 43줄에 닿을 때만 지움. 실패한 프로세스의 표시가 다음 프로세스에 남는다)."""
     n, d = len(alloc), len(total)
     half = d // 2
     Available = list(avail)
@@ -80,7 +83,8 @@ def literal_dbdaa(total, alloc, need, avail, requeue: bool, tie: str = "first", 
         elif pc == 13:
             i = SRQ.pop(0)
             k = 1
-            mark = [False] * d
+            if mark_reset == "process" or not mark:
+                mark = [False] * d
             pc = 14
         elif pc == 14:
             pc = 15 if k <= half else 31
@@ -137,6 +141,8 @@ def literal_dbdaa(total, alloc, need, avail, requeue: bool, tie: str = "first", 
         elif pc == 43:
             for j in range(d):
                 Available[j] += alloc[i][j]
+            if mark_reset == "success":
+                mark = [False] * d
             pc = 44
         elif pc == 44:
             pc = 12                                                   # 타이머는 만료되지 않는다고 본다
@@ -236,6 +242,26 @@ def check_examples(L: _Log, info: dict) -> None:
         r3 = run_main(DBDAARepeat(), st)
         info[case]["repeat"] = {"safe": [ids[i] for i in r3.safe], "primary": [ids[i] for i in r3.primary_unsafe],
                                 "cycles": r3.cycles, "paper_cmp": r3.counts["paper_cmp"], "counts": r3.counts}
+
+
+def check_mark_reading(L: _Log, info: dict) -> None:
+    """표시(mark)를 지우는 시점의 두 읽기를 예제에 돌린다(해석 I-9의 근거).
+    'process'는 구현의 선택이고 세 예제를 모두 재현한다. 'success'(본문 문장 그대로)는 worst에서 논문의 비교 횟수와 다르다."""
+    out = {}
+    for case in ("best", "average", "worst"):
+        st, ids, _ = D.load(case)
+        exp = D.DBDAA_RESULT[case]
+        rec = {}
+        for mode in ("process", "success"):
+            safe, prim, uns, comps, cyc = literal_dbdaa(st.total, st.alloc, st.need, st.avail, False, "first", None, mode)
+            rec[mode] = {"safe_ok": [ids[i] for i in safe] == exp["safe"], "prim_ok": [ids[i] for i in prim] == exp["primary_unsafe"],
+                         "comps": comps, "comps_ok": comps == exp["comparisons"]}
+        out[case] = rec
+        L.check(all(rec["process"][k] for k in ("safe_ok", "prim_ok", "comps_ok")), f"{case}: 표시를 프로세스마다 지우는 읽기가 예제를 재현하지 못함")
+    ok_s = {c: all(out[c]["success"][k] for k in ("safe_ok", "prim_ok", "comps_ok")) for c in out}
+    L.check(ok_s["best"] and ok_s["average"] and (not ok_s["worst"]) and out["worst"]["success"]["safe_ok"] and out["worst"]["success"]["prim_ok"],
+            f"본문 문장 그대로의 읽기(성공할 때만 지움)의 재현 결과가 문서의 서술(best·average는 재현, worst는 비교 횟수만 다름)과 다름: {ok_s}")
+    info["mark_reading"] = out
 
 
 def check_baseline_examples(L: _Log, info: dict) -> None:
@@ -403,6 +429,7 @@ def main(out_path: str | None) -> int:
     check_registry(L)
     check_fixture(L, fx_rows)
     check_examples(L, info)
+    check_mark_reading(L, info)
     ex = {k: info[k] for k in ("best", "average", "worst")}
     base_info: dict = {}
     check_baseline_examples(L, base_info)
@@ -480,6 +507,20 @@ def main(out_path: str | None) -> int:
     for mut, caught, total in info["mutants"]:
         lines.append(f"| {mut} | {caught} | {total} |")
     lines.append("")
+    lines.append("### 1.7 관찰: 표시(mark)를 지우는 시점의 읽기 (해석 I-9)\n")
+    lines.append("논문의 의사코드에서 '표시'(Available[j]를 marked로 두어 다음 최대·최소 탐색에서 뺀다)를 지우는 문장은 43줄(통과 뒤)에만 있고 실패 경로(25, 36줄)는 44줄로 바로 간다"
+                 "(저널 PDF 대조: formal/rq6/dbdaa-pdf-crosscheck.md). 문장 그대로 읽으면 실패한 프로세스가 남긴 표시가 다음 프로세스에 이어진다. "
+                 "구현은 프로세스를 꺼낼 때마다 표시를 지운다. 두 읽기를 같은 goto 기계로 예제에 돌린 결과다(첫 주기만).\n")
+    lines.append("| 예제 | 논문 비교 수 | 프로세스마다 지움: 비교 수 | 순서 일치 | 성공할 때만 지움: 비교 수 | 순서 일치 |")
+    lines.append("|---|---|---|---|---|---|")
+    for case in ("best", "average", "worst"):
+        a, b = info["mark_reading"][case]["process"], info["mark_reading"][case]["success"]
+        lines.append(f"| {case} | {D.DBDAA_RESULT[case]['comparisons']} | {a['comps']} | {'예' if a['safe_ok'] and a['prim_ok'] else '아니오'} | "
+                     f"{b['comps']} | {'예' if b['safe_ok'] and b['prim_ok'] else '아니오'} |")
+    lines.append("")
+    lines.append("worst 예제에서 문장 그대로의 읽기는 순서는 같지만 비교 횟수가 논문(70)과 다르다. 그래서 예제는 프로세스마다 지우는 읽기를 따른다. "
+                 "문장 그대로의 읽기는 실패한 프로세스 뒤의 프로세스가 표시된 자원을 건너뛰어 검사하는 것이라 일반적으로는 안전성 판정이 틀릴 수 있다"
+                 "(이 점검은 두 읽기를 예제에서 구별한 것이며 일반 입력에서의 영향은 보지 않았다).\n")
     status = "모두 통과" if not L.fails else f"실패 {len(L.fails)}건"
     lines.append(f"점검 {L.checks}개: {status}. 총 시간 {time.time() - t0:.0f}초.\n")
     if L.fails:

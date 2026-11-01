@@ -94,7 +94,7 @@ def main() -> int:
     def check(name: str, ok: bool, detail: str = "") -> None:
         res.append((name, bool(ok), detail))
 
-    check("PDF 식별: 제목과 ISCAIE 쪽 표시(978-1-7281-5033-8/20)", "An Improved Safety Detection Algorithm Towards" in lay
+    check("PDF 식별: 제목과 쪽 하단의 IEEE 표기(978-1-7281-5033-8/20, ©2020 IEEE)", "An Improved Safety Detection Algorithm Towards" in lay
           and "978-1-7281-5033-8/20" in lay)
     check("PDF 쪽 수 6", pages == 6, f"쪽 수 {pages}")
 
@@ -191,7 +191,7 @@ def main() -> int:
     if out_md:
         L = ["# Begum 외 2020 PDF와 옮긴 값의 대조 결과\n",
              "`bench/literature/verify_begum_pdf.py`가 쓴 결과다. AI(Claude)가 작성한 초안이며 사람의 검토 전이다. "
-             "PDF는 ISCAIE 2020, pp. 73–78(6쪽)이고 사용자가 2026-11-01에 제공했다. IEEE의 저작물이라 저장소에는 넣지 않는다. "
+             "PDF는 6쪽(쪽 번호 73–78, 서지는 인벤토리 R6-05의 ISCAIE 2020)이고 사용자가 2026-11-01에 제공했다. IEEE의 저작물이라 저장소에는 넣지 않는다. "
              f"사본의 SHA-256: `{sha}`. 텍스트 층만 읽었다(그림 제외).\n",
              "| 점검 | 결과 |", "|---|---|"]
         for nm, ok, detail in res:
@@ -200,7 +200,7 @@ def main() -> int:
         L.append(f"점검 {len(res)}개, 실패 {len(fails)}건.\n")
         L.append("## 범위와 한계\n")
         L.append("- 표 I–IV의 모든 칸과 본문이 적은 값·순서·횟수, 의사코드의 핵심 구문이 있는지를 본다. 의사코드의 모든 문자를 기계로 대조한 것은 아니다.")
-        L.append("- 그림 1(순서도)은 그림이라 이 대조에 들어 있지 않다. 순서도의 흐름은 사람이 확대한 그림을 읽고 확인했다(docs/rq6/variants.md §2).")
+        L.append("- 그림 1(순서도)은 그림이라 이 대조에 들어 있지 않다. 순서도의 흐름은 사람이 확대한 그림을 읽고 확인했다(docs/rq6/variants.md §3).")
         L.append("- 논문 안의 인쇄 불일치 두 곳(표 III의 P7 E칸 5, 표 IV의 P7 Maximum Needed 5)은 PDF에서도 그대로 있다. "
                  "둘 다 실행 결과(순서, 비교 횟수)에는 영향이 없다(표 IV의 P7 비교는 Maximum Needed 7과 5 어느 쪽이든 Minimum available 18 이하라 True다).")
         L.append("- 옮긴 값(`begum2020.py`)은 저작물의 최소 수치만 담았고 문장은 담지 않았다. 위 표의 '본문' 줄은 정규식으로 찾은 일치 횟수다.")
