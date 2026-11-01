@@ -47,7 +47,9 @@
 | `refs/rq6-inventory.md` | RQ6 재현 후보 인벤토리 |
 | `prereg/` | 사전 분석 계획 초안(RQ6, RQ3, RQ1, RQ5, RQ2)과 공통 통계·측정 규약. 동결 전(AI 초안) |
 | `oracle/` | SM의 참조 구현과 소규모 전수 검사(`oracle/README.md`) |
+| `bench/` | RQ6용 측정 하니스(교재식 기준 구현, 입력 생성기, 통계 도구, 실행기)와 자체 점검(`bench/README.md`). 동결 전, 본 실험은 돌리지 않았다 |
 | `formal/rq1/` | 전수 검사와 변이 검사 결과 |
+| `formal/rq6/` | 뱅커 오라클 O1과 하니스의 자체 점검 결과 |
 | `analysis/` | 실증 자료 재분석(RQ5 자료 색인, 자기 대기 비중 계산) |
 
 ## 검사 실행
