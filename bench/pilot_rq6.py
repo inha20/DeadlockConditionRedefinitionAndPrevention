@@ -8,6 +8,7 @@ AI(Claude)가 쓴 초안이며 사람의 검토 전이다. 동결 전 도구이�
 단계 (python3 -I bench/pilot_rq6.py <단계> [--out 폴더] [--smoke]):
   s        표집·난이도·동률 (입력만)
   c        비용 사다리와 O1 (정책 12개의 호출당 시간, 크기 상한, O1 시간)
+  o        과제마다 드는 고정 비용(상태 재구성, 해시). 프로토콜에 없던 측정이며 비용 모델에 쓴다
   v        분산 성분 (인스턴스 사이·반복 사이, 카나리)        v2  조각 길이
   p        짝지은 비용의 분산 (비교 횟수만. 시간은 재지 않는다)
   r        재현성 (같은 시드 두 번, 다른 프로세스 한 번)       r-child  r의 하위 프로세스
@@ -63,6 +64,7 @@ P_POINTS = sorted(set(SWEEP_N + SWEEP_M), key=lambda p: (p[0] * p[1], p[0]))
 TARGETS = (0.1, 0.5, 0.9)
 V_RAND = [(64, 8), (256, 8), (1024, 8), (256, 64), (1024, 64)]
 V_BOUND = [("chain-first", 256, 8), ("chain-last", 256, 8), ("chain-unsafe-last", 128, 8)]
+V3_COUNT = 60        # 사후 추가(V3): V와 같은 F-rand 다섯 셀, 인스턴스 60개(안전 30 + 불안전 30). 안전/불안전을 나눈 분산 추정용
 C_KINDS = ("chain-last", "chain-unsafe-last")
 
 
@@ -288,12 +290,15 @@ def stage_c(out_dir: str, master: str = PILOT_MASTER, points=None, policies=None
 # ---------------------------------------------------------------- 단계 v, v2: 분산 성분
 
 def stage_v(out_dir: str, master: str = PILOT_MASTER, rand_points=None, bound=None, policies=None, count: int = 12,
-            sessions: int = 6, repeats: int = 8, target_ns: int = 5_000_000, chunk: int = 60, cap: float = 120.0, log=print) -> None:
-    rand_points = rand_points or V_RAND
-    bound = bound or V_BOUND
+            sessions: int = 6, repeats: int = 8, target_ns: int = 5_000_000, chunk: int = 60, cap: float = 120.0,
+            tag: str = "V", log=print) -> None:
+    """tag="V": 프로토콜대로(F-rand 12개 + F-bound 세션 6개). tag="V3": 사후에 덧붙인 층화 확인(F-rand만, 인스턴스 60개 = 안전 30 + 불안전 30).
+    시간 기록에는 판정이 없고, 입력의 표지(truth, 닫힘 계산으로 정한 입력의 성질)만 F-rand 기록에 붙는다."""
+    rand_points = V_RAND if rand_points is None else rand_points
+    bound = V_BOUND if bound is None else bound
     policies = list(policies or policy_names())
-    specs = [CellSpec(f"V-rand-{n}-{m}", "F-rand", n, m, count=count, target_safe=0.5) for n, m in rand_points]
-    specs += [CellSpec(f"V-{k}-{n}-{m}", "F-bound", n, m, kind=k) for k, n, m in bound]
+    specs = [CellSpec(f"{tag}-rand-{n}-{m}", "F-rand", n, m, count=count, target_safe=0.5) for n, m in rand_points]
+    specs += [CellSpec(f"{tag}-{k}-{n}-{m}", "F-bound", n, m, kind=k) for k, n, m in bound]
     cells = RU.build_cells(master, specs)
     canary = Cell(master, CellSpec("V-canary", "F-rand", 256, 8, count=1, target_safe=1.0))
     canary_pol = pb.get("textbook-restart")
@@ -301,27 +306,30 @@ def stage_v(out_dir: str, master: str = PILOT_MASTER, rand_points=None, bound=No
     for c in cells.values():
         k_items = c.size if c.spec.family == "F-rand" else sessions
         plan += [(p, c.spec.name, i) for i in range(k_items) for p in policies]
-    order = RU.shuffled(master, "V-time", plan)
-    st = Stage(out_dir, "V", master, {"rand_points": rand_points, "bound": bound, "policies": policies, "count": count, "sessions": sessions,
+    order = RU.shuffled(master, f"{tag}-time", plan)
+    st = Stage(out_dir, tag, master, {"rand_points": rand_points, "bound": bound, "policies": policies, "count": count, "sessions": sessions,
                                        "repeats": repeats, "target_ns": target_ns, "chunk": chunk, "tasks": len(order)})
     for j in range(0, len(order), chunk):
-        unit = f"V-chunk-{j // chunk:04d}"
+        unit = f"{tag}-chunk-{j // chunk:04d}"
         if unit in st.done:
             continue
         with deadline(cap):
-            rec = RU.time_one(canary_pol, canary, 0, "V", target_ns, 5)
+            rec = RU.time_one(canary_pol, canary, 0, tag, target_ns, 5)
         st.write(dict(rec, rec="canary", unit=unit, k=j))
         for k in range(j, min(j + chunk, len(order))):
             pname, cname, idx = order[k]
+            cell = cells[cname]
             try:
                 with deadline(cap):
-                    rec = RU.time_one(pb.get(pname), cells[cname], idx, "V", target_ns, repeats)
-                rec.update(unit=unit, k=k, stage="V", status="ok", session=idx if cells[cname].spec.family == "F-bound" else None)
+                    rec = RU.time_one(pb.get(pname), cell, idx, tag, target_ns, repeats)
+                rec.update(unit=unit, k=k, stage=tag, status="ok", session=idx if cell.spec.family == "F-bound" else None)
+                if cell.spec.family == "F-rand":
+                    rec["truth"] = bool(cell.recipes[idx]["safe"])
             except PilotTimeout:
-                rec = {"rec": "time", "unit": unit, "k": k, "stage": "V", "cell": cname, "idx": idx, "policy": pname, "status": "timeout"}
+                rec = {"rec": "time", "unit": unit, "k": k, "stage": tag, "cell": cname, "idx": idx, "policy": pname, "status": "timeout"}
             st.write(rec)
         st.finish_unit(unit)
-        log(f"[V] {unit} / {math.ceil(len(order) / chunk)}")
+        log(f"[{tag}] {unit} / {math.ceil(len(order) / chunk)}")
     st.close()
 
 
@@ -344,6 +352,39 @@ def stage_v2(out_dir: str, master: str = PILOT_MASTER, point=(256, 8), policies=
             rec.update(unit=unit, k=k, stage="V2", target_ns=tn, status="ok")
             st.write(rec)
         st.finish_unit(unit)
+    st.close()
+
+
+# ---------------------------------------------------------------- 단계 o: 과제마다 드는 고정 비용 (프로토콜에 없던 측정. 비용 모델에 필요)
+
+def _median_time(fn, reps: int) -> float:
+    xs = []
+    for _ in range(reps):
+        t0 = time.perf_counter()
+        fn()
+        xs.append(time.perf_counter() - t0)
+    return float(np.median(xs))
+
+
+def stage_o(out_dir: str, master: str = PILOT_MASTER, points=None, reps: int = 5, log=print) -> None:
+    """runner는 과제마다 상태를 번호로 다시 만들고, 해시를 세고, (계수 과제에서는) 닫힘 계산으로 표지를 단다.
+    정책 시간과 별개로 드는 이 비용을 잰다. 점마다 reps번 재어 중앙값을 남긴다(한 번 재면 첫 호출의 지연이 섞인다)."""
+    points = sorted(points or POINTS, key=lambda p: (p[0] * p[1], p[0]))
+    st = Stage(out_dir, "O", master, {"points": points, "reps": reps})
+    for (n, m) in points:
+        unit = f"O-{n}-{m}"
+        if unit in st.done:
+            continue
+        cell = Cell(master, CellSpec(f"O-rand-{n}-{m}", "F-rand", n, m, count=2, target_safe=0.5))
+        s = cell.state(0)
+        build_rand = _median_time(lambda: cell.state(0), reps)
+        digest = _median_time(lambda: R.state_digest(s), reps)
+        closure = _median_time(lambda: G.closure_stats(s.avail, s.alloc, s.need), reps)
+        build_bound = _median_time(lambda: G.worst_case(n, m, "chain-last"), reps)
+        st.write({"rec": "overhead", "unit": unit, "n": n, "m": m, "reps": reps, "build_rand_s": round(build_rand, 5),
+                  "build_bound_s": round(build_bound, 5), "digest_s": round(digest, 5), "closure_s": round(closure, 5)})
+        st.finish_unit(unit)
+        log(f"[O] {unit}")
     st.close()
 
 
@@ -408,6 +449,8 @@ R_SPECS = [CellSpec("R-rand-64-8", "F-rand", 64, 8, count=6, target_safe=0.5),
            CellSpec("R-rand-256-32", "F-rand", 256, 32, count=6, target_safe=0.5),
            CellSpec("R-chain-first-64-8", "F-bound", 64, 8, kind="chain-first"),
            CellSpec("R-chain-unsafe-last-64-8", "F-bound", 64, 8, kind="chain-unsafe-last")]
+R_SMOKE_SPECS = [CellSpec("R-rand-16-2", "F-rand", 16, 2, count=3, target_safe=0.5),
+                 CellSpec("R-chain-first-16-2", "F-bound", 16, 2, kind="chain-first")]
 R_TOL = (0.85, 1.18)
 R_MIN_MEDIAN_NS = 100_000.0       # 호출당 중앙값이 0.1 ms 이상인 (정책, 셀) 쌍만 허용 범위를 본다
 R_PASS_FRACTION = 0.90
@@ -430,8 +473,8 @@ def count_records(master: str, specs, policies) -> list[dict]:
     return out
 
 
-def stage_r_child(out_dir: str, master: str = PILOT_MASTER) -> None:
-    recs = count_records(master, R_SPECS, policy_names())
+def stage_r_child(out_dir: str, master: str = PILOT_MASTER, smoke: bool = False) -> None:
+    recs = count_records(master, R_SMOKE_SPECS if smoke else R_SPECS, policy_names())
     os.makedirs(out_dir, exist_ok=True)
     with open(os.path.join(out_dir, "R-child.json"), "w", encoding="utf-8") as f:
         json.dump({"hash_probe": hash("rq6-hash-probe"), "records": recs}, f, sort_keys=True)
@@ -464,23 +507,25 @@ def compare_runs(a_recs: list[dict], b_recs: list[dict]) -> dict:
             "outside": sorted([[k[0], k[1], round(v, 3)] for k, v in ratios.items() if k not in inside])[:40]}
 
 
-def stage_r(out_dir: str, master: str = PILOT_MASTER, log=print) -> dict:
-    st = Stage(out_dir, "R", master, {"specs": [s.name for s in R_SPECS], "tolerance": list(R_TOL), "min_median_ns": R_MIN_MEDIAN_NS,
+def stage_r(out_dir: str, master: str = PILOT_MASTER, smoke: bool = False, log=print) -> dict:
+    specs = R_SMOKE_SPECS if smoke else R_SPECS
+    st = Stage(out_dir, "R", master, {"specs": [s.name for s in specs], "tolerance": list(R_TOL), "min_median_ns": R_MIN_MEDIAN_NS,
                                       "pass_fraction": R_PASS_FRACTION})
     tmp = tempfile.mkdtemp(prefix="rq6-pilot-r-")
     pa, pbp = os.path.join(tmp, "A.jsonl"), os.path.join(tmp, "B.jsonl")
-    RU.execute(master, R_SPECS, list(BASELINES), pa, "R-A", time_target_ns=2_000_000, time_repeats=5, repo_root=ROOT)
-    RU.execute(master, R_SPECS, list(BASELINES), pbp, "R-B", time_target_ns=2_000_000, time_repeats=5, repo_root=ROOT)
+    RU.execute(master, specs, list(BASELINES), pa, "R-A", time_target_ns=2_000_000, time_repeats=5, repo_root=ROOT)
+    RU.execute(master, specs, list(BASELINES), pbp, "R-B", time_target_ns=2_000_000, time_repeats=5, repo_root=ROOT)
     cmp_base = compare_runs(list(R.read_jsonl(pa)), list(R.read_jsonl(pbp)))
     # 기준 구현의 판정과 입력의 표지(실행기가 쓴 truth)
     rec_a = [r for r in R.read_jsonl(pa) if r.get("rec") == "count"]
     base_vs_truth = sum(1 for r in rec_a if r["result"] != r["truth"])
     # 변형까지 열두 정책의 계수: 같은 프로세스에서 두 번, 다른 프로세스(해시 시드가 다름)에서 한 번
     pol = policy_names()
-    v1 = count_records(master, R_SPECS, pol)
-    v2 = count_records(master, R_SPECS, pol)
+    v1 = count_records(master, specs, pol)
+    v2 = count_records(master, specs, pol)
     child_dir = os.path.join(tmp, "child")
-    subprocess.run([sys.executable, "-I", os.path.abspath(__file__), "r-child", "--out", child_dir], check=True, cwd=ROOT)
+    cmd = [sys.executable, "-I", os.path.abspath(__file__), "r-child", "--out", child_dir, "--master", master] + (["--smoke"] if smoke else [])
+    subprocess.run(cmd, check=True, cwd=ROOT)
     with open(os.path.join(child_dir, "R-child.json"), encoding="utf-8") as f:
         child = json.load(f)
     same_proc = v1 == v2
@@ -500,7 +545,7 @@ def stage_r(out_dir: str, master: str = PILOT_MASTER, log=print) -> dict:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="RQ6 파일럿 실행기(docs/rq6/pilot.md)")
-    ap.add_argument("stage", choices=["s", "c", "v", "v2", "p", "r", "r-child", "summary"])
+    ap.add_argument("stage", choices=["s", "c", "o", "v", "v2", "v3", "p", "r", "r-child", "summary"])
     ap.add_argument("--out", default=DEFAULT_OUT)
     ap.add_argument("--master", default=PILOT_MASTER)
     ap.add_argument("--smoke", action="store_true", help="아주 작은 크기로 돌려 동작만 본다(기본 출력은 임시 폴더)")
@@ -515,6 +560,8 @@ def main(argv=None) -> int:
     elif a.stage == "c":
         stage_c(out, a.master, points=smoke_points if a.smoke else None, rand_count=2 if a.smoke else 4,
                 cap_count=5.0 if a.smoke else 20.0, cap_time=10.0 if a.smoke else 40.0)
+    elif a.stage == "o":
+        stage_o(out, a.master, points=smoke_points if a.smoke else None)
     elif a.stage == "v":
         if a.smoke:
             stage_v(out, a.master, rand_points=[(16, 2), (32, 4)], bound=[("chain-first", 16, 2)], count=3, sessions=2, repeats=3,
@@ -526,12 +573,17 @@ def main(argv=None) -> int:
             stage_v2(out, a.master, point=(32, 4), count=3, repeats=3, targets_ns=(200_000, 500_000), chunk=10)
         else:
             stage_v2(out, a.master)
+    elif a.stage == "v3":
+        if a.smoke:
+            stage_v(out, a.master, rand_points=[(16, 2), (32, 4)], bound=[], count=4, repeats=3, target_ns=500_000, chunk=20, tag="V3")
+        else:
+            stage_v(out, a.master, bound=[], count=V3_COUNT, tag="V3")
     elif a.stage == "p":
         stage_p(out, a.master, points=smoke_points if a.smoke else None, workers=1 if a.smoke else 2)
     elif a.stage == "r":
-        stage_r(out, a.master)
+        stage_r(out, a.master, smoke=a.smoke)
     elif a.stage == "r-child":
-        stage_r_child(out, a.master)
+        stage_r_child(out, a.master, smoke=a.smoke)
     elif a.stage == "summary":
         from bench import pilot_summary_rq6 as PS  # noqa: PLC0415
         PS.write_summary(out)
