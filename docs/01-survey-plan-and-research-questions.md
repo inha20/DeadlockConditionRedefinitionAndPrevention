@@ -135,9 +135,9 @@ v0.3 주: AND, OR, AND-OR 세 행은 문서 04 §9의 정정 1·2에 따라 고�
 |---|---|---|---|---|
 | A1 조건의 정의·논리 구조 | 네 조건과 deadlock의 정의가 문헌별로 어떻게 다르게 정식화되는가 | F1, F2, F6, F10, T1~T5, T7 | "Coffman conditions" necessary sufficient / "defining deadlock" / 교착상태 필요조건 충분조건 | 정의·가정 비교표, 불일치 항목별 원문 근거 |
 | A2 상태 판별 이론 | 모델(인스턴스 수, 요청 형태, 소모성 자원)별로 교착과 상태 조건은 어떤 관계인가 | F2, M1, M2, M14~M18, F8, M20 | "general resource graph" knot expedient / "AND-OR model" deadlock / "P-out-of-Q" | 모델 매트릭스 완성(원문 대조) |
-| A3 알고리즘 비용·복잡도 | 예방·회피·탐지 알고리즘의 비용과 요구 정보는 무엇이고 어디서 어려워지는가 | F3, F7, F8, M3~M10, M20, S11~S13 | "banker's algorithm" complexity / deadlock avoidance NP-complete / maximally permissive | 비용표, 복잡도 경계 지도 |
+| A3 알고리즘 비용·복잡도 | 예방·회피·탐지 알고리즘의 비용과 요구 정보는 무엇이고 어디서 어려워지는가 | F3, F7, F8, M3–M10, M20, S11–S13 | "banker's algorithm" complexity / deadlock avoidance NP-complete / maximally permissive | 비용표, 복잡도 경계 지도 |
 | A4 실제 시스템·실증 | 실제 OS·런타임은 무엇을 쓰고 실제 교착은 어떤 구조인가 | S1~S10, E1, E2, T1, T3 | lockdep / ww_mutex / priority ceiling deadlock-free / Linux kernel deadlock study | 시스템별 정책·비용 표, 실증 데이터 재분석 계획 |
-| A5 인접 분야 | DES·Petri net, DB 동시성 제어, 분산 탐지, 형식 검증의 결과 중 이전 가능한 것은 | M11~M13, M16~M19, S14~S16, V1 | siphon deadlock prevention / wait-die wound-wait / generalized deadlock detection / mechanized deadlock freedom Coq Isabelle TLA+ Alloy | 이전 가능·불가 판정과 근거 |
+| A5 인접 분야 | DES·Petri net, DB 동시성 제어, 분산 탐지, 형식 검증의 결과 중 이전 가능한 것은 | M11–M13, M16–M19, S14–S16, V1 | siphon deadlock prevention / wait-die wound-wait / generalized deadlock detection / mechanized deadlock freedom Coq Isabelle TLA+ Alloy | 이전 가능·불가 판정과 근거 |
 | A6 알고리즘 도구 | 증분 순환 탐지·위상 순서 같은 자료구조가 이미 어디에 쓰이는가 | G1~G4, M7, S10 | incremental cycle detection / dynamic topological order lock graph | 응용 사례·비용 한계 표 |
 
 국내 문헌: KCI·RISS·DBpia·KoreaScience에서 교착상태 예방·회피 알고리즘, 뱅커 알고리즘 개선을 검색한다(현재 M21 1건만 확인).
@@ -339,7 +339,7 @@ v0.3 주: Phase 3 결과(문서 04 §11.2)는 다음과 같다. RQ2는 M9(구조
 | G2 | 서론 §1이 교착 탐지를 응용으로 [Belik 1990]을 인용(A−). 그 참고문헌 항목은 열람한 텍스트에 없다(D). 후보 서지로 F. Belik, IEEE Trans. Computers 39(7), 1990(M48)을 Crossref에서 찾았고(2026-10-31) 같은 논문이라는 것은 저자·연도 일치에 의한 추정(C)이다 |
 | M38 | 저자·서지 확정(2026-10-31): Kahlon, Ivančić, Gupta, CAV 2005, DOI 10.1007/11513988_49. 세 곳이 일치한다(문서 04 §10.3). 내용은 초록 수준(B) |
 | E5 | 본문 PDF를 읽음(2026-10-31, A−). 블로킹 85건 중 Mutex 28, RWMutex 5이고 이중 락 건수는 본문에 없다. Go 내장 교착 탐지기는 재현한 블로킹 버그 21건 중 2건을 탐지(문서 04 §10.3) |
-| 새 서지 | M27~M47, S19~S26, E3~E5를 §7에 추가(M48, M49는 2026-10-31에 추가). M31~M36은 Crossref 서지만 확인했고 내용은 읽지 못함 |
+| 새 서지 | M27–M47, S19–S26, E3–E5를 §7에 추가(M48, M49는 2026-10-31에 추가). M31–M36은 Crossref 서지만 확인했고 내용은 읽지 못함 |
 | 읽지 못한 원문 | Belik 1987 본문(M6), Belik 1990 본문(M48), Li 2013 본문(M27), Minoura 1982 명제(M5), Chang 1975 하한의 수치(M22, M30), Gold(M3)·Araki(M4) 원문, Dimmunix(S6)의 수치, FreeBSD WITNESS 매뉴얼. 사람이 PDF를 주거나 다른 접근 경로가 필요하다(문서 04 §12) |
 
 ---
