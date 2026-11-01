@@ -22,6 +22,10 @@ python3 -I make_index.py _external/e2/dataset.csv index.csv # 교착 49건 색�
 | `e2_stats.py` | 열별 개수 집계(원본 행을 출력하지 않음) |
 | `make_index.py` | 교착 행의 색인 생성 |
 | `index.csv` | 교착 49건의 커밋 해시, 원본 행 번호, 커널 저장소 링크, 자체 코딩 칸(`own_*`, 현재 비어 있음) |
+| `codebook_tools.py` | 코딩 표(23열) 검증, 파일럿 표본 추출, 코더 일치도(Cohen의 κ). 사용법은 `docs/rq5/codebook.md` §6 |
+| `check_codebook_tools.py` | 위 도구의 자체 시험(구성한 가짜 행 사용, 49건은 읽지 않음)과 코드북 문서와의 값 집합 일치 점검. 보고서는 `formal/rq5/codebook-tools-check.md` |
+
+코드북은 `docs/rq5/codebook.md`(v0.1, AI 초안, 사람의 승인 전)다. 파일럿 표본은 아직 뽑지 않았고 `coding.csv`는 아직 없다. 사례 코딩은 사람의 결정(`prereg/RQ5.md` §9의 O5-1–O5-3, O5-9–O5-12)과 동결 뒤 일이다.
 
 ## 읽을 때 주의
 
