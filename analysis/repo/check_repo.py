@@ -70,7 +70,7 @@ EXTERNAL_COMMITS = {
 
 Check = namedtuple("Check", "name script mode report slow same")
 # mode: 'path' = 보고서 경로를 첫 인자로, 'report' = --report PATH
-# slow: 이 컴퓨터(코어 2개)에서 한 점검이 2분을 넘게 걸린 것(--quick이면 건너뜀. 2026-11-07의 일괄 실행에서 정책 전수 검사 640초, 뱅커 정책 차등 159초였다).
+# slow: 가장 오래 걸리는 두 점검(--quick이면 건너뜀. 시간은 formal/repo/run-all-check.md의 기록에 있고 컴퓨터와 동시에 도는 점검에 따라 달라진다).
 # same: 다시 실행한 보고서가 저장소의 것과 바이트까지 같아야 함
 CHECKS = [
     Check("sm", "oracle/check_sm.py", "path", "formal/rq1/sm-check-results.md", False, False),
@@ -1158,6 +1158,9 @@ def diff_state(before, after):
 
 def run_all(out_dir, only, quick, jobs, run_report):
     out_dir = os.path.abspath(out_dir)  # 점검 스크립트는 저장소 루트에서 돌므로 상대 경로면 보고서가 엉뚱한 곳에 쓰인다
+    if run_report:
+        # 긴 실행이 끝난 뒤에 상대 경로를 풀면 작업 폴더가 낡아(마운트된 저장소에서 겪음) 실패할 수 있어 처음에 절대 경로로 바꾼다
+        run_report = os.path.abspath(run_report)
     os.makedirs(out_dir, exist_ok=True)
     names = {ck.name for ck in CHECKS}
     for o in only or []:
@@ -1174,7 +1177,8 @@ def run_all(out_dir, only, quick, jobs, run_report):
         t0 = time.time()
         try:
             r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=3600)
-            rc, tail = r.returncode, (r.stdout + r.stderr).strip().split("\n")[-1][:160]
+            last = (r.stdout + r.stderr).strip().split("\n")[-1].replace(out_dir, "<출력 폴더>")  # 컴퓨터마다 다른 임시 경로를 기록에 남기지 않는다
+            rc, tail = r.returncode, last[:160]
         except subprocess.TimeoutExpired:
             rc, tail = "시간 초과", ""
         dt = time.time() - t0
