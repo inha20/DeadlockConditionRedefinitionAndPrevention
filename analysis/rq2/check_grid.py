@@ -467,7 +467,8 @@ def mutations(model):
     m("항목의 칸 열에서 인용 칸을 지움",
       lambda x: x["entries"]["SAFE-5"].update(cells=[]))
     m("없는 항목 인용", lambda x: x["cells"][("SAFE", "K1", "R0")].update(refs=["SAFE-1", "SAFE-77"]))
-    m("집계 틀림", lambda x: x["tally"].update({"미확인": (26, 8, 34)}))
+    m("집계 틀림(미확인을 한 칸씩 늘림)", lambda x: x["tally"].update(
+        {"미확인": tuple(v + 1 for v in x["tally"]["미확인"])}))
     m("후보 주 칸을 알려짐 칸으로(문헌 발견 표시 없이)",
       lambda x: x["cands"].__setitem__(1, ("(ii)", "SAFE.K3.R0", [], "§5.2")))
     m("주 칸이 알려짐이 된 후보에서 문헌 발견 표시를 지움",
@@ -486,6 +487,12 @@ def mutations(model):
         status="알려짐(상속)", parent=("VER", "K3", "R0")))
     m("기본 유형 칸이 이웃 항목을 근거로(이웃만이 아닌 상태)",
       lambda x: x["cells"][("SAFE", "K3", "R0")].update(refs=["SAFE-4", "VER-4"]))
+    m("초록 수준 칸(MAXP.K3.R0)에 A− 항목",
+      lambda x: x["cells"][("MAXP", "K3", "R0")].update(refs=["MAXP-9", "MAXP-2"]))
+    m("알려짐 칸(SAFE.K3.R5)의 근거를 B 항목만으로",
+      lambda x: x["cells"][("SAFE", "K3", "R5")].update(refs=["SAFE-12"]))
+    m("알려짐 이웃 칸(VER.K3.R2)에서 근거 제거",
+      lambda x: x["cells"][("VER", "K3", "R2")].update(refs=[]))
     return out
 
 
