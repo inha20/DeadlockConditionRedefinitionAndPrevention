@@ -109,6 +109,7 @@ COUNT_DOCS = [
     ("README.md", r"점검 규칙 (\d+)개", "RULES"),
     ("analysis/repo/README.md", r"자체 점검 (\d+)개를 한 번에", "CHECKS"),
     ("analysis/repo/README.md", r"정적 점검: 규칙 (\d+)개", "RULES"),
+    ("docs/07-followup-scope.md", r"자체 점검 (\d+)개를 한 번에", "CHECKS"),
 ]
 PAIRS = [
     ("README.md", r"정책 검사 (\d+)개", [LOCK]),
@@ -126,6 +127,7 @@ PAIRS = [
     ("docs/07-followup-scope.md", r"오라클 (\d+)개, 정책 (\d+)개, 생성기 (\d+)개, 트레이스 (\d+)개", [O2, LOCK, WORK, TRACE]),
     ("docs/07-followup-scope.md", r"도구 점검 (\d+)개", [CODEBOOK]),
     ("docs/07-followup-scope.md", r"문서 점검 문제 없음, 자체 시험 (\d+)건", [GRID]),
+    ("docs/07-followup-scope.md", r"저장소 점검 스크립트\(AV-4\).*?자체 시험 (\d+)건", [REPO_REPORT]),
     ("refs/claims-ledger.md", r"일부러 망가뜨린 모델 (\d+)종", [GRID]),
 ]
 
