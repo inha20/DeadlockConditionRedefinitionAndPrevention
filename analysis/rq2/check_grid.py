@@ -10,7 +10,8 @@
   - 상태 어휘, 인용한 항목의 존재, 항목의 '칸' 열과 칸의 인용이 서로 맞는지
   - 상태별 조건(알려짐은 A/A− 근거, 초록 수준은 B만, 2차 서술은 2차만, 이웃만은 이웃 항목만 등)
   - 상속 칸의 부모, 이웃만/빈칸 후보와 같은 제한 행의 이웃 칸 상태
-  - §0의 상태별 집계와 30% 기준 수치, §5.0의 후보 칸
+  - §0의 상태별 집계와 30% 기준 수치, §5.0의 후보 칸(후보는 표에서 빠지지 않는다.
+    주 칸이 알려짐 계열이 된 후보는 정식화 열에 '문헌에서 발견'이 있어야 하고 그 역도 성립한다)
   - 본문이 언급하는 칸 ID, 항목 ID, 대장 ID의 존재
 자체 시험은 읽어 들인 모델을 일부러 망가뜨려 점검이 잡아내는지 본다.
 """
@@ -32,6 +33,8 @@ RS = ["R%d" % i for i in range(9)]
 STATUSES = ["알려짐", "알려짐(초록 수준)", "알려짐(상속)", "2차 서술",
             "이웃만", "빈칸 후보", "미확인"]
 FILLED = ("알려짐", "알려짐(초록 수준)")          # 이웃 칸이 '채워졌다'고 보는 상태
+LITERATURE = ("알려짐", "알려짐(초록 수준)", "2차 서술")   # 후보의 주 칸이 이 상태이면 '문헌에서 발견'
+FOUND = "문헌에서 발견"
 INSTANCE_R = {"R1", "R2", "R3", "R5", "R6", "R7", "R8"}   # 인스턴스 부분 클래스
 NEIGHBOR_K = {"PRED": "K2", "VER": "K3", "DIST": "K3"}
 SAME_OK = ("예", "부분")
@@ -194,7 +197,7 @@ def parse_doc(text):
             head, rows, nxt = read_table(lines, i)
             for row in rows:
                 rel = [x.strip() for x in row[2].split(";") if x.strip() and x.strip() != "—"]
-                model["cands"].append((row[0], row[1], rel))
+                model["cands"].append((row[0], row[1], rel, row[3] if len(row) > 3 else ""))
             i = nxt
             continue
         i += 1
@@ -386,16 +389,23 @@ def check(model, ledger_ids):
         P.append("§7.3의 기본 유형 수치가 계산과 다르다: %s vs %d칸 %.2f%%" % (n73, un_b, share))
     if not n73a or int(n73a[0]) != un_b + un_n or abs(float(n73a[1]) - share_all) > 0.0501:
         P.append("§7.3의 전체 수치가 계산과 다르다: %s vs %d칸 %.2f%%" % (n73a, un_b + un_n, share_all))
-    # 7. 후보 표
+    # 7. 후보 표. 후보는 표에서 빠지지 않는다(prereg §8). 주 칸이 알려짐 계열로 바뀐 후보는
+    #    정식화 열에 FOUND 표시가 있어야 하고, FOUND 표시가 있으면 주 칸이 알려짐 계열이어야 한다.
     names = [x[0] for x in model["cands"]]
     if names != ["(i)", "(ii)", "(iii)"]:
         P.append("후보 표의 행이 (i), (ii), (iii)이 아니다: %s" % names)
-    for name, main, rel in model["cands"]:
+    for name, main, rel, form in model["cands"]:
         c = parse_cid(main)
+        found = FOUND in form
         if c is None or c not in wf:
             P.append("후보 %s의 주 칸이 상태 칸이 아니다: %s" % (name, main))
+        elif found:
+            if cells[c]["status"] not in LITERATURE:
+                P.append("후보 %s는 '%s'로 적혔는데 주 칸 상태가 알려짐 계열이 아니다: %s %s" % (
+                    name, FOUND, main, cells[c]["status"]))
         elif cells[c]["status"] not in ("이웃만", "빈칸 후보"):
-            P.append("후보 %s의 주 칸 상태가 후보 계열이 아니다: %s %s" % (name, main, cells[c]["status"]))
+            P.append("후보 %s의 주 칸 상태가 후보 계열이 아니다(알려짐 계열이면 정식화 열에 '%s'를 적어야 한다): %s %s" % (
+                name, FOUND, main, cells[c]["status"]))
         for x in rel:
             cc = parse_cid(x)
             if cc is None or cc not in wf:
@@ -451,15 +461,21 @@ def mutations(model):
     m("빈칸 후보인데 이웃 행이 채워짐",
       lambda x: x["cells"][("SAFE", "K3", "R3")].update(status="빈칸 후보", refs=[]))
     m("이웃만인데 이웃 행이 비었음",
-      lambda x: x["cells"][("SAFE", "K3", "R2")].update(status="이웃만", refs=["PRED-3"]))
+      lambda x: x["cells"][("SAFE", "K3", "R5")].update(status="이웃만", refs=["PRED-2"]))
     m("미확인 칸이 항목을 인용",
       lambda x: x["cells"][("MAXP", "K1", "R0")].update(refs=["MAXP-7"]))
     m("항목의 칸 열에서 인용 칸을 지움",
       lambda x: x["entries"]["SAFE-5"].update(cells=[]))
     m("없는 항목 인용", lambda x: x["cells"][("SAFE", "K1", "R0")].update(refs=["SAFE-1", "SAFE-77"]))
     m("집계 틀림", lambda x: x["tally"].update({"미확인": (26, 8, 34)}))
-    m("후보 주 칸을 알려짐 칸으로",
-      lambda x: x["cands"].__setitem__(1, ("(ii)", "SAFE.K3.R0", [])))
+    m("후보 주 칸을 알려짐 칸으로(문헌 발견 표시 없이)",
+      lambda x: x["cands"].__setitem__(1, ("(ii)", "SAFE.K3.R0", [], "§5.2")))
+    m("주 칸이 알려짐이 된 후보에서 문헌 발견 표시를 지움",
+      lambda x: x["cands"].__setitem__(0, x["cands"][0][:3] + ("§5.1",)))
+    m("문헌 발견 표시인데 주 칸이 이웃만",
+      lambda x: x["cands"].__setitem__(1, ("(ii)", "SAFE.K3.R1", [], "§5.2. 문헌에서 발견")))
+    m("알려짐 칸을 빈칸 후보로 되돌리고 집계·후보 표는 그대로",
+      lambda x: x["cells"][("SAFE", "K3", "R2")].update(status="빈칸 후보", refs=[]))
     m("2차 서술 칸에 A 항목", lambda x: x["cells"][("SAFE", "K3", "R7")].update(refs=["SAFE-4"]))
     m("초록 수준 칸에 A 항목", lambda x: x["cells"][("SAFE", "K1", "R5")].update(refs=["SAFE-1"]))
     m("항목의 대장 ID가 없음",
