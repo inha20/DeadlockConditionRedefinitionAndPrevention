@@ -66,6 +66,11 @@ PLANNED = {
 # 이 저장소의 것이 아닌 커밋 해시(다른 저장소의 커밋을 인용한 곳).
 EXTERNAL_COMMITS = {
     "ffcad0c": "E2 공개 데이터셋 저장소의 커밋(문서 02, prereg/RQ5, 대장 C-SUR-012)",
+    # DynamicQuantumMLFQSimulator 저장소의 정렬 1단계 커밋(진행 기록). 8401140은 숫자만이라 해시로 읽히지 않는다.
+    "5be4109": "MLFQ 저장소: 측정 도구 검증(진행 기록)",
+    "3d9772a": "MLFQ 저장소: 선행연구 G4(진행 기록)",
+    "639cd40": "MLFQ 저장소: 주장 대장과 수치 대조(진행 기록)",
+    "351c3f4": "MLFQ 저장소: G5 초안(진행 기록)",
 }
 
 Check = namedtuple("Check", "name script mode report slow same")
