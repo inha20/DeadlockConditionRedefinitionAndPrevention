@@ -71,6 +71,11 @@ EXTERNAL_COMMITS = {
     "3d9772a": "MLFQ 저장소: 선행연구 G4(진행 기록)",
     "639cd40": "MLFQ 저장소: 주장 대장과 수치 대조(진행 기록)",
     "351c3f4": "MLFQ 저장소: G5 초안(진행 기록)",
+    # CompanyContextHandoverKit와 AIIncidentKnowledgeBase 저장소의 정렬 3·4단계 커밋(진행 기록).
+    "b06f96a": "회사 맥락 키트 저장소: 구조 세트(진행 기록)",
+    "5c62275": "회사 맥락 키트 저장소: 선행연구(G4)와 설계 초안(진행 기록)",
+    "58dcd92": "사고 지식베이스 저장소: 구조 세트(진행 기록)",
+    "76a7e3d": "사고 지식베이스 저장소: 맛보기 검색 사실 바로잡음(진행 기록)",
 }
 
 Check = namedtuple("Check", "name script mode report slow same")
